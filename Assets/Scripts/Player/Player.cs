@@ -9,9 +9,8 @@ public class Player : MonoBehaviour
     const string StageTag = "Stage";
     const float MoveInputThreshold = 0.01f;
 
-    [SerializeField] float moveSpeed = 6f;
-    [SerializeField] float jumpForce = 7f;
-    [SerializeField] float fastFallSpeed = 18f;
+    [SerializeField] CharacterStatsSO characterStats;
+    [SerializeField] int jumpCount;
     [SerializeField] string currentStateName;
 
     Rigidbody rb;
@@ -22,14 +21,22 @@ public class Player : MonoBehaviour
 
     int stageContactCount;
 
+    public enum JumpPhase { Ascent, Descent }
+
+    float jumpAscentTimer;
+    float jumpStartHeight;
+    JumpPhase currentJumpPhase;
+
+    public CharacterStatsSO Stats => characterStats;
+    public JumpPhase CurrentJumpPhase => currentJumpPhase;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
-    public float MoveSpeed => moveSpeed;
-    public float JumpForce => jumpForce;
-    public float FastFallSpeed => fastFallSpeed;
+    public int JumpCount => jumpCount;
+    public bool CanJump => jumpCount < Stats.maxAddJumpCount;
     public bool IsGrounded { get; private set; }
     public bool IsFastFallHeld => fastFallAction != null && fastFallAction.IsPressed();
     public bool JumpRequested { get; private set; }
+    public bool JumpPressedThisFrame => jumpAction != null && jumpAction.WasPerformedThisFrame();
     public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
     public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
 
@@ -39,6 +46,9 @@ public class Player : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         StateMachine = new PlayerStateMachine(this);
+
+        if (characterStats == null)
+            Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
     }
 
     void Start()
@@ -94,8 +104,77 @@ public class Player : MonoBehaviour
     public void ApplyHorizontalMovement()
     {
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = MoveInput.x * moveSpeed;
+        velocity.x = MoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
+    }
+
+    public void ApplyAirHorizontalMovement()
+    {
+        if (Mathf.Abs(MoveInput.x) <= MoveInputThreshold)
+            return;
+
+        Vector3 velocity = rb.linearVelocity;
+        velocity.x = MoveInput.x * Stats.moveSpeed;
+        rb.linearVelocity = velocity;
+    }
+
+    public void BeginJump()
+    {
+        currentJumpPhase = JumpPhase.Ascent;
+        jumpAscentTimer = 0f;
+        jumpStartHeight = transform.position.y;
+        rb.useGravity = false;
+    }
+
+    public void EndJumpPhysics()
+    {
+        rb.useGravity = true;
+    }
+
+    public void ApplyJumpVerticalPhysics()
+    {
+        float ascentDuration = Mathf.Max(Stats.jumpAscentDuration, 0.01f);
+        Vector3 velocity = rb.linearVelocity;
+
+        if (currentJumpPhase == JumpPhase.Ascent)
+        {
+            jumpAscentTimer += Time.fixedDeltaTime;
+            float ascentProgress = Mathf.Clamp01(jumpAscentTimer / ascentDuration);
+            float easeOut = 1f - ascentProgress;
+            velocity.y = (3f * Stats.jumpHeight / ascentDuration) * easeOut * easeOut;
+
+            bool reachedHeight = transform.position.y >= jumpStartHeight + Stats.jumpHeight;
+            bool reachedDuration = ascentProgress >= 1f;
+
+            if (reachedHeight || reachedDuration)
+            {
+                currentJumpPhase = JumpPhase.Descent;
+                velocity.y = 0f;
+            }
+        }
+        else
+        {
+            float fallAccelerationMultiplier = Stats.weight;
+
+            if (IsFastFallHeld && velocity.y < 0f)
+                fallAccelerationMultiplier *= Stats.fastFallAccelerationMultiplier;
+
+            velocity.y += Physics.gravity.y * fallAccelerationMultiplier * Time.fixedDeltaTime;
+        }
+
+        Vector3 current = rb.linearVelocity;
+        current.y = velocity.y;
+        rb.linearVelocity = current;
+    }
+
+    public void ConsumeJump()
+    {
+        jumpCount++;
+    }
+
+    public void ResetJumpCount()
+    {
+        jumpCount = 0;
     }
 
     public void SetCurrentStateName(string stateName)
@@ -112,5 +191,8 @@ public class Player : MonoBehaviour
     {
         stageContactCount = Mathf.Max(0, contactCount);
         IsGrounded = stageContactCount > 0;
+
+        if (IsGrounded)
+            ResetJumpCount();
     }
 }

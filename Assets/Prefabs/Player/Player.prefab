@@ -187,9 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ae86d43f2b442ba670f18f48ee17d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  moveSpeed: 6
-  jumpForce: 7
-  fastFallSpeed: 18
+  characterStats: {fileID: 11400000, guid: b8e4f1a23c5d4e7f9a1b2c3d4e5f6a7b, type: 2}
+  jumpCount: 0
   currentStateName: 
 --- !u!1 &8345777958832447323
 GameObject:
