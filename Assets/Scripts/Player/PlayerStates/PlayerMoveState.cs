@@ -8,7 +8,7 @@ public class PlayerMoveState : PlayerState
     {
         player.ApplyHorizontalMovement();
 
-        if (player.JumpRequested && player.IsGrounded && player.CanJump)
+        if (player.JumpRequested && player.IsGrounded && player.Jump.CanJump)
         {
             player.StateMachine.ChangeState(new PlayerJumpState(player));
             return;

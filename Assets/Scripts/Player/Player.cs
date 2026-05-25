@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     const float MoveInputThreshold = 0.01f;
 
     [SerializeField] CharacterStatsSO characterStats;
-    [SerializeField] int jumpCount;
     [SerializeField] string currentStateName;
 
     Rigidbody rb;
@@ -20,22 +19,15 @@ public class Player : MonoBehaviour
     InputAction fastFallAction;
 
     int stageContactCount;
-
-    public enum JumpPhase { Ascent, Descent }
-
-    float jumpAscentTimer;
-    float jumpStartHeight;
-    JumpPhase currentJumpPhase;
+    bool jumpRequested;
 
     public CharacterStatsSO Stats => characterStats;
-    public JumpPhase CurrentJumpPhase => currentJumpPhase;
+    public JumpController Jump { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
-    public int JumpCount => jumpCount;
-    public bool CanJump => jumpCount < Stats.maxAddJumpCount;
     public bool IsGrounded { get; private set; }
     public bool IsFastFallHeld => fastFallAction != null && fastFallAction.IsPressed();
-    public bool JumpRequested { get; private set; }
+    public bool JumpRequested => jumpRequested;
     public bool JumpPressedThisFrame => jumpAction != null && jumpAction.WasPerformedThisFrame();
     public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
     public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
@@ -49,6 +41,8 @@ public class Player : MonoBehaviour
 
         if (characterStats == null)
             Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
+
+        Jump = new JumpController(rb, transform, characterStats);
     }
 
     void Start()
@@ -66,7 +60,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (jumpAction != null && jumpAction.WasPerformedThisFrame())
-            JumpRequested = true;
+            jumpRequested = true;
 
         StateMachine.CurrentState.Update();
     }
@@ -74,13 +68,13 @@ public class Player : MonoBehaviour
     public void OnJump(InputValue value)
     {
         if (value.isPressed)
-            JumpRequested = true;
+            jumpRequested = true;
     }
 
     void FixedUpdate()
     {
         StateMachine.CurrentState.FixedUpdate();
-        JumpRequested = false;
+        jumpRequested = false;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -118,65 +112,6 @@ public class Player : MonoBehaviour
         rb.linearVelocity = velocity;
     }
 
-    public void BeginJump()
-    {
-        currentJumpPhase = JumpPhase.Ascent;
-        jumpAscentTimer = 0f;
-        jumpStartHeight = transform.position.y;
-        rb.useGravity = false;
-    }
-
-    public void EndJumpPhysics()
-    {
-        rb.useGravity = true;
-    }
-
-    public void ApplyJumpVerticalPhysics()
-    {
-        float ascentDuration = Mathf.Max(Stats.jumpAscentDuration, 0.01f);
-        Vector3 velocity = rb.linearVelocity;
-
-        if (currentJumpPhase == JumpPhase.Ascent)
-        {
-            jumpAscentTimer += Time.fixedDeltaTime;
-            float ascentProgress = Mathf.Clamp01(jumpAscentTimer / ascentDuration);
-            float easeOut = 1f - ascentProgress;
-            velocity.y = (3f * Stats.jumpHeight / ascentDuration) * easeOut * easeOut;
-
-            bool reachedHeight = transform.position.y >= jumpStartHeight + Stats.jumpHeight;
-            bool reachedDuration = ascentProgress >= 1f;
-
-            if (reachedHeight || reachedDuration)
-            {
-                currentJumpPhase = JumpPhase.Descent;
-                velocity.y = 0f;
-            }
-        }
-        else
-        {
-            float fallAccelerationMultiplier = Stats.weight;
-
-            if (IsFastFallHeld && velocity.y < 0f)
-                fallAccelerationMultiplier *= Stats.fastFallAccelerationMultiplier;
-
-            velocity.y += Physics.gravity.y * fallAccelerationMultiplier * Time.fixedDeltaTime;
-        }
-
-        Vector3 current = rb.linearVelocity;
-        current.y = velocity.y;
-        rb.linearVelocity = current;
-    }
-
-    public void ConsumeJump()
-    {
-        jumpCount++;
-    }
-
-    public void ResetJumpCount()
-    {
-        jumpCount = 0;
-    }
-
     public void SetCurrentStateName(string stateName)
     {
         currentStateName = stateName;
@@ -193,6 +128,6 @@ public class Player : MonoBehaviour
         IsGrounded = stageContactCount > 0;
 
         if (IsGrounded)
-            ResetJumpCount();
+            Jump.ResetJumpCount();
     }
 }
