@@ -8,28 +8,28 @@ public class PlayerJumpState : PlayerState
 
     public override void Enter()
     {
-        player.Jump.ConsumeJump();
-        player.Jump.Begin();
+        player.JumpController.ConsumeJump();
+        player.JumpController.Begin();
     }
 
     public override void Exit()
     {
-        player.Jump.End();
+        player.JumpController.End();
     }
 
     public override void Update()
     {
-        if (player.JumpPressedThisFrame && player.Jump.CanJump && !player.IsGrounded)
+        if (player.JumpPressedThisFrame && player.JumpController.CanJump && !player.IsGrounded)
         {
-            player.Jump.ConsumeJump();
-            player.Jump.Begin();
+            player.JumpController.ConsumeJump();
+            player.JumpController.Begin();
         }
     }
 
     public override void FixedUpdate()
     {
         player.ApplyAirHorizontalMovement();
-        player.Jump.ApplyVerticalPhysics(player.IsFastFallHeld);
+        player.JumpController.ApplyVerticalPhysics(player.IsFastFallHeld);
 
         if (!player.IsGrounded || player.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;

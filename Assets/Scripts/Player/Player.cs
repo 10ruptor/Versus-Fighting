@@ -1,3 +1,4 @@
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] CharacterStatsSO characterStats;
     [SerializeField] string currentStateName;
 
+    
+    public Animator animator;
+
     Rigidbody rb;
     PlayerInput playerInput;
     InputAction moveAction;
@@ -22,7 +26,7 @@ public class Player : MonoBehaviour
     bool jumpRequested;
 
     public CharacterStatsSO Stats => characterStats;
-    public JumpController Jump { get; private set; }
+    public JumpController JumpController { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
     public bool IsGrounded { get; private set; }
@@ -31,18 +35,19 @@ public class Player : MonoBehaviour
     public bool JumpPressedThisFrame => jumpAction != null && jumpAction.WasPerformedThisFrame();
     public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
     public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
-
+    
+    
+    
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
         StateMachine = new PlayerStateMachine(this);
 
         if (characterStats == null)
             Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
 
-        Jump = new JumpController(rb, transform, characterStats);
+        JumpController = new JumpController(rb, transform, characterStats);
     }
 
     void Start()
@@ -128,6 +133,6 @@ public class Player : MonoBehaviour
         IsGrounded = stageContactCount > 0;
 
         if (IsGrounded)
-            Jump.ResetJumpCount();
+            JumpController.ResetJumpCount();
     }
 }

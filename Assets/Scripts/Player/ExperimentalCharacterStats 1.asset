@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c6ed3d5b4d5c64f9232e09e98115a3, type: 3}
   m_Name: ExperimentalCharacterStats 1
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStatsSO
-  moveSpeed: 6
-  jumpHeight: 2.5
+  moveSpeed: 8
+  jumpHeight: 4
   jumpAscentDuration: 0.3
   maxAddJumpCount: 1
   weight: 4

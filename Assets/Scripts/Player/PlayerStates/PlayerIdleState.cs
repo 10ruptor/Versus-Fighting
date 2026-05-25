@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerState
         velocity.x = 0f;
         player.Rigidbody.linearVelocity = velocity;
 
-        if (player.JumpRequested && player.IsGrounded && player.Jump.CanJump)
+        if (player.JumpRequested && player.IsGrounded && player.JumpController.CanJump)
         {
             player.StateMachine.ChangeState(new PlayerJumpState(player));
             return;
@@ -18,5 +18,15 @@ public class PlayerIdleState : PlayerState
 
         if (player.HasMoveInput && player.IsGrounded)
             player.StateMachine.ChangeState(new PlayerMoveState(player));
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        
     }
 }
