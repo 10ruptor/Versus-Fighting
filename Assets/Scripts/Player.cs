@@ -1,0 +1,116 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerInput))]
+public class Player : MonoBehaviour
+{
+    const string PlayerActionMapName = "Player";
+    const string StageTag = "Stage";
+    const float MoveInputThreshold = 0.01f;
+
+    [SerializeField] float moveSpeed = 6f;
+    [SerializeField] float jumpForce = 7f;
+    [SerializeField] float fastFallSpeed = 18f;
+    [SerializeField] string currentStateName;
+
+    Rigidbody rb;
+    PlayerInput playerInput;
+    InputAction moveAction;
+    InputAction jumpAction;
+    InputAction fastFallAction;
+
+    int stageContactCount;
+
+    public PlayerStateMachine StateMachine { get; private set; }
+    public Rigidbody Rigidbody => rb;
+    public float MoveSpeed => moveSpeed;
+    public float JumpForce => jumpForce;
+    public float FastFallSpeed => fastFallSpeed;
+    public bool IsGrounded { get; private set; }
+    public bool IsFastFallHeld => fastFallAction != null && fastFallAction.IsPressed();
+    public bool JumpRequested { get; private set; }
+    public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
+    public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        StateMachine = new PlayerStateMachine(this);
+    }
+
+    void Start()
+    {
+        if (playerInput.currentActionMap == null || playerInput.currentActionMap.name != PlayerActionMapName)
+            playerInput.SwitchCurrentActionMap(PlayerActionMapName);
+
+        moveAction = playerInput.actions.FindAction("Move", true);
+        jumpAction = playerInput.actions.FindAction("Jump", true);
+        fastFallAction = playerInput.actions.FindAction("FastFall", true);
+
+        StateMachine.Initialize(new PlayerIdleState(this));
+    }
+
+    void Update()
+    {
+        if (jumpAction != null && jumpAction.WasPerformedThisFrame())
+            JumpRequested = true;
+
+        StateMachine.CurrentState.Update();
+    }
+
+    public void OnJump(InputValue value)
+    {
+        if (value.isPressed)
+            JumpRequested = true;
+    }
+
+    void FixedUpdate()
+    {
+        StateMachine.CurrentState.FixedUpdate();
+        JumpRequested = false;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (IsStageCollision(collision))
+            SetGrounded(stageContactCount + 1);
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        if (IsStageCollision(collision))
+            SetGrounded(Mathf.Max(stageContactCount, 1));
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (IsStageCollision(collision))
+            SetGrounded(stageContactCount - 1);
+    }
+
+    public void ApplyHorizontalMovement()
+    {
+        Vector3 velocity = rb.linearVelocity;
+        velocity.x = MoveInput.x * moveSpeed;
+        rb.linearVelocity = velocity;
+    }
+
+    public void SetCurrentStateName(string stateName)
+    {
+        currentStateName = stateName;
+    }
+
+    static bool IsStageCollision(Collision collision)
+    {
+        return collision.collider != null && collision.gameObject.CompareTag(StageTag);
+    }
+
+    void SetGrounded(int contactCount)
+    {
+        stageContactCount = Mathf.Max(0, contactCount);
+        IsGrounded = stageContactCount > 0;
+    }
+}
