@@ -803,56 +803,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2434359135747895949, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-      propertyPath: m_Name
-      value: VFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 6757950918746290850, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8345777958832447323, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-      propertyPath: m_Name
-      value: VisualRoot
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6467289537021835241, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3083082651540101874}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13efc00f79a218349a455e92599f6573, type: 3}
---- !u!114 &3083082651540101872 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 503696300578344550, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-  m_PrefabInstance: {fileID: 3083082651540101871}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1ae86d43f2b442ba670f18f48ee17d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
---- !u!1 &3083082651540101873 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6467289537021835241, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-  m_PrefabInstance: {fileID: 3083082651540101871}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3083082651540101874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3083082651540101873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9b8dbeeac76b148899f1ae84d4f75d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VisualOrientationController
-  player: {fileID: 3083082651540101872}
-  currentOrientation: 0
 --- !u!1001 &8631584135005611323
 PrefabInstance:
   m_ObjectHideFlags: 0
