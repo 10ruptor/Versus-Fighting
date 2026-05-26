@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerInputController))]
 public class PlayerGameplay : MonoBehaviour
 {
     const string PlayerActionMapName = "Player";
@@ -15,26 +15,20 @@ public class PlayerGameplay : MonoBehaviour
     [SerializeField] VisualOrientationController visualOrientationController;
     
     public Animator animator;
-
     Rigidbody rb;
-    PlayerInput playerInput;
-    InputAction moveAction;
-    InputAction jumpAction;
-    InputAction fastFallAction;
+    PlayerInputController playerInputController;
+    JumpController jumpController;
 
     int stageContactCount;
-    bool jumpRequested;
+
 
     public CharacterStatsSO Stats => characterStats;
-    public JumpController JumpController { get; private set; }
+    public JumpController JumpController => jumpController;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
+    public PlayerInputController PlayerInputController => playerInputController;
     public bool IsGrounded { get; private set; }
-    public bool IsFastFallHeld => fastFallAction != null && fastFallAction.IsPressed();
-    public bool JumpRequested => jumpRequested;
-    public bool JumpPressedThisFrame => jumpAction != null && jumpAction.WasPerformedThisFrame();
-    public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
-    public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
+    
     
     public enum Orientations { Left, Right }
 
@@ -44,46 +38,31 @@ public class PlayerGameplay : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
+        playerInputController = GetComponent<PlayerInputController>();
         StateMachine = new PlayerStateMachine(this);
-
+       
         if (characterStats == null)
             Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
 
-        JumpController = new JumpController(rb, transform, characterStats);
+        jumpController = new JumpController(rb, transform, characterStats);
     }
 
     void Start()
     {
-        if (playerInput.currentActionMap == null || playerInput.currentActionMap.name != PlayerActionMapName)
-            playerInput.SwitchCurrentActionMap(PlayerActionMapName);
-
-        moveAction = playerInput.actions.FindAction("Move", true);
-        jumpAction = playerInput.actions.FindAction("Jump", true);
-        fastFallAction = playerInput.actions.FindAction("FastFall", true);
-
         StateMachine.Initialize(new PlayerIdleState(this));
     }
 
     void Update()
     {
-        if (jumpAction != null && jumpAction.WasPerformedThisFrame())
-            jumpRequested = true;
-
         StateMachine.CurrentState.Update();
         OrientationCheck();
     }
 
-    public void OnJump(InputValue value)
-    {
-        if (value.isPressed)
-            jumpRequested = true;
-    }
+    
 
     void FixedUpdate()
     {
         StateMachine.CurrentState.FixedUpdate();
-        jumpRequested = false;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -107,17 +86,17 @@ public class PlayerGameplay : MonoBehaviour
     public void ApplyHorizontalMovement()
     {
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = MoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputController.MoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
 
     public void ApplyAirHorizontalMovement()
     {
-        if (Mathf.Abs(MoveInput.x) <= MoveInputThreshold)
+        if (Mathf.Abs(PlayerInputController.MoveInput.x) <= MoveInputThreshold)
             return;
 
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = MoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputController.MoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
 

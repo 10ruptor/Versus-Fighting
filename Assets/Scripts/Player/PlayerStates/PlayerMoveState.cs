@@ -8,13 +8,13 @@ public class PlayerMoveState : PlayerState
     {
         PlayerGameplay.ApplyHorizontalMovement();
 
-        if (PlayerGameplay.JumpRequested && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
+        if (PlayerGameplay.PlayerInputController.JumpRequested && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
         {
             PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
 
-        if (!PlayerGameplay.HasMoveInput && PlayerGameplay.IsGrounded)
+        if (!PlayerGameplay.PlayerInputController.HasMoveInput && PlayerGameplay.IsGrounded)
             PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
     }
     public override void Enter()

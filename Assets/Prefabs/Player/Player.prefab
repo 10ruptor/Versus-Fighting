@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5272577673062245976}
   - component: {fileID: 6195828122116095384}
   - component: {fileID: 503696300578344550}
+  - component: {fileID: 9218052650967258397}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -192,6 +193,18 @@ MonoBehaviour:
   currentStateName: 
   visualOrientationController: {fileID: 5043030644734144072}
   animator: {fileID: 2140376406164537184}
+--- !u!114 &9218052650967258397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019894427381039946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658949895a6f4ffe941a4e8eea04ec92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputController
 --- !u!1 &2434359135747895949
 GameObject:
   m_ObjectHideFlags: 0

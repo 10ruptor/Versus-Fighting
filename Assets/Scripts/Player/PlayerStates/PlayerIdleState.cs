@@ -10,13 +10,14 @@ public class PlayerIdleState : PlayerState
         velocity.x = 0f;
         PlayerGameplay.Rigidbody.linearVelocity = velocity;
 
-        if (PlayerGameplay.JumpRequested && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
+        if (PlayerGameplay.PlayerInputController.JumpRequested && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
         {
+            Debug.Log("Jump Requested");
             PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
 
-        if (PlayerGameplay.HasMoveInput && PlayerGameplay.IsGrounded)
+        if (PlayerGameplay.PlayerInputController.HasMoveInput && PlayerGameplay.IsGrounded)
             PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
     }
 
