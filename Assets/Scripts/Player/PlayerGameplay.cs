@@ -58,8 +58,6 @@ public class PlayerGameplay : MonoBehaviour
         OrientationCheck();
     }
 
-    
-
     void FixedUpdate()
     {
         StateMachine.CurrentState.FixedUpdate();
@@ -86,17 +84,17 @@ public class PlayerGameplay : MonoBehaviour
     public void ApplyHorizontalMovement()
     {
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputController.MoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputController.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
 
     public void ApplyAirHorizontalMovement()
     {
-        if (Mathf.Abs(PlayerInputController.MoveInput.x) <= MoveInputThreshold)
+        if (Mathf.Abs(PlayerInputController.horizontalMoveInput.x) <= MoveInputThreshold)
             return;
 
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputController.MoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputController.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
 
@@ -118,6 +116,7 @@ public class PlayerGameplay : MonoBehaviour
         if (IsGrounded)
             JumpController.ResetJumpCount();
     }
+    
     void OrientationCheck()
     {
         if (rb.linearVelocity.x == 0)

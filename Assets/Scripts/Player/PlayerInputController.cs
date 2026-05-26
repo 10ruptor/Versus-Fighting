@@ -13,17 +13,14 @@ public class PlayerInputController : MonoBehaviour
     InputAction jumpAction;
     InputAction fastFallAction;
     
-    bool jumpRequested;
     
-    public bool IsGrounded { get; private set; }
-    public bool IsFastFallHeld => fastFallAction != null && fastFallAction.IsPressed();
-    public bool JumpRequested => jumpRequested; 
-    public bool JumpPressedThisFrame => jumpAction != null && jumpAction.WasPerformedThisFrame();
-    public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
-    public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
-
+    //new 
+    public bool jump;
+    public bool fastFall;
+    public Vector2 horizontalMoveInput;
     
-
+    //public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
+    public bool HasMoveInput => Mathf.Abs(horizontalMoveInput.x) > MoveInputThreshold;
     
     private void Awake()
     {
@@ -39,15 +36,30 @@ public class PlayerInputController : MonoBehaviour
         jumpAction = playerInput.actions.FindAction("Jump", true);
         fastFallAction = playerInput.actions.FindAction("FastFall", true);
     }
+
     
+    void HorizontalMoveInput(Vector2 newInput) { horizontalMoveInput = newInput; }
+    void JumpInput(bool newInput) { jump = newInput; }
+    void FastFallInput(bool newInput) { fastFall = newInput; }
+    public void ConsumeJumpRequest() { jump = false; }
+    
+    #region callbacks
 
     public void OnJump(InputValue value)
     {
-        if (value.isPressed) jumpRequested = true;
+        JumpInput(value.isPressed);
     }
 
-    public void ConsumeJumpRequest()
+    public void OnFastFall(InputValue value)
     {
-        jumpRequested = false;
+        FastFallInput(value.isPressed);
     }
+
+    public void OnMove(InputValue value)
+    {
+        HorizontalMoveInput(value.Get<Vector2>());
+    }
+    
+    #endregion
+    
 }
