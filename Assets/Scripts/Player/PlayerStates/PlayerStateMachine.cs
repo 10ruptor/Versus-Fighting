@@ -2,11 +2,11 @@ public class PlayerStateMachine
 {
     public PlayerState CurrentState { get; private set; }
 
-    readonly Player player;
+    readonly PlayerGameplay _playerGameplay;
 
-    public PlayerStateMachine(Player player)
+    public PlayerStateMachine(PlayerGameplay playerGameplay)
     {
-        this.player = player;
+        this._playerGameplay = playerGameplay;
     }
 
     public void Initialize(PlayerState startState)
@@ -19,6 +19,6 @@ public class PlayerStateMachine
         CurrentState?.Exit();
         CurrentState = newState;
         CurrentState.Enter();
-        player.SetCurrentStateName(CurrentState.GetType().Name);
+        _playerGameplay.SetCurrentStateName(CurrentState.GetType().Name);
     }
 }

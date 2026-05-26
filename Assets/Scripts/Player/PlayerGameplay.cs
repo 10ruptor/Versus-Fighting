@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
-public class Player : MonoBehaviour
+public class PlayerGameplay : MonoBehaviour
 {
     const string PlayerActionMapName = "Player";
     const string StageTag = "Stage";
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] CharacterStatsSO characterStats;
     [SerializeField] string currentStateName;
-
+    [SerializeField] VisualOrientationController visualOrientationController;
     
     public Animator animator;
 
@@ -36,7 +36,10 @@ public class Player : MonoBehaviour
     public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
     public bool HasMoveInput => Mathf.Abs(MoveInput.x) > MoveInputThreshold;
     
-    
+    public enum Orientations { Left, Right }
+
+    private Orientations currentOrientation;
+    public Orientations CurrentOrientation => currentOrientation;
     
     void Awake()
     {
@@ -68,6 +71,7 @@ public class Player : MonoBehaviour
             jumpRequested = true;
 
         StateMachine.CurrentState.Update();
+        OrientationCheck();
     }
 
     public void OnJump(InputValue value)
@@ -134,5 +138,22 @@ public class Player : MonoBehaviour
 
         if (IsGrounded)
             JumpController.ResetJumpCount();
+    }
+    void OrientationCheck()
+    {
+        if (rb.linearVelocity.x == 0)
+        {
+            return;
+        }
+        else if (rb.linearVelocity.x > 0)
+        {
+            currentOrientation = Orientations.Right;
+            
+        }
+        else if (rb.linearVelocity.x < 0)
+        {
+            currentOrientation  = Orientations.Left;
+        }
+        visualOrientationController.VisualOrientationUpdate(currentOrientation);
     }
 }

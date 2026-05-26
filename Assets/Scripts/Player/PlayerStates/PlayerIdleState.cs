@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerState
 {
-    public PlayerIdleState(Player player) : base(player) { }
+    public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
 
     public override void FixedUpdate()
     {
-        Vector3 velocity = player.Rigidbody.linearVelocity;
+        Vector3 velocity = PlayerGameplay.Rigidbody.linearVelocity;
         velocity.x = 0f;
-        player.Rigidbody.linearVelocity = velocity;
+        PlayerGameplay.Rigidbody.linearVelocity = velocity;
 
-        if (player.JumpRequested && player.IsGrounded && player.JumpController.CanJump)
+        if (PlayerGameplay.JumpRequested && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
         {
-            player.StateMachine.ChangeState(new PlayerJumpState(player));
+            PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
 
-        if (player.HasMoveInput && player.IsGrounded)
-            player.StateMachine.ChangeState(new PlayerMoveState(player));
+        if (PlayerGameplay.HasMoveInput && PlayerGameplay.IsGrounded)
+            PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
     }
 
     public override void Enter()

@@ -4,39 +4,39 @@ public class PlayerJumpState : PlayerState
 {
     const float LandingVelocityThreshold = 0.05f;
 
-    public PlayerJumpState(Player player) : base(player) { }
+    public PlayerJumpState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
 
     public override void Enter()
     {
-        player.JumpController.ConsumeJump();
-        player.JumpController.Begin();
+        PlayerGameplay.JumpController.ConsumeJump();
+        PlayerGameplay.JumpController.Begin();
     }
 
     public override void Exit()
     {
-        player.JumpController.End();
+        PlayerGameplay.JumpController.End();
     }
 
     public override void Update()
     {
-        if (player.JumpPressedThisFrame && player.JumpController.CanJump && !player.IsGrounded)
+        if (PlayerGameplay.JumpPressedThisFrame && PlayerGameplay.JumpController.CanJump && !PlayerGameplay.IsGrounded)
         {
-            player.JumpController.ConsumeJump();
-            player.JumpController.Begin();
+            PlayerGameplay.JumpController.ConsumeJump();
+            PlayerGameplay.JumpController.Begin();
         }
     }
 
     public override void FixedUpdate()
     {
-        player.ApplyAirHorizontalMovement();
-        player.JumpController.ApplyVerticalPhysics(player.IsFastFallHeld);
+        PlayerGameplay.ApplyAirHorizontalMovement();
+        PlayerGameplay.JumpController.ApplyVerticalPhysics(PlayerGameplay.IsFastFallHeld);
 
-        if (!player.IsGrounded || player.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
+        if (!PlayerGameplay.IsGrounded || PlayerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;
 
-        if (player.HasMoveInput)
-            player.StateMachine.ChangeState(new PlayerMoveState(player));
+        if (PlayerGameplay.HasMoveInput)
+            PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
         else
-            player.StateMachine.ChangeState(new PlayerIdleState(player));
+            PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
     }
 }

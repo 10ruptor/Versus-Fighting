@@ -2,29 +2,29 @@ using UnityEngine;
 using UnityEditor.Animations;
 public class PlayerMoveState : PlayerState
 {
-    public PlayerMoveState(Player player) : base(player) { }
+    public PlayerMoveState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
 
     public override void FixedUpdate()
     {
-        player.ApplyHorizontalMovement();
+        PlayerGameplay.ApplyHorizontalMovement();
 
-        if (player.JumpRequested && player.IsGrounded && player.JumpController.CanJump)
+        if (PlayerGameplay.JumpRequested && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
         {
-            player.StateMachine.ChangeState(new PlayerJumpState(player));
+            PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
 
-        if (!player.HasMoveInput && player.IsGrounded)
-            player.StateMachine.ChangeState(new PlayerIdleState(player));
+        if (!PlayerGameplay.HasMoveInput && PlayerGameplay.IsGrounded)
+            PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
     }
     public override void Enter()
     {
         base.Enter();
-        player.animator.SetBool("Run",true);
+        PlayerGameplay.animator.SetBool("Run",true);
     }
 
     public override void Exit()
     {
-        player.animator.SetBool("Run",false);
+        PlayerGameplay.animator.SetBool("Run",false);
     }
 }
