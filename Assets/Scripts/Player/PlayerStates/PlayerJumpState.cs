@@ -8,7 +8,7 @@ public class PlayerJumpState : PlayerState
 
     public override void Enter()
     {
-        PlayerGameplay.PlayerInputController.ConsumeJumpRequest();
+        PlayerGameplay.PlayerInputManager.ConsumeJumpRequest();
         PlayerGameplay.JumpController.ConsumeJump();
         PlayerGameplay.JumpController.Begin();
     }
@@ -20,9 +20,9 @@ public class PlayerJumpState : PlayerState
 
     public override void Update()
     {
-        if (PlayerGameplay.PlayerInputController.jump && PlayerGameplay.JumpController.CanJump && !PlayerGameplay.IsGrounded)
+        if (PlayerGameplay.PlayerInputManager.jump && PlayerGameplay.JumpController.CanJump && !PlayerGameplay.IsGrounded)
         {
-            PlayerGameplay.PlayerInputController.ConsumeJumpRequest();
+            PlayerGameplay.PlayerInputManager.ConsumeJumpRequest();
             PlayerGameplay.JumpController.ConsumeJump();
             PlayerGameplay.JumpController.Begin();
         }
@@ -31,12 +31,12 @@ public class PlayerJumpState : PlayerState
     public override void FixedUpdate()
     {
         PlayerGameplay.ApplyAirHorizontalMovement();
-        PlayerGameplay.JumpController.ApplyVerticalPhysics(PlayerGameplay.PlayerInputController.fastFall);
+        PlayerGameplay.JumpController.ApplyVerticalPhysics(PlayerGameplay.PlayerInputManager.fastFall);
 
         if (!PlayerGameplay.IsGrounded || PlayerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;
 
-        if (PlayerGameplay.PlayerInputController.HasMoveInput)
+        if (PlayerGameplay.PlayerInputManager.HasMoveInput)
             PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
         else
             PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));

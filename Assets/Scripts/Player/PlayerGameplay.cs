@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(PlayerInputManager))]
 public class PlayerGameplay : MonoBehaviour
 {
     const string PlayerActionMapName = "Player";
@@ -13,10 +13,10 @@ public class PlayerGameplay : MonoBehaviour
     [SerializeField] CharacterStatsSO characterStats;
     [SerializeField] string currentStateName;
     [SerializeField] VisualOrientationController visualOrientationController;
+    [SerializeField] AnimatorController animatorController;
     
-    public Animator animator;
     Rigidbody rb;
-    PlayerInputController playerInputController;
+    PlayerInputManager _playerInputManager;
     JumpController jumpController;
 
     int stageContactCount;
@@ -26,7 +26,8 @@ public class PlayerGameplay : MonoBehaviour
     public JumpController JumpController => jumpController;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
-    public PlayerInputController PlayerInputController => playerInputController;
+    public PlayerInputManager PlayerInputManager => _playerInputManager;
+    public AnimatorController AnimatorController => animatorController;
     public bool IsGrounded { get; private set; }
     
     
@@ -38,7 +39,7 @@ public class PlayerGameplay : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        playerInputController = GetComponent<PlayerInputController>();
+        _playerInputManager = GetComponent<PlayerInputManager>();
         StateMachine = new PlayerStateMachine(this);
        
         if (characterStats == null)
@@ -84,17 +85,18 @@ public class PlayerGameplay : MonoBehaviour
     public void ApplyHorizontalMovement()
     {
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputController.horizontalMoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
+        animatorController.UpdateVelocity(velocity.x, Stats.moveSpeed);
     }
 
     public void ApplyAirHorizontalMovement()
     {
-        if (Mathf.Abs(PlayerInputController.horizontalMoveInput.x) <= MoveInputThreshold)
+        if (Mathf.Abs(PlayerInputManager.horizontalMoveInput.x) <= MoveInputThreshold)
             return;
 
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputController.horizontalMoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
 

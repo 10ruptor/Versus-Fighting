@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!95 &281183715 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2140376406164537184, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+  m_PrefabInstance: {fileID: 3083082651540101871}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +421,37 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &505812201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 505812202}
+  m_Layer: 0
+  m_Name: PlayerCameraRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &505812202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505812201}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1930413526}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &752076464
 Mesh:
   m_ObjectHideFlags: 0
@@ -751,6 +787,11 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!4 &1930413526 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2063159271198015988, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+  m_PrefabInstance: {fileID: 3083082651540101871}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3083082651540101871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -803,9 +844,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3839186917089588856, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 281183715}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2063159271198015988, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 505812202}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13efc00f79a218349a455e92599f6573, type: 3}
 --- !u!1001 &8631584135005611323

@@ -3,7 +3,7 @@ using System;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-public class PlayerInputController : MonoBehaviour
+public class PlayerInputManager : MonoBehaviour
 {
     const float MoveInputThreshold = 0.01f;
     const string PlayerActionMapName = "Player";
@@ -35,6 +35,7 @@ public class PlayerInputController : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move", true);
         jumpAction = playerInput.actions.FindAction("Jump", true);
         fastFallAction = playerInput.actions.FindAction("FastFall", true);
+        
     }
 
     
@@ -58,6 +59,7 @@ public class PlayerInputController : MonoBehaviour
     public void OnMove(InputValue value)
     {
         HorizontalMoveInput(value.Get<Vector2>());
+        Debug.Log("Move input: " + horizontalMoveInput);
     }
     
     #endregion

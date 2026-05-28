@@ -8,23 +8,23 @@ public class PlayerMoveState : PlayerState
     {
         PlayerGameplay.ApplyHorizontalMovement();
 
-        if (PlayerGameplay.PlayerInputController.jump && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
+        if (PlayerGameplay.PlayerInputManager.jump && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
         {
             PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
 
-        if (!PlayerGameplay.PlayerInputController.HasMoveInput && PlayerGameplay.IsGrounded)
+        if (!PlayerGameplay.PlayerInputManager.HasMoveInput && PlayerGameplay.IsGrounded)
             PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
     }
     public override void Enter()
     {
         base.Enter();
-        PlayerGameplay.animator.SetBool("Run",true);
+        PlayerGameplay.AnimatorController.UpdateRunAnimation(true);
     }
 
     public override void Exit()
     {
-        PlayerGameplay.animator.SetBool("Run",false);
+        PlayerGameplay.AnimatorController.UpdateRunAnimation(false);
     }
 }
