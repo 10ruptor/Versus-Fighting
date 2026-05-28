@@ -9,32 +9,37 @@ public class PlayerGameplay : MonoBehaviour
     const string PlayerActionMapName = "Player";
     const string StageTag = "Stage";
     const float MoveInputThreshold = 0.01f;
-
-    [SerializeField] CharacterStatsSO characterStats;
+    
+    [Header("FSM")]
     [SerializeField] string currentStateName;
+    
+    [Header("Stats")]
+    [SerializeField] CharacterStatsSO characterStats;
+    public CharacterStatsSO Stats => characterStats;
+    
+    [Header("Visuals")]
     [SerializeField] VisualOrientationController visualOrientationController;
     [SerializeField] AnimatorController animatorController;
+    public AnimatorController AnimatorController => animatorController;
+    public enum Orientations { Left, Right }
+    private Orientations currentOrientation;
+    public Orientations CurrentOrientation => currentOrientation;
+    
     
     Rigidbody rb;
     PlayerInputManager _playerInputManager;
     JumpController jumpController;
 
-    int stageContactCount;
-
-
-    public CharacterStatsSO Stats => characterStats;
+    
     public JumpController JumpController => jumpController;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
     public PlayerInputManager PlayerInputManager => _playerInputManager;
-    public AnimatorController AnimatorController => animatorController;
     public bool IsGrounded { get; private set; }
     
+    int stageContactCount;
     
-    public enum Orientations { Left, Right }
-
-    private Orientations currentOrientation;
-    public Orientations CurrentOrientation => currentOrientation;
+    
     
     void Awake()
     {
@@ -87,7 +92,7 @@ public class PlayerGameplay : MonoBehaviour
         Vector3 velocity = rb.linearVelocity;
         velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
-        animatorController.UpdateVelocity(velocity.x, Stats.moveSpeed);
+        animatorController.UpdateVelocityAnimation(velocity.x, Stats.moveSpeed);
     }
 
     public void ApplyAirHorizontalMovement()
