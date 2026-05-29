@@ -33,9 +33,8 @@ public class AnimatorController : MonoBehaviour
 
     public void UpdateAttackAnimation(bool attacking)
     {
+        Debug.Log("Attack animation updated: " + attacking);
         animator.SetBool(Attack, attacking);
     }
-    
-    
 
 }

@@ -8,18 +8,19 @@ public class PlayerInputManager : MonoBehaviour
     const float MoveInputThreshold = 0.01f;
     const string PlayerActionMapName = "Player";
     
+    //inputs
     PlayerInput playerInput;
     InputAction moveAction;
     InputAction jumpAction;
     InputAction fastFallAction;
+    InputAction attackAction; 
     
-    
-    //new 
+    //values
     public bool jump;
     public bool fastFall;
+    public bool attack;
     public Vector2 horizontalMoveInput;
     
-    //public Vector2 MoveInput => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
     public bool HasMoveInput => Mathf.Abs(horizontalMoveInput.x) > MoveInputThreshold;
     
     private void Awake()
@@ -35,13 +36,14 @@ public class PlayerInputManager : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move", true);
         jumpAction = playerInput.actions.FindAction("Jump", true);
         fastFallAction = playerInput.actions.FindAction("FastFall", true);
+        attackAction = playerInput.actions.FindAction("Attack", true);
         
     }
-
     
     void HorizontalMoveInput(Vector2 newInput) { horizontalMoveInput = newInput; }
-    void JumpInput(bool newInput) { jump = newInput; }
+    void AttackInput(bool newInput) { attack = newInput; }
     void FastFallInput(bool newInput) { fastFall = newInput; }
+    void JumpInput(bool newInput) { jump = newInput; }
     public void ConsumeJumpRequest() { jump = false; }
     
     #region callbacks
@@ -59,7 +61,12 @@ public class PlayerInputManager : MonoBehaviour
     public void OnMove(InputValue value)
     {
         HorizontalMoveInput(value.Get<Vector2>());
-        Debug.Log("Move input: " + horizontalMoveInput);
+    }
+    
+    public void OnAttack(InputValue value)
+    {
+        AttackInput(value.isPressed);
+        Debug.Log("Attack Input: " + value.isPressed);
     }
     
     #endregion

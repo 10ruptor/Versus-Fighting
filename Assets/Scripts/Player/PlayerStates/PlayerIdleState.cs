@@ -19,6 +19,9 @@ public class PlayerIdleState : PlayerState
 
         if (PlayerGameplay.PlayerInputManager.HasMoveInput && PlayerGameplay.IsGrounded)
             PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
+        
+        if(PlayerGameplay.PlayerInputManager.attack)
+            PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay));
     }
 
     public override void Enter()
