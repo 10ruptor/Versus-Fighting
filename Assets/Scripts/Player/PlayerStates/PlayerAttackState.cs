@@ -15,7 +15,7 @@ public class PlayerAttackState : PlayerState
 
     public override void Enter()
     {
-		PlayerGameplay.AnimatorController.UpdateAttackAnimation(true);
+		PlayerGameplay.CharacterAnimatorController.UpdateAttackAnimation(true);
 		frameCount = 0;
     }
 
@@ -30,7 +30,7 @@ public class PlayerAttackState : PlayerState
 
     public override void Exit()
     {
-        PlayerGameplay.AnimatorController.UpdateAttackAnimation(false);
+        PlayerGameplay.CharacterAnimatorController.UpdateAttackAnimation(false);
     }
 }
 

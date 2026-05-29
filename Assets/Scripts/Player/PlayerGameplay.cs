@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerGameplay : MonoBehaviour
 {
-    const string PlayerActionMapName = "Player";
-    const string StageTag = "Stage";
     const float MoveInputThreshold = 0.01f;
     
     [Header("FSM")]
@@ -19,32 +17,28 @@ public class PlayerGameplay : MonoBehaviour
     
     [Header("Visuals")]
     [SerializeField] VisualOrientationController visualOrientationController;
-    [SerializeField] AnimatorController animatorController;
-    public AnimatorController AnimatorController => animatorController;
+    [SerializeField] CharacterAnimatorController characterAnimatorController;
+    public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
     public enum Orientations { Left, Right }
     private Orientations currentOrientation;
     public Orientations CurrentOrientation => currentOrientation;
     
     
     Rigidbody rb;
-    PlayerInputManager _playerInputManager;
+    PlayerInputManager playerInputManager;
     JumpController jumpController;
-
+    CharacterCollisionController collisionController;
     
     public JumpController JumpController => jumpController;
+    public CharacterCollisionController CollisionController => collisionController;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
-    public PlayerInputManager PlayerInputManager => _playerInputManager;
-    public bool IsGrounded { get; private set; }
-    
-    int stageContactCount;
-    
-    
-    
+    public PlayerInputManager PlayerInputManager => playerInputManager;
+    public bool IsGrounded => collisionController.IsGrounded;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        _playerInputManager = GetComponent<PlayerInputManager>();
+        playerInputManager = GetComponent<PlayerInputManager>();
         StateMachine = new PlayerStateMachine(this);
        
         if (characterStats == null)
@@ -61,6 +55,7 @@ public class PlayerGameplay : MonoBehaviour
     void Update()
     {
         StateMachine.CurrentState.Update();
+        GroundCheck();
         OrientationCheck();
     }
 
@@ -68,32 +63,7 @@ public class PlayerGameplay : MonoBehaviour
     {
         StateMachine.CurrentState.FixedUpdate();
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (IsStageCollision(collision))
-            SetGrounded(stageContactCount + 1);
-    }
-
-    void OnCollisionStay(Collision collision)
-    {
-        if (IsStageCollision(collision))
-            SetGrounded(Mathf.Max(stageContactCount, 1));
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (IsStageCollision(collision))
-            SetGrounded(stageContactCount - 1);
-    }
-
-    public void ApplyHorizontalMovement()
-    {
-        Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
-        rb.linearVelocity = velocity;
-        animatorController.UpdateVelocityAnimation(velocity.x, Stats.moveSpeed);
-    }
+    
 
     public void ApplyAirHorizontalMovement()
     {
@@ -104,26 +74,24 @@ public class PlayerGameplay : MonoBehaviour
         velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
-
+    public void ApplyHorizontalMovement()
+    {
+        Vector3 velocity = rb.linearVelocity;
+        velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
+        rb.linearVelocity = velocity;
+        characterAnimatorController.UpdateVelocityAnimation(velocity.x, Stats.moveSpeed);
+    }
+    
     public void SetCurrentStateName(string stateName)
     {
         currentStateName = stateName;
     }
 
-    static bool IsStageCollision(Collision collision)
+    void GroundCheck()
     {
-        return collision.collider != null && collision.gameObject.CompareTag(StageTag);
+        if (IsGrounded) JumpController.ResetJumpCount();
     }
 
-    void SetGrounded(int contactCount)
-    {
-        stageContactCount = Mathf.Max(0, contactCount);
-        IsGrounded = stageContactCount > 0;
-
-        if (IsGrounded)
-            JumpController.ResetJumpCount();
-    }
-    
     void OrientationCheck()
     {
         if (rb.linearVelocity.x == 0)

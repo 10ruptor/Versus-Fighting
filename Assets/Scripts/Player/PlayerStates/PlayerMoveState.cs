@@ -20,11 +20,11 @@ public class PlayerMoveState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        PlayerGameplay.AnimatorController.UpdateRunAnimation(true);
+        PlayerGameplay.CharacterAnimatorController.UpdateRunAnimation(true);
     }
 
     public override void Exit()
     {
-        PlayerGameplay.AnimatorController.UpdateRunAnimation(false);
+        PlayerGameplay.CharacterAnimatorController.UpdateRunAnimation(false);
     }
 }
