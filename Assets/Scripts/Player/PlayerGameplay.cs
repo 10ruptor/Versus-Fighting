@@ -45,6 +45,7 @@ public class PlayerGameplay : MonoBehaviour
             Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
 
         jumpController = new JumpController(rb, transform, characterStats);
+        collisionController = GetComponent<CharacterCollisionController>();
     }
 
     void Start()
