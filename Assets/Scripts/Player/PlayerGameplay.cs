@@ -10,6 +10,12 @@ public class PlayerGameplay : MonoBehaviour
     
     [Header("FSM")]
     [SerializeField] string currentStateName;
+
+    [Header("Attack")] 
+    [SerializeField] private Hitbox tiltHitbox;
+    [SerializeField] private Hitbox aimHitbox;
+    public Hitbox TiltHitbox => tiltHitbox;
+    public Hitbox AimHitbox => aimHitbox;
     
     [Header("Stats")]
     [SerializeField] CharacterStatsSO characterStats;
@@ -28,12 +34,14 @@ public class PlayerGameplay : MonoBehaviour
     PlayerInputManager playerInputManager;
     JumpController jumpController;
     CharacterCollisionController collisionController;
+    AttackController attackController;
     
     public JumpController JumpController => jumpController;
     public CharacterCollisionController CollisionController => collisionController;
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
     public PlayerInputManager PlayerInputManager => playerInputManager;
+    public AttackController AttackController => attackController;
     public bool IsGrounded => collisionController.IsGrounded;
     void Awake()
     {
@@ -46,6 +54,7 @@ public class PlayerGameplay : MonoBehaviour
 
         jumpController = new JumpController(rb, transform, characterStats);
         collisionController = GetComponent<CharacterCollisionController>();
+        attackController = GetComponent<AttackController>();
     }
 
     void Start()

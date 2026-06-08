@@ -5,7 +5,6 @@ using System.Collections;
 
 public class PlayerAttackState : PlayerState 
 {
-    [SerializeField] float attackDuration = 30; // Durée de l'attaque en frame
     private float elapsedTime = 0f;
     private bool canCancelWithMovement = false; // Permettre le mouvement après une certaine durée
     private const float CancelThreshold = 0.3f; // Temps avant de pouvoir annuler l'attaque
@@ -17,12 +16,13 @@ public class PlayerAttackState : PlayerState
     {
 		PlayerGameplay.CharacterAnimatorController.UpdateAttackAnimation(true);
 		frameCount = 0;
+        PlayerGameplay.TiltHitbox.enabled = true; // a déplacer dans le attack controller
+        PlayerGameplay.AttackController.StartAttack();
     }
 
     public override void Update()
     {
-        frameCount++;
-        if (frameCount > attackDuration)
+        if (!PlayerGameplay.AttackController.IsAttacking)
         {
             PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
         }

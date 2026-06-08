@@ -22,6 +22,7 @@ public class PlayerIdleState : PlayerState
         
         if(PlayerGameplay.PlayerInputManager.attack)
             PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay));
+            
     }
 
     public override void Enter()
