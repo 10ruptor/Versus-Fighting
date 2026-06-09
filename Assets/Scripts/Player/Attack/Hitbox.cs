@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
-    [SerializeField] AttackStatSO attackStats;
+    AttackStatSO attackStats;
     [SerializeField] float size;
-    public AttackStatSO AttackStats => attackStats;
     private bool isActive = false;
 
-    [SerializeField] private int frameRate;
-    private int frameCount;
+    public void Init(AttackStatSO attackStats)
+    {
+        this.attackStats = attackStats;
+    }
 
-    private void OnEnable()
+    private void Awake()
     {
         isActive = true;
-        frameCount = 0;
-        StartCoroutine(HitboxCoroutine());
     }
 
     private void OnDrawGizmos()
@@ -29,7 +28,8 @@ public class Hitbox : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, size);
     }
-
+    
+    /*
     private IEnumerator HitboxCoroutine()
     {
         if (!isActive)
@@ -42,11 +42,6 @@ public class Hitbox : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         enabled = false;
-    }
-
-    private void OnDisable()
-    {
-        isActive = false;
-    }
+    }*/
 
 }

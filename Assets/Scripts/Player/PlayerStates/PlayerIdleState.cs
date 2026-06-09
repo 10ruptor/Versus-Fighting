@@ -12,26 +12,33 @@ public class PlayerIdleState : PlayerState
 
         if (PlayerGameplay.PlayerInputManager.jump && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
         {
-            Debug.Log("Jump Requested");
             PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
-
-        if (PlayerGameplay.PlayerInputManager.HasMoveInput && PlayerGameplay.IsGrounded)
-            PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
         
-        if(PlayerGameplay.PlayerInputManager.attack)
+        if (PlayerGameplay.PlayerInputManager.attack && PlayerGameplay.IsGrounded)
+        {
             PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay));
-            
+            return;
+        }
+        
+        if (PlayerGameplay.PlayerInputManager.HasMoveInput && PlayerGameplay.IsGrounded)
+        {
+            PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
+            return;
+        }
+        
     }
 
     public override void Enter()
     {
         base.Enter();
+        //other logic
     }
 
     public override void Exit()
     {
-        
+        base.Exit();
+        //other logic
     }
 }

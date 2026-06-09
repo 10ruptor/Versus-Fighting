@@ -10,19 +10,12 @@ public class PlayerGameplay : MonoBehaviour
     
     [Header("FSM")]
     [SerializeField] string currentStateName;
-
-    [Header("Attack")] 
-    [SerializeField] private Hitbox tiltHitbox;
-    [SerializeField] private Hitbox aimHitbox;
-    public Hitbox TiltHitbox => tiltHitbox;
-    public Hitbox AimHitbox => aimHitbox;
     
     [Header("Stats")]
     [SerializeField] CharacterStatsSO characterStats;
     public CharacterStatsSO Stats => characterStats;
     
     [Header("Visuals")]
-    [SerializeField] VisualOrientationController visualOrientationController;
     [SerializeField] CharacterAnimatorController characterAnimatorController;
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
     public enum Orientations { Left, Right }
@@ -117,6 +110,6 @@ public class PlayerGameplay : MonoBehaviour
         {
             currentOrientation  = Orientations.Left;
         }
-        visualOrientationController.VisualOrientationUpdate(currentOrientation);
+        characterAnimatorController.VisualOrientationUpdate(currentOrientation);
     }
 }

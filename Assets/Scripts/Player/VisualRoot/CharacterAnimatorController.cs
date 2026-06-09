@@ -8,18 +8,6 @@ public class CharacterAnimatorController : MonoBehaviour
     private int Velocity = Animator.StringToHash("Velocity");
     private int Attack = Animator.StringToHash("Attack");
     private int Run = Animator.StringToHash("Run");
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void UpdateRunAnimation(bool run)
     {
@@ -35,6 +23,25 @@ public class CharacterAnimatorController : MonoBehaviour
     {
         Debug.Log("Attack animation updated: " + attacking);
         animator.SetBool(Attack, attacking);
+    }
+    
+    public void UpdateAnimation(string trigger, bool state)
+    {
+        Debug.Log("Attack animation updated: " + trigger);
+        animator.SetBool(trigger, state);
+    }
+    
+    public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)
+    {
+        switch (orientation)
+        {
+            case PlayerGameplay.Orientations.Left:
+                transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
+                break;
+            case PlayerGameplay.Orientations.Right:
+                transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+                break;
+        }
     }
 
 }
