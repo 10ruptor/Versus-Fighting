@@ -14,4 +14,12 @@ public class AnimationEventRelay : MonoBehaviour
         {
             attackController.EndAttack();
         }
+		public void ActivateAttackHitbox()
+        {
+            attackController.ActivateHitbox();
+        }
+		public void DeactivateAttackHitbox()
+        {
+            attackController.DeactivateHitbox();
+        }
 }

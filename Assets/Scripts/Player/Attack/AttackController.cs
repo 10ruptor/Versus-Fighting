@@ -43,31 +43,45 @@ public class AttackController : MonoBehaviour
             SwitchCurrentAttack(Attacks.UpTilt);
         }
         IsAttacking = true;
+        InstantiateHitbox();
+        DeactivateHitbox();
         playerGameplay.CharacterAnimatorController.UpdateAnimation(currentAttack.AnimationTrigger,true);
     }
 
     private void Update()
     {
         if (!IsAttacking) return;
-        
         elapsedFrames++;
-        if (elapsedFrames == currentAttack.hitboxActiveFrames[0])
-        {
-            currentHitboxInstance = Instantiate(currentAttack.hitbox, transform.position + currentAttack.hitboxPosition, Quaternion.identity).gameObject;
-            currentHitboxInstance.GetComponent<Hitbox>().Init(currentAttack);
-        }
-        if (elapsedFrames > currentAttack.hitboxActiveFrames[^1])
-        {
-            Destroy(currentHitboxInstance);
-        }
     }
     public void EndAttack()
     {
         Debug.Log("Attack ended.");
-        
+        Destroy(currentHitboxInstance);
         IsAttacking = false;
         playerGameplay.CharacterAnimatorController.UpdateAnimation(currentAttack.AnimationTrigger,false);
         currentAttack = null;
         elapsedFrames = 0;
+    }
+
+    private void InstantiateHitbox()
+    {
+        currentHitboxInstance = Instantiate(currentAttack.hitbox, transform.position + currentAttack.hitboxPosition, Quaternion.identity).gameObject;
+        currentHitboxInstance.GetComponent<Hitbox>().Init(currentAttack);
+    }
+
+    public void ActivateHitbox()
+    {
+        if (currentHitboxInstance != null)
+        {
+            currentHitboxInstance.SetActive(true);
+        }
+    }
+    
+    public void DeactivateHitbox()
+    {
+        if (currentHitboxInstance != null)
+        {
+            currentHitboxInstance.SetActive(false);
+        }
     }
 }
