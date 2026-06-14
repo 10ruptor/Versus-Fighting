@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6ddd40b7fbcaeb44afa9a8f95b7b105, type: 3}
-  m_Name: UpTilt
+  m_Name: SideTilt
   m_EditorClassIdentifier: Assembly-CSharp::AttackStatSO
-  AnimationTrigger: UpTilt
+  AnimationTrigger: SideTilt
   hitbox: {fileID: 366360708884843322, guid: 77fdf61b1908b354db54569bcb97454e, type: 3}
   hitboxPosition: {x: 1, y: 0.8, z: 0}
-  hitboxActiveFrames: 0c0000000d0000000e000000

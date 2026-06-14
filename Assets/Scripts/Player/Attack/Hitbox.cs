@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
-    AttackStatSO attackStats;
+    AttackData attackStats;
     [SerializeField] float size;
     private bool isActive = false;
 
-    public void Init(AttackStatSO attackStats)
+    public void Init(AttackData attackStats)
     {
         this.attackStats = attackStats;
     }

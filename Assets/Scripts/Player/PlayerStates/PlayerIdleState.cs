@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerIdleState : PlayerState
 {
     public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    private bool idleMoveInput => PlayerGameplay.PlayerInputManager.HasMoveInput;
 
     public override void FixedUpdate()
     {
@@ -18,11 +19,12 @@ public class PlayerIdleState : PlayerState
         
         if (PlayerGameplay.PlayerInputManager.attack && PlayerGameplay.IsGrounded)
         {
-            PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay));
+
+            PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay, AttackController.Attacks.NeutralTilt));
             return;
         }
         
-        if (PlayerGameplay.PlayerInputManager.HasMoveInput && PlayerGameplay.IsGrounded)
+        if (idleMoveInput && PlayerGameplay.IsGrounded)
         {
             PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
             return;

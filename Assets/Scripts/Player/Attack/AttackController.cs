@@ -8,6 +8,7 @@ public class AttackController : MonoBehaviour
     public enum Attacks
     {
         UpTilt,
+        SideTilt,
         DownTilt,
         NeutralTilt
     }
@@ -16,11 +17,11 @@ public class AttackController : MonoBehaviour
     private int elapsedFrames = 0;
     PlayerGameplay playerGameplay;
     public List<AttackEntry> AttackStatList = new List<AttackEntry>();
-    private AttackStatSO currentAttack;
+    private AttackData currentAttack;
     
     private GameObject currentHitboxInstance;
     
-    private void SwitchCurrentAttack(Attacks attacks)
+    public void SwitchCurrentAttack(Attacks attacks)
     {
         Debug.Log("Switching attack to: " + attacks);
         currentAttack = AttackStatList.Find(entry => entry.AttackType == attacks)?.AttackStat;
@@ -33,32 +34,23 @@ public class AttackController : MonoBehaviour
 
     public void StartAttack()
     {
+        if (currentAttack == null)        
+        {
+            Debug.Log("No AttackData found for attack type: " + currentAttack);
+            return;
+        }
         elapsedFrames = 0;
-        if (!playerGameplay.PlayerInputManager.HasMoveInput)
-        {
-            SwitchCurrentAttack(Attacks.NeutralTilt);
-        }
-        if (playerGameplay.PlayerInputManager.HasMoveInput)
-        {
-            SwitchCurrentAttack(Attacks.UpTilt);
-        }
         IsAttacking = true;
         InstantiateHitbox();
         DeactivateHitbox();
         playerGameplay.CharacterAnimatorController.UpdateAnimation(currentAttack.AnimationTrigger,true);
     }
 
-    private void Update()
-    {
-        if (!IsAttacking) return;
-        elapsedFrames++;
-    }
     public void EndAttack()
     {
         Debug.Log("Attack ended.");
         Destroy(currentHitboxInstance);
         IsAttacking = false;
-        playerGameplay.CharacterAnimatorController.UpdateAnimation(currentAttack.AnimationTrigger,false);
         currentAttack = null;
         elapsedFrames = 0;
     }

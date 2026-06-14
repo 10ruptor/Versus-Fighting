@@ -3,5 +3,5 @@ using UnityEngine;
 public class AttackEntry
 {
     public AttackController.Attacks AttackType;
-    public AttackStatSO AttackStat;
+    public AttackData AttackStat;
 }

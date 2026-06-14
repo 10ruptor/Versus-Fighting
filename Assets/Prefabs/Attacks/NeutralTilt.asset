@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ddd40b7fbcaeb44afa9a8f95b7b105, type: 3}
   m_Name: NeutralTilt
   m_EditorClassIdentifier: Assembly-CSharp::AttackStatSO
-  AnimationTrigger: Attack
+  AnimationTrigger: NeutralTilt
   hitbox: {fileID: 366360708884843322, guid: 77fdf61b1908b354db54569bcb97454e, type: 3}
   hitboxPosition: {x: 1, y: 0.8, z: 0}
   hitboxActiveFrames: 140000001e000000

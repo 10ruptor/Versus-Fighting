@@ -28,7 +28,7 @@ public class CharacterAnimatorController : MonoBehaviour
     public void UpdateAnimation(string trigger, bool state)
     {
         Debug.Log("Attack animation updated: " + trigger);
-        animator.SetBool(trigger, state);
+        animator.SetTrigger(trigger);
     }
     
     public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)

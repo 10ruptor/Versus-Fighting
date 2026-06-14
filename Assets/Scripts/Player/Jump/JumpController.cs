@@ -6,7 +6,7 @@ public class JumpController
 
     readonly Rigidbody rigidbody;
     readonly Transform transform;
-    readonly CharacterStatsSO stats;
+    readonly CharacterStatData stats;
 
     Phase currentPhase;
     float ascentTimer;
@@ -17,7 +17,7 @@ public class JumpController
     public int JumpCount => jumpCount;
     public bool CanJump => stats != null && jumpCount < stats.maxAddJumpCount;
 
-    public JumpController(Rigidbody rigidbody, Transform transform, CharacterStatsSO stats)
+    public JumpController(Rigidbody rigidbody, Transform transform, CharacterStatData stats)
     {
         this.rigidbody = rigidbody;
         this.transform = transform;

@@ -12,8 +12,8 @@ public class PlayerGameplay : MonoBehaviour
     [SerializeField] string currentStateName;
     
     [Header("Stats")]
-    [SerializeField] CharacterStatsSO characterStats;
-    public CharacterStatsSO Stats => characterStats;
+    [SerializeField] CharacterStatData characterStats;
+    public CharacterStatData Stats => characterStats;
     
     [Header("Visuals")]
     [SerializeField] CharacterAnimatorController characterAnimatorController;
@@ -77,14 +77,6 @@ public class PlayerGameplay : MonoBehaviour
         velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
-    public void ApplyHorizontalMovement()
-    {
-        Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
-        rb.linearVelocity = velocity;
-        characterAnimatorController.UpdateVelocityAnimation(velocity.x, Stats.moveSpeed);
-    }
-    
     public void SetCurrentStateName(string stateName)
     {
         currentStateName = stateName;
