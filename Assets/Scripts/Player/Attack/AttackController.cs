@@ -43,7 +43,7 @@ public class AttackController : MonoBehaviour
         IsAttacking = true;
         InstantiateHitbox();
         DeactivateHitbox();
-        playerGameplay.CharacterAnimatorController.UpdateAnimation(currentAttack.AnimationTrigger,true);
+        playerGameplay.CharacterAnimatorController.UpdateAttackAnimation(currentAttack.AnimationTrigger,true);
     }
 
     public void EndAttack()

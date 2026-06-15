@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerInputManager : MonoBehaviour
 {
-    const float MoveInputThreshold = 0.01f;
+    [SerializeField] float horizontalMoveInputThreshold = 0.5f;
+    [SerializeField] float downMoveInputThreshold = -0.5f;
+    [SerializeField] float upMoveInputThreshold = 0.5f;
     const string PlayerActionMapName = "Player";
     
     //inputs
@@ -19,10 +21,12 @@ public class PlayerInputManager : MonoBehaviour
     public bool jump;
     public bool fastFall;
     public bool attack;
-    public Vector2 horizontalMoveInput;
+    public float horizontalMoveInput;
+    public float verticalMoveInput;
     
-    public bool HasMoveInput => Mathf.Abs(horizontalMoveInput.x) > MoveInputThreshold;
-    
+    public bool HasDownMoveInput => verticalMoveInput < downMoveInputThreshold;
+    public bool HasUpMoveInput => verticalMoveInput > upMoveInputThreshold;
+    public bool HasHorizontalMoveInput => Mathf.Abs(horizontalMoveInput) > horizontalMoveInputThreshold;
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -39,8 +43,19 @@ public class PlayerInputManager : MonoBehaviour
         attackAction = playerInput.actions.FindAction("Attack", true);
         
     }
+
+    void HorizontalMoveInput(float newInput)
+    {
+        Debug.Log("Move input : "+ newInput);
+        horizontalMoveInput = newInput;
+    }
+
+    void VerticalMoveInput(float newInput)
+    {
+        Debug.Log("Move input : "+ newInput);
+        verticalMoveInput = newInput;
+    }
     
-    void HorizontalMoveInput(Vector2 newInput) { horizontalMoveInput = newInput; }
     void AttackInput(bool newInput) { attack = newInput; }
     void FastFallInput(bool newInput) { fastFall = newInput; }
     void JumpInput(bool newInput) { jump = newInput; }
@@ -60,7 +75,8 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnMove(InputValue value)
     {
-        HorizontalMoveInput(value.Get<Vector2>());
+        HorizontalMoveInput(value.Get<Vector2>().x);
+        VerticalMoveInput(value.Get<Vector2>().y);
     }
     
     public void OnAttack(InputValue value)

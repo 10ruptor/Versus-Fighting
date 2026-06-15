@@ -6,15 +6,15 @@ public class PlayerMoveState : PlayerState
     private void ApplyHorizontalMovement()
     {
         Vector3 velocity = PlayerGameplay.Rigidbody.linearVelocity;
-        velocity.x = PlayerGameplay.PlayerInputManager.horizontalMoveInput.x * PlayerGameplay.Stats.moveSpeed;
+        velocity.x = PlayerGameplay.PlayerInputManager.horizontalMoveInput * PlayerGameplay.Stats.moveSpeed;
         PlayerGameplay.Rigidbody.linearVelocity = velocity;
-        PlayerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(velocity.x, PlayerGameplay.Stats.moveSpeed);
+        PlayerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(PlayerGameplay.PlayerInputManager.horizontalMoveInput);
     }
 
     private void CancelHorizontalMovement()
     {
         PlayerGameplay.Rigidbody.linearVelocity = Vector3.zero;
-        PlayerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(0, PlayerGameplay.Stats.moveSpeed);
+        PlayerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(0);
     }
 
     public override void FixedUpdate()
@@ -30,8 +30,7 @@ public class PlayerMoveState : PlayerState
             PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
             return;
         }
-
-        if (!PlayerGameplay.PlayerInputManager.HasMoveInput && PlayerGameplay.IsGrounded)
+        if (!PlayerGameplay.PlayerInputManager.HasHorizontalMoveInput && PlayerGameplay.IsGrounded)
             PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
     }
     public override void Enter()

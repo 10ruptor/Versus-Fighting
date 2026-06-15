@@ -70,11 +70,11 @@ public class PlayerGameplay : MonoBehaviour
 
     public void ApplyAirHorizontalMovement()
     {
-        if (Mathf.Abs(PlayerInputManager.horizontalMoveInput.x) <= MoveInputThreshold)
+        if (Mathf.Abs(PlayerInputManager.horizontalMoveInput) <= MoveInputThreshold)
             return;
 
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputManager.horizontalMoveInput.x * Stats.moveSpeed;
+        velocity.x = PlayerInputManager.horizontalMoveInput * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
     public void SetCurrentStateName(string stateName)

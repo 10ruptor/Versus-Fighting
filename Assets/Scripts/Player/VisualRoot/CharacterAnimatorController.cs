@@ -4,7 +4,7 @@ public class CharacterAnimatorController : MonoBehaviour
 {
     
     [SerializeField] private Animator animator;
-    
+    private int verticalMove = Animator.StringToHash("VerticalMove");
     private int Velocity = Animator.StringToHash("Velocity");
     private int Attack = Animator.StringToHash("Attack");
     private int Run = Animator.StringToHash("Run");
@@ -14,21 +14,26 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetBool(Run,run);
     }
 
-    public void UpdateVelocityAnimation(float velocity, float maxVelocity)
+    public void UpdateVelocityAnimation(float velocity)
     {
-        animator.SetFloat(Velocity, Math.Abs(velocity) / maxVelocity );
-    }
-
-    public void UpdateAttackAnimation(bool attacking)
-    {
-        Debug.Log("Attack animation updated: " + attacking);
-        animator.SetBool(Attack, attacking);
+        animator.SetFloat(Velocity, Math.Abs(velocity) );
     }
     
-    public void UpdateAnimation(string trigger, bool state)
+    public void UpdateVerticalAnimation(float verticalMove)
     {
-        Debug.Log("Attack animation updated: " + trigger);
-        animator.SetTrigger(trigger);
+        animator.SetFloat(Velocity, verticalMove);
+    }
+    
+    public void UpdateAttackAnimation(string attackTrigger, bool state)
+    {
+        Debug.Log("Attack animation updated: " + attackTrigger + " to " + state);
+        animator.SetTrigger(attackTrigger);
+    }
+    
+    public void UpdateCrouchAnimation(bool isCrouching)
+    {
+        Debug.Log("Crouch animation updated: " + isCrouching);
+        animator.SetBool("Crouch", isCrouching);
     }
     
     public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)

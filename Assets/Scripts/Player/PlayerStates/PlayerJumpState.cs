@@ -36,7 +36,7 @@ public class PlayerJumpState : PlayerState
         if (!PlayerGameplay.IsGrounded || PlayerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;
 
-        if (PlayerGameplay.PlayerInputManager.HasMoveInput)
+        if (PlayerGameplay.PlayerInputManager.HasHorizontalMoveInput)
             PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
         else
             PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
