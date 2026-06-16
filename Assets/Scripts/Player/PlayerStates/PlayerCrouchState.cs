@@ -5,21 +5,21 @@ public class PlayerCrouchState : PlayerState
     
     public override void Update()
     {
-        if (!PlayerGameplay.PlayerInputManager.HasDownMoveInput && PlayerGameplay)
+        if (!playerGameplay.PlayerInputManager.HasDownMoveInput && playerGameplay)
         {
-            PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
+            playerGameplay.StateMachine.ChangeState(new PlayerIdleState(playerGameplay));
         }
     }
 
     public override void Enter()
     {
         base.Enter();
-        PlayerGameplay.CharacterAnimatorController.UpdateCrouchAnimation(true);
+        playerGameplay.CharacterAnimatorController.UpdateCrouchAnimation(true);
     }
 
     public override void Exit()
     {
         base.Exit();
-        PlayerGameplay.CharacterAnimatorController.UpdateCrouchAnimation(false);
+        playerGameplay.CharacterAnimatorController.UpdateCrouchAnimation(false);
     }
 }

@@ -1,10 +1,10 @@
 public abstract class PlayerState
 {
-    protected readonly PlayerGameplay PlayerGameplay;
+    protected readonly PlayerGameplay playerGameplay;
 
     protected PlayerState(PlayerGameplay playerGameplay)
     {
-        this.PlayerGameplay = playerGameplay;
+        this.playerGameplay = playerGameplay;
     }
 
     public virtual void Enter() { }

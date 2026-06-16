@@ -8,6 +8,7 @@ public class CharacterAnimatorController : MonoBehaviour
     private int Velocity = Animator.StringToHash("Velocity");
     private int Attack = Animator.StringToHash("Attack");
     private int Run = Animator.StringToHash("Run");
+    private int Dash = Animator.StringToHash("Dash");
 
     public void UpdateRunAnimation(bool run)
     {
@@ -24,17 +25,23 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetFloat(Velocity, verticalMove);
     }
     
-    public void UpdateAttackAnimation(string attackTrigger, bool state)
+    public void UpdateAttackAnimation(string attackTrigger)
     {
-        Debug.Log("Attack animation updated: " + attackTrigger + " to " + state);
         animator.SetTrigger(attackTrigger);
     }
-    
+
+    public void UpdateDashAnimation()
+    {
+        animator.SetTrigger(Dash);
+    }
+
     public void UpdateCrouchAnimation(bool isCrouching)
     {
         Debug.Log("Crouch animation updated: " + isCrouching);
         animator.SetBool("Crouch", isCrouching);
     }
+    
+
     
     public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)
     {

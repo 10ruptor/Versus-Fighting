@@ -14,15 +14,15 @@ public class PlayerAttackState : PlayerState
     
     public override void Enter()
     {
-        PlayerGameplay.AttackController.SwitchCurrentAttack(currentAttack);
-        PlayerGameplay.AttackController.StartAttack();
+        playerGameplay.AttackController.SwitchCurrentAttack(currentAttack);
+        playerGameplay.AttackController.StartAttack();
     }
 
     public override void Update()
     {
-        if (!PlayerGameplay.AttackController.IsAttacking)
+        if (!playerGameplay.AttackController.IsAttacking)
         {
-            PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
+            playerGameplay.StateMachine.ChangeState(new PlayerIdleState(playerGameplay));
         }
     }
 

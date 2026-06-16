@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ExperimentalCharacterStats 1
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStatsSO
   moveSpeed: 8
+  dashSpeed: 12
+  dashDurationFrames: 10
   jumpHeight: 4
   jumpAscentDuration: 0.3
   maxAddJumpCount: 1

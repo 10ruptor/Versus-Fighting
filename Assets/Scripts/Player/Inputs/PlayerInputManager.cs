@@ -5,7 +5,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerInputManager : MonoBehaviour
 {
-    [SerializeField] float horizontalMoveInputThreshold = 0.5f;
+    [Header("Horizontal movement")]
+    [SerializeField] float walkThreshold = 0.2f;
+    [SerializeField] float dashThreshold = 0.5f;
+    [Header("Vertical movement")]
     [SerializeField] float downMoveInputThreshold = -0.5f;
     [SerializeField] float upMoveInputThreshold = 0.5f;
     const string PlayerActionMapName = "Player";
@@ -26,7 +29,8 @@ public class PlayerInputManager : MonoBehaviour
     
     public bool HasDownMoveInput => verticalMoveInput < downMoveInputThreshold;
     public bool HasUpMoveInput => verticalMoveInput > upMoveInputThreshold;
-    public bool HasHorizontalMoveInput => Mathf.Abs(horizontalMoveInput) > horizontalMoveInputThreshold;
+    public bool HasWalkInput => Mathf.Abs(horizontalMoveInput) > walkThreshold;
+    public bool HasDashInput => Mathf.Abs(horizontalMoveInput) > dashThreshold;
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();

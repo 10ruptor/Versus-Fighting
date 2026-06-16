@@ -5,6 +5,8 @@ public class CharacterStatData : ScriptableObject
 {
     [Header("Movement")]
     public float moveSpeed = 6f;
+    public float dashSpeed = 7f;
+    public int dashDurationFrames = 7;
 
     [Header("Jump - Ascent")]
     [Tooltip("Target height reached during the ascent phase (world units).")]

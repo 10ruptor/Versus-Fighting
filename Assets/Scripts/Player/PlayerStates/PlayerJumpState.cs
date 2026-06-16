@@ -8,37 +8,37 @@ public class PlayerJumpState : PlayerState
 
     public override void Enter()
     {
-        PlayerGameplay.PlayerInputManager.ConsumeJumpRequest();
-        PlayerGameplay.JumpController.ConsumeJump();
-        PlayerGameplay.JumpController.Begin();
+        playerGameplay.PlayerInputManager.ConsumeJumpRequest();
+        playerGameplay.JumpController.ConsumeJump();
+        playerGameplay.JumpController.Begin();
     }
 
     public override void Exit()
     {
-        PlayerGameplay.JumpController.End();
+        playerGameplay.JumpController.End();
     }
 
     public override void Update()
     {
-        if (PlayerGameplay.PlayerInputManager.jump && PlayerGameplay.JumpController.CanJump && !PlayerGameplay.IsGrounded)
+        if (playerGameplay.PlayerInputManager.jump && playerGameplay.JumpController.CanJump && !playerGameplay.IsGrounded)
         {
-            PlayerGameplay.PlayerInputManager.ConsumeJumpRequest();
-            PlayerGameplay.JumpController.ConsumeJump();
-            PlayerGameplay.JumpController.Begin();
+            playerGameplay.PlayerInputManager.ConsumeJumpRequest();
+            playerGameplay.JumpController.ConsumeJump();
+            playerGameplay.JumpController.Begin();
         }
     }
 
     public override void FixedUpdate()
     {
-        PlayerGameplay.ApplyAirHorizontalMovement();
-        PlayerGameplay.JumpController.ApplyVerticalPhysics(PlayerGameplay.PlayerInputManager.fastFall);
+        playerGameplay.ApplyAirHorizontalMovement();
+        playerGameplay.JumpController.ApplyVerticalPhysics(playerGameplay.PlayerInputManager.fastFall);
 
-        if (!PlayerGameplay.IsGrounded || PlayerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
+        if (!playerGameplay.IsGrounded || playerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;
 
-        if (PlayerGameplay.PlayerInputManager.HasHorizontalMoveInput)
-            PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
+        if (playerGameplay.PlayerInputManager.HasWalkInput)
+            playerGameplay.StateMachine.ChangeState(new PlayerMoveState(playerGameplay));
         else
-            PlayerGameplay.StateMachine.ChangeState(new PlayerIdleState(PlayerGameplay));
+            playerGameplay.StateMachine.ChangeState(new PlayerIdleState(playerGameplay));
     }
 }

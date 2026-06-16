@@ -3,43 +3,50 @@ using UnityEngine;
 public class PlayerIdleState : PlayerState
 {
     public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
-    private bool playerHasHorizontalMoveInput => PlayerGameplay.PlayerInputManager.HasHorizontalMoveInput;
-    private bool playerHasDownMoveInput => PlayerGameplay.PlayerInputManager.HasDownMoveInput;
-    private bool playerHasUpMoveInput => PlayerGameplay.PlayerInputManager.HasUpMoveInput;
+    private bool playerHasWalkInput => playerGameplay.PlayerInputManager.HasWalkInput;
+    private bool playerHasDashInput => playerGameplay.PlayerInputManager.HasDashInput;
+    private bool playerHasDownMoveInput => playerGameplay.PlayerInputManager.HasDownMoveInput;
+    private bool playerHasUpMoveInput => playerGameplay.PlayerInputManager.HasUpMoveInput;
 
     public override void FixedUpdate()
     {
-        Vector3 velocity = PlayerGameplay.Rigidbody.linearVelocity;
+        Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
         velocity.x = 0f;
-        PlayerGameplay.Rigidbody.linearVelocity = velocity;
-        if (playerHasDownMoveInput && PlayerGameplay.IsGrounded)
+        playerGameplay.Rigidbody.linearVelocity = velocity;
+        if (playerHasDownMoveInput && playerGameplay.IsGrounded)
         {
-            PlayerGameplay.StateMachine.ChangeState(new PlayerCrouchState(PlayerGameplay));
-            return;
-        }
-        if (PlayerGameplay.PlayerInputManager.jump && PlayerGameplay.IsGrounded && PlayerGameplay.JumpController.CanJump)
-        {
-            PlayerGameplay.StateMachine.ChangeState(new PlayerJumpState(PlayerGameplay));
+            playerGameplay.StateMachine.ChangeState(new PlayerCrouchState(playerGameplay));
             return;
         }
         
-        if (PlayerGameplay.PlayerInputManager.attack && PlayerGameplay.IsGrounded)
+        if (playerGameplay.PlayerInputManager.jump && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump)
+        {
+            playerGameplay.StateMachine.ChangeState(new PlayerJumpState(playerGameplay));
+            return;
+        }
+        
+        if (playerGameplay.PlayerInputManager.attack && playerGameplay.IsGrounded)
         {
             if (playerHasUpMoveInput)
             {
-                PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay, AttackController.Attacks.UpTilt));
+                playerGameplay.StateMachine.ChangeState(new PlayerAttackState(playerGameplay, AttackController.Attacks.UpTilt));
             }
             else 
             {
-                PlayerGameplay.StateMachine.ChangeState(new PlayerAttackState(PlayerGameplay, AttackController.Attacks.NeutralTilt));
+                playerGameplay.StateMachine.ChangeState(new PlayerAttackState(playerGameplay, AttackController.Attacks.NeutralTilt));
             }
-            
             return;
         }
         
-        if (playerHasHorizontalMoveInput && PlayerGameplay.IsGrounded)
+        if (playerHasDashInput && playerGameplay.IsGrounded)
         {
-            PlayerGameplay.StateMachine.ChangeState(new PlayerMoveState(PlayerGameplay));
+            playerGameplay.StateMachine.ChangeState(new PlayerDashState(playerGameplay,playerGameplay.Stats.dashDurationFrames, playerGameplay.Stats.dashSpeed));
+            return;
+        }
+        
+        if (playerHasWalkInput && playerGameplay.IsGrounded)
+        {
+            playerGameplay.StateMachine.ChangeState(new PlayerMoveState(playerGameplay));
         }
     }
 
