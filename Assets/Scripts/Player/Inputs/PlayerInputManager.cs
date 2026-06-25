@@ -12,14 +12,12 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] float downMoveInputThreshold = -0.5f;
     [SerializeField] float upMoveInputThreshold = 0.5f;
     const string PlayerActionMapName = "Player";
-    
     //inputs
     PlayerInput playerInput;
     InputAction moveAction;
     InputAction jumpAction;
     InputAction fastFallAction;
     InputAction attackAction; 
-    
     //values
     public bool jump;
     public bool fastFall;
@@ -35,7 +33,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
     }
-
     private void Start()
     {
         if (playerInput.currentActionMap == null || playerInput.currentActionMap.name != PlayerActionMapName)
@@ -47,19 +44,16 @@ public class PlayerInputManager : MonoBehaviour
         attackAction = playerInput.actions.FindAction("Attack", true);
         
     }
-
     void HorizontalMoveInput(float newInput)
     {
         Debug.Log("Move input : "+ newInput);
         horizontalMoveInput = newInput;
     }
-
     void VerticalMoveInput(float newInput)
     {
         Debug.Log("Move input : "+ newInput);
         verticalMoveInput = newInput;
     }
-    
     void AttackInput(bool newInput) { attack = newInput; }
     void FastFallInput(bool newInput) { fastFall = newInput; }
     void JumpInput(bool newInput) { jump = newInput; }

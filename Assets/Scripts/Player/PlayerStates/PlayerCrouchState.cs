@@ -5,9 +5,9 @@ public class PlayerCrouchState : PlayerState
     
     public override void Update()
     {
-        if (!playerGameplay.PlayerInputManager.HasDownMoveInput && playerGameplay)
+        if (!playerGameplay.PlayerInputManager.HasDownMoveInput)
         {
-            playerGameplay.StateMachine.ChangeState(new PlayerIdleState(playerGameplay));
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerIdleState);
         }
     }
 

@@ -3,51 +3,35 @@ using UnityEngine;
 public class PlayerIdleState : PlayerState
 {
     public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    
+    #region InputAccessors
+
     private bool playerHasWalkInput => playerGameplay.PlayerInputManager.HasWalkInput;
     private bool playerHasDashInput => playerGameplay.PlayerInputManager.HasDashInput;
     private bool playerHasDownMoveInput => playerGameplay.PlayerInputManager.HasDownMoveInput;
     private bool playerHasUpMoveInput => playerGameplay.PlayerInputManager.HasUpMoveInput;
+    private bool playerHasAttackInput => playerGameplay.PlayerInputManager.attack;
+    private bool playerHasJumpInput => playerGameplay.PlayerInputManager.jump;
+
+    #endregion
 
     public override void FixedUpdate()
     {
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
         velocity.x = 0f;
         playerGameplay.Rigidbody.linearVelocity = velocity;
-        if (playerHasDownMoveInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(new PlayerCrouchState(playerGameplay));
-            return;
-        }
+        CrouchStateTransitionCheck();
+        JumpStateTransitionCheck();
+        AttackStateTransitionCheck();
+        DashStateTransitionCheck();
+        MoveStateTransitionCheck();
+    }
+
+
+    protected override void TransitionCheckTo(PlayerState playerState)
+    {
+        base.TransitionCheckTo(playerState);
         
-        if (playerGameplay.PlayerInputManager.jump && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump)
-        {
-            playerGameplay.StateMachine.ChangeState(new PlayerJumpState(playerGameplay));
-            return;
-        }
-        
-        if (playerGameplay.PlayerInputManager.attack && playerGameplay.IsGrounded)
-        {
-            if (playerHasUpMoveInput)
-            {
-                playerGameplay.StateMachine.ChangeState(new PlayerAttackState(playerGameplay, AttackController.Attacks.UpTilt));
-            }
-            else 
-            {
-                playerGameplay.StateMachine.ChangeState(new PlayerAttackState(playerGameplay, AttackController.Attacks.NeutralTilt));
-            }
-            return;
-        }
-        
-        if (playerHasDashInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(new PlayerDashState(playerGameplay,playerGameplay.Stats.dashDurationFrames, playerGameplay.Stats.dashSpeed));
-            return;
-        }
-        
-        if (playerHasWalkInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(new PlayerMoveState(playerGameplay));
-        }
     }
 
     public override void Enter()
@@ -61,4 +45,52 @@ public class PlayerIdleState : PlayerState
         base.Exit();
         //other logic
     }
+    
+    #region  Transitions
+    
+    private void CrouchStateTransitionCheck()
+    {
+        if (playerHasDownMoveInput && playerGameplay.IsGrounded)
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerCrouchState);
+            return;
+        }
+    }
+    
+    private void MoveStateTransitionCheck()
+    {
+        if (playerHasWalkInput && playerGameplay.IsGrounded)
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerMoveState);
+        }
+    }
+    private void DashStateTransitionCheck()
+    {
+        if (playerHasDashInput && playerGameplay.IsGrounded)
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerDashState);
+            return;
+        }
+    }
+
+    private void AttackStateTransitionCheck()
+    {
+        if (playerHasAttackInput && playerGameplay.IsGrounded)
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerAttackState);
+            return;
+        }
+    }
+
+    private void JumpStateTransitionCheck()
+    {
+        if (playerHasJumpInput && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump)
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerJumpState);
+            return;
+        }   
+    }
+    
+    #endregion
+   
 }

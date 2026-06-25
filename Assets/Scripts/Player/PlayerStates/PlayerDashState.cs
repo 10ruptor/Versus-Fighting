@@ -3,14 +3,10 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerState
 {
-    private int dashDuration;
-    private float dashSpeed;
+    private int dashDuration => playerGameplay.Stats.dashDurationFrames;
+    private float dashSpeed => playerGameplay.Stats.dashSpeed;
     private float dashFrameCounter;
-    public PlayerDashState(PlayerGameplay playerGameplay, int dashDuration, float dashSpeed) : base(playerGameplay)
-    {
-        this.dashDuration = dashDuration;
-        this.dashSpeed = dashSpeed;
-    }
+    public PlayerDashState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
 
     public override void Enter()
     {
@@ -27,11 +23,11 @@ public class PlayerDashState : PlayerState
         {
             if(playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.HasWalkInput)
             {
-                playerGameplay.StateMachine.ChangeState(new PlayerMoveState(playerGameplay));
+                playerGameplay.StateMachine.ChangeState(playerGameplay.playerMoveState);
             }
             else if(playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.HasWalkInput)
             {
-                playerGameplay.StateMachine.ChangeState(new PlayerIdleState(playerGameplay));
+                playerGameplay.StateMachine.ChangeState(playerGameplay.playerIdleState);
             }
         }
     }

@@ -18,23 +18,30 @@ public class AttackController : MonoBehaviour
     PlayerGameplay playerGameplay;
     public List<AttackEntry> AttackStatList = new List<AttackEntry>();
     private AttackData currentAttack;
-    
     private GameObject currentHitboxInstance;
-    
-    public void SwitchCurrentAttack(Attacks attacks)
-    {
-        Debug.Log("Switching attack to: " + attacks);
-        currentAttack = AttackStatList.Find(entry => entry.AttackType == attacks)?.AttackStat;
-    }
 
     private void Awake()
     {
         playerGameplay = GetComponent<PlayerGameplay>();
     }
-
+    public void ResolveAttack()
+    {
+        if(playerGameplay.PlayerInputManager.HasWalkInput)
+        {
+            currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.SideTilt)?.AttackStat;
+        }
+        else if(playerGameplay.PlayerInputManager.HasUpMoveInput)
+        {
+            currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.UpTilt)?.AttackStat;
+        }
+        else
+        {
+            currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.NeutralTilt)?.AttackStat;
+        }
+    }
     public void StartAttack()
     {
-        if (currentAttack == null)        
+        if (!currentAttack)        
         {
             Debug.Log("No AttackData found for attack type: " + currentAttack);
             return;
@@ -45,7 +52,6 @@ public class AttackController : MonoBehaviour
         DeactivateHitbox();
         playerGameplay.CharacterAnimatorController.UpdateAttackAnimation(currentAttack.AnimationTrigger);
     }
-
     public void EndAttack()
     {
         Debug.Log("Attack ended.");
@@ -54,13 +60,10 @@ public class AttackController : MonoBehaviour
         currentAttack = null;
         elapsedFrames = 0;
     }
-
     private void InstantiateHitbox()
     {
         currentHitboxInstance = Instantiate(currentAttack.hitbox, transform.position + currentAttack.hitboxPosition, Quaternion.identity).gameObject;
-        currentHitboxInstance.GetComponent<Hitbox>().Init(currentAttack);
     }
-
     public void ActivateHitbox()
     {
         if (currentHitboxInstance != null)
@@ -68,7 +71,6 @@ public class AttackController : MonoBehaviour
             currentHitboxInstance.SetActive(true);
         }
     }
-    
     public void DeactivateHitbox()
     {
         if (currentHitboxInstance != null)

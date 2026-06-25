@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerJumpState : PlayerState
 {
     const float LandingVelocityThreshold = 0.05f;
-
     public PlayerJumpState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
 
     public override void Enter()
@@ -37,8 +36,12 @@ public class PlayerJumpState : PlayerState
             return;
 
         if (playerGameplay.PlayerInputManager.HasWalkInput)
-            playerGameplay.StateMachine.ChangeState(new PlayerMoveState(playerGameplay));
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerMoveState);
+        }
         else
-            playerGameplay.StateMachine.ChangeState(new PlayerIdleState(playerGameplay));
+        {
+            playerGameplay.StateMachine.ChangeState(playerGameplay.playerIdleState);
+        }
     }
 }

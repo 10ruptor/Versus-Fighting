@@ -41,8 +41,6 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetBool("Crouch", isCrouching);
     }
     
-
-    
     public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)
     {
         switch (orientation)

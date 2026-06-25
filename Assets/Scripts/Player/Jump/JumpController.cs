@@ -12,18 +12,17 @@ public class JumpController
     float ascentTimer;
     float startHeight;
     int jumpCount;
-
+    
     public Phase CurrentPhase => currentPhase;
     public int JumpCount => jumpCount;
     public bool CanJump => stats != null && jumpCount < stats.maxAddJumpCount;
-
     public JumpController(Rigidbody rigidbody, Transform transform, CharacterStatData stats)
     {
         this.rigidbody = rigidbody;
         this.transform = transform;
         this.stats = stats;
     }
-
+    
     public void Begin()
     {
         currentPhase = Phase.Ascent;
@@ -31,12 +30,10 @@ public class JumpController
         startHeight = transform.position.y;
         rigidbody.useGravity = false;
     }
-
     public void End()
     {
         rigidbody.useGravity = true;
     }
-
     public void ApplyVerticalPhysics(bool isFastFallHeld)
     {
         float ascentDuration = Mathf.Max(stats.jumpAscentDuration, 0.01f);
@@ -72,12 +69,10 @@ public class JumpController
         current.y = velocity.y;
         rigidbody.linearVelocity = current;
     }
-
     public void ConsumeJump()
     {
         jumpCount++;
     }
-
     public void ResetJumpCount()
     {
         jumpCount = 0;

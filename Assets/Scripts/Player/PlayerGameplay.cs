@@ -22,7 +22,6 @@ public class PlayerGameplay : MonoBehaviour
     private Orientations currentOrientation;
     public Orientations CurrentOrientation => currentOrientation;
     
-    
     Rigidbody rb;
     PlayerInputManager playerInputManager;
     JumpController jumpController;
@@ -31,17 +30,35 @@ public class PlayerGameplay : MonoBehaviour
     
     public JumpController JumpController => jumpController;
     public CharacterCollisionController CollisionController => collisionController;
-    public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody Rigidbody => rb;
     public PlayerInputManager PlayerInputManager => playerInputManager;
     public AttackController AttackController => attackController;
     public bool IsGrounded => collisionController.IsGrounded;
+
+    #region  StateMachine
+    public PlayerStateMachine StateMachine { get; private set; }
+    public PlayerDashState playerDashState { get; private set; }
+    public PlayerIdleState playerIdleState { get; private set; }
+    public PlayerJumpState playerJumpState { get; private set; }
+    public PlayerMoveState playerMoveState { get; private set; }
+    public PlayerCrouchState playerCrouchState { get; private set; }
+    public PlayerAttackState playerAttackState { get; private set; }
+    void InitializeStateMachine()
+    {
+        StateMachine = new PlayerStateMachine(this);
+        playerDashState = new PlayerDashState(this);
+        playerIdleState = new PlayerIdleState(this);
+        playerJumpState = new PlayerJumpState(this);
+        playerMoveState = new PlayerMoveState(this);
+        playerCrouchState = new PlayerCrouchState(this);
+        playerAttackState = new PlayerAttackState(this);
+    }
+    #endregion
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerInputManager = GetComponent<PlayerInputManager>();
-        StateMachine = new PlayerStateMachine(this);
-       
+        InitializeStateMachine();
         if (characterStats == null)
             Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
 

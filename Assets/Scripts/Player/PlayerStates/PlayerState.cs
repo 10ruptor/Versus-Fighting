@@ -7,6 +7,8 @@ public abstract class PlayerState
         this.playerGameplay = playerGameplay;
     }
 
+    protected virtual void TransitionCheckTo(PlayerState playerState) { }
+
     public virtual void Enter() { }
 
     public virtual void Exit() { }

@@ -22,8 +22,11 @@ public class PlayerMoveState : PlayerState
         ApplyHorizontalMovement();
         if(playerGameplay.PlayerInputManager.attack && playerGameplay.IsGrounded)
         {
-            playerGameplay.StateMachine.ChangeState(new PlayerAttackState(playerGameplay, AttackController.Attacks.SideTilt));
-            return;
+            if (playerGameplay.PlayerInputManager.attack)
+            {
+                playerGameplay.StateMachine.ChangeState(new PlayerAttackState(playerGameplay));
+                return;
+            }
         }
         if (playerGameplay.PlayerInputManager.jump && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump)
         {
