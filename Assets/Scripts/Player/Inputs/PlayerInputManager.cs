@@ -80,7 +80,6 @@ public class PlayerInputManager : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         AttackInput(value.isPressed);
-        Debug.Log("Attack Input: " + value.isPressed);
     }
     
     #endregion

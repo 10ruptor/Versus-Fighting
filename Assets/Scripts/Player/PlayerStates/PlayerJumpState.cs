@@ -3,10 +3,18 @@ using UnityEngine;
 public class PlayerJumpState : PlayerState
 {
     const float LandingVelocityThreshold = 0.05f;
+
     public PlayerJumpState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+
+    public override void RegisterTransition()
+    {
+        AddTransition(() => playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerMoveState);
+        AddTransition(() => playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerIdleState);
+    }
 
     public override void Enter()
     {
+        base.Enter();
         playerGameplay.PlayerInputManager.ConsumeJumpRequest();
         playerGameplay.JumpController.ConsumeJump();
         playerGameplay.JumpController.Begin();
@@ -14,6 +22,7 @@ public class PlayerJumpState : PlayerState
 
     public override void Exit()
     {
+        base.Exit();
         playerGameplay.JumpController.End();
     }
 
@@ -35,13 +44,6 @@ public class PlayerJumpState : PlayerState
         if (!playerGameplay.IsGrounded || playerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;
 
-        if (playerGameplay.PlayerInputManager.HasWalkInput)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerMoveState);
-        }
-        else
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerIdleState);
-        }
+        CheckTransitions();
     }
 }

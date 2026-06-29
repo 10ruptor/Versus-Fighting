@@ -46,30 +46,42 @@ public class PlayerGameplay : MonoBehaviour
     void InitializeStateMachine()
     {
         StateMachine = new PlayerStateMachine(this);
+        
         playerDashState = new PlayerDashState(this);
         playerIdleState = new PlayerIdleState(this);
         playerJumpState = new PlayerJumpState(this);
         playerMoveState = new PlayerMoveState(this);
         playerCrouchState = new PlayerCrouchState(this);
         playerAttackState = new PlayerAttackState(this);
+        
+        playerDashState.RegisterTransition();
+        playerIdleState.RegisterTransition();
+        playerJumpState.RegisterTransition();
+        playerMoveState.RegisterTransition();
+        playerCrouchState.RegisterTransition();
+        playerAttackState.RegisterTransition();
+        
     }
     #endregion
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        playerInputManager = GetComponent<PlayerInputManager>();
-        InitializeStateMachine();
-        if (characterStats == null)
-            Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
-
-        jumpController = new JumpController(rb, transform, characterStats);
         collisionController = GetComponent<CharacterCollisionController>();
+        attackController = GetComponent<AttackController>();collisionController = GetComponent<CharacterCollisionController>();
         attackController = GetComponent<AttackController>();
+        playerInputManager = GetComponent<PlayerInputManager>();
+        jumpController = new JumpController(rb, transform, characterStats);
+        
+        InitializeStateMachine();
+        
+        if (!characterStats)
+            Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
+        
     }
 
     void Start()
     {
-        StateMachine.Initialize(new PlayerIdleState(this));
+        StateMachine.Initialize(playerIdleState);
     }
 
     void Update()

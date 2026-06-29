@@ -1,14 +1,16 @@
 
 public class PlayerCrouchState : PlayerState
 {
-    public PlayerCrouchState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    public PlayerCrouchState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
     
     public override void Update()
     {
-        if (!playerGameplay.PlayerInputManager.HasDownMoveInput)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerIdleState);
-        }
+        CheckTransitions();
+    }
+
+    public override void RegisterTransition()
+    {
+        AddTransition(() => !playerGameplay.PlayerInputManager.HasDownMoveInput, playerGameplay.playerIdleState);
     }
 
     public override void Enter()

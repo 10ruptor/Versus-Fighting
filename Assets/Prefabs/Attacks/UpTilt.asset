@@ -15,4 +15,4 @@ MonoBehaviour:
   AnimationTrigger: UpTilt
   hitbox: {fileID: 366360708884843322, guid: 77fdf61b1908b354db54569bcb97454e, type: 3}
   hitboxPosition: {x: 1, y: 0.8, z: 0}
-  hitboxActiveFrames: 0c0000000d0000000e000000
+  hitboxRadius: 3

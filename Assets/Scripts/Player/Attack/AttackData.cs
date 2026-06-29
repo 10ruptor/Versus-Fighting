@@ -10,4 +10,5 @@ public class AttackData : ScriptableObject
     public string AnimationTrigger;
     public Hitbox hitbox;
     public Vector3 hitboxPosition;
+    public float hitboxRadius;
 }

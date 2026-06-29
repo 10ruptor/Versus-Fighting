@@ -8,6 +8,12 @@ public class PlayerDashState : PlayerState
     private float dashFrameCounter;
     public PlayerDashState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
 
+    public override void RegisterTransition()
+    {
+        AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.HasWalkInput, playerGameplay.playerMoveState);
+        AddTransition(() => playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.HasWalkInput, playerGameplay.playerIdleState);
+    }
+
     public override void Enter()
     {
         base.Enter();
@@ -21,14 +27,7 @@ public class PlayerDashState : PlayerState
         dashFrameCounter += 1;
         if (dashFrameCounter >= dashDuration)
         {
-            if(playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.HasWalkInput)
-            {
-                playerGameplay.StateMachine.ChangeState(playerGameplay.playerMoveState);
-            }
-            else if(playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.HasWalkInput)
-            {
-                playerGameplay.StateMachine.ChangeState(playerGameplay.playerIdleState);
-            }
+            CheckTransitions();
         }
     }
 
@@ -41,9 +40,5 @@ public class PlayerDashState : PlayerState
             velocity.x = -dashSpeed;
         playerGameplay.Rigidbody.linearVelocity = velocity;
     }
-    public override void Exit()
-    {
-        base.Exit();
-        //other logic
-    }
+
 }

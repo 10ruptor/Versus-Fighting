@@ -24,6 +24,7 @@ public class AttackController : MonoBehaviour
     {
         playerGameplay = GetComponent<PlayerGameplay>();
     }
+    
     public void ResolveAttack()
     {
         if(playerGameplay.PlayerInputManager.HasWalkInput)
@@ -63,6 +64,7 @@ public class AttackController : MonoBehaviour
     private void InstantiateHitbox()
     {
         currentHitboxInstance = Instantiate(currentAttack.hitbox, transform.position + currentAttack.hitboxPosition, Quaternion.identity).gameObject;
+        currentHitboxInstance.GetComponent<Hitbox>().Initialize(currentAttack.hitboxRadius);
     }
     public void ActivateHitbox()
     {

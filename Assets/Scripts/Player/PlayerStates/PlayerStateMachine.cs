@@ -1,7 +1,8 @@
+using UnityEngine;
+
 public class PlayerStateMachine
 {
     public PlayerState CurrentState { get; private set; }
-
     readonly PlayerGameplay _playerGameplay;
 
     public PlayerStateMachine(PlayerGameplay playerGameplay)
@@ -17,8 +18,9 @@ public class PlayerStateMachine
     public void ChangeState(PlayerState newState)
     {
         CurrentState?.Exit();
+        Debug.Log("Changing state : " + newState);
         CurrentState = newState;
-        CurrentState.Enter();
-        _playerGameplay.SetCurrentStateName(CurrentState.GetType().Name);
+        CurrentState?.Enter();
+        _playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
     }
 }

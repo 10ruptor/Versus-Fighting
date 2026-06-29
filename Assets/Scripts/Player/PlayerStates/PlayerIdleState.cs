@@ -14,83 +14,26 @@ public class PlayerIdleState : PlayerState
     private bool playerHasJumpInput => playerGameplay.PlayerInputManager.jump;
 
     #endregion
-
+    
+    #region  Transitions
+    
+    public override void RegisterTransition()
+    {
+        AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, playerGameplay.playerCrouchState);
+        AddTransition(() => playerHasJumpInput && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.playerJumpState);
+        AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
+        AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, playerGameplay.playerDashState);
+        AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, playerGameplay.playerMoveState);
+    }
+    
+    #endregion
+    
+    
     public override void FixedUpdate()
     {
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
         velocity.x = 0f;
         playerGameplay.Rigidbody.linearVelocity = velocity;
-        CrouchStateTransitionCheck();
-        JumpStateTransitionCheck();
-        AttackStateTransitionCheck();
-        DashStateTransitionCheck();
-        MoveStateTransitionCheck();
+        CheckTransitions();
     }
-
-
-    protected override void TransitionCheckTo(PlayerState playerState)
-    {
-        base.TransitionCheckTo(playerState);
-        
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        //other logic
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        //other logic
-    }
-    
-    #region  Transitions
-    
-    private void CrouchStateTransitionCheck()
-    {
-        if (playerHasDownMoveInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerCrouchState);
-            return;
-        }
-    }
-    
-    private void MoveStateTransitionCheck()
-    {
-        if (playerHasWalkInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerMoveState);
-        }
-    }
-    private void DashStateTransitionCheck()
-    {
-        if (playerHasDashInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerDashState);
-            return;
-        }
-    }
-
-    private void AttackStateTransitionCheck()
-    {
-        if (playerHasAttackInput && playerGameplay.IsGrounded)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerAttackState);
-            return;
-        }
-    }
-
-    private void JumpStateTransitionCheck()
-    {
-        if (playerHasJumpInput && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump)
-        {
-            playerGameplay.StateMachine.ChangeState(playerGameplay.playerJumpState);
-            return;
-        }   
-    }
-    
-    #endregion
-   
 }
