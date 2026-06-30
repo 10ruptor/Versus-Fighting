@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerIdleState : PlayerState
 {
     public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    protected override string StateAnimationName => "Idle";
     
     #region InputAccessors
 

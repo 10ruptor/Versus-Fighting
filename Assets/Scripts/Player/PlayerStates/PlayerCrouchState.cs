@@ -1,8 +1,10 @@
 
+using UnityEngine;
+
 public class PlayerCrouchState : PlayerState
 {
     public PlayerCrouchState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
-    
+    protected override string StateAnimationName => "Crouch";
     public override void Update()
     {
         CheckTransitions();
@@ -16,12 +18,10 @@ public class PlayerCrouchState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        playerGameplay.CharacterAnimatorController.UpdateCrouchAnimation(true);
     }
 
     public override void Exit()
     {
         base.Exit();
-        playerGameplay.CharacterAnimatorController.UpdateCrouchAnimation(false);
     }
 }

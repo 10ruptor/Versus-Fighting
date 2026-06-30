@@ -3,7 +3,8 @@ using UnityEditor.Animations;
 public class PlayerMoveState : PlayerState
 {
     public PlayerMoveState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
-    
+    protected override string StateAnimationName => "Move"; 
+
     private void ApplyHorizontalMovement()
     {
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
@@ -34,13 +35,12 @@ public class PlayerMoveState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        playerGameplay.CharacterAnimatorController.UpdateRunAnimation(true);
+        
     }
 
     public override void Exit()
     {
         base.Exit();
         CancelHorizontalMovement();
-        playerGameplay.CharacterAnimatorController.UpdateRunAnimation(false);
     }
 }

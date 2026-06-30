@@ -6,7 +6,8 @@ public abstract class PlayerState
 {
     protected readonly PlayerGameplay playerGameplay;
     protected List<StateTransition>  transitions = new List<StateTransition>();
-    
+    protected abstract string StateAnimationName { get; }
+
     protected PlayerState(PlayerGameplay playerGameplay)
     {
         this.playerGameplay = playerGameplay;
@@ -30,8 +31,12 @@ public abstract class PlayerState
     }
 
     public abstract void RegisterTransition();
-    
-    public virtual void Enter() { Debug.Log("Enter state : " + this); }
+
+    public virtual void Enter()
+    {
+        Debug.Log("Enter state : " + this);
+        playerGameplay.CharacterAnimatorController.AnimationTransition(StateAnimationName);
+    }
 
     public virtual void Exit() { Debug.Log("Exit state : " + this); }
 

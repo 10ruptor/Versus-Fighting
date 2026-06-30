@@ -9,10 +9,12 @@ public class CharacterAnimatorController : MonoBehaviour
     private int Attack = Animator.StringToHash("Attack");
     private int Run = Animator.StringToHash("Run");
     private int Dash = Animator.StringToHash("Dash");
-
-    public void UpdateRunAnimation(bool run)
+    
+    
+    public void AnimationTransition(string StateName)
     {
-        animator.SetBool(Run,run);
+        if (!animator.HasState(0, Animator.StringToHash(StateName))) { return; }
+        animator.CrossFade(StateName, 0.1f);
     }
 
     public void UpdateVelocityAnimation(float velocity)
@@ -20,25 +22,9 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetFloat(Velocity, Math.Abs(velocity) );
     }
     
-    public void UpdateVerticalAnimation(float verticalMove)
-    {
-        animator.SetFloat(Velocity, verticalMove);
-    }
-    
     public void UpdateAttackAnimation(string attackTrigger)
     {
         animator.SetTrigger(attackTrigger);
-    }
-
-    public void UpdateDashAnimation()
-    {
-        animator.SetTrigger(Dash);
-    }
-
-    public void UpdateCrouchAnimation(bool isCrouching)
-    {
-        Debug.Log("Crouch animation updated: " + isCrouching);
-        animator.SetBool("Crouch", isCrouching);
     }
     
     public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)
@@ -52,6 +38,26 @@ public class CharacterAnimatorController : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
                 break;
         }
+    }
+    
+    public void UpdateRunAnimation(bool run)
+    {
+        animator.SetBool(Run,run);
+    }
+    public void UpdateDashAnimation()
+    {
+        animator.SetTrigger(Dash);
+    }
+
+    public void UpdateCrouchAnimation(bool isCrouching)
+    {
+        Debug.Log("Crouch animation updated: " + isCrouching);
+        animator.SetBool("Crouch", isCrouching);
+    }
+    
+    public void UpdateVerticalAnimation(float verticalMove)
+    {
+        animator.SetFloat(Velocity, verticalMove);
     }
 
 }

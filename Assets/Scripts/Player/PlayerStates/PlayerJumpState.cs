@@ -5,7 +5,7 @@ public class PlayerJumpState : PlayerState
     const float LandingVelocityThreshold = 0.05f;
 
     public PlayerJumpState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
-
+    protected override string StateAnimationName => "Jump";
     public override void RegisterTransition()
     {
         AddTransition(() => playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerMoveState);

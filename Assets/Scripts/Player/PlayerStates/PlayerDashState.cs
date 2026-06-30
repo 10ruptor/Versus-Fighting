@@ -7,6 +7,7 @@ public class PlayerDashState : PlayerState
     private float dashSpeed => playerGameplay.Stats.dashSpeed;
     private float dashFrameCounter;
     public PlayerDashState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    protected override string StateAnimationName => "Dash";
 
     public override void RegisterTransition()
     {
@@ -18,7 +19,6 @@ public class PlayerDashState : PlayerState
     {
         base.Enter();
         dashFrameCounter = 0;
-        playerGameplay.CharacterAnimatorController.UpdateDashAnimation();
         ApplyDashMovement();
     }
 

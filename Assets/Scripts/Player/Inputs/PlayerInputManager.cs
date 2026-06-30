@@ -44,16 +44,8 @@ public class PlayerInputManager : MonoBehaviour
         attackAction = playerInput.actions.FindAction("Attack", true);
         
     }
-    void HorizontalMoveInput(float newInput)
-    {
-        Debug.Log("Move input : "+ newInput);
-        horizontalMoveInput = newInput;
-    }
-    void VerticalMoveInput(float newInput)
-    {
-        Debug.Log("Move input : "+ newInput);
-        verticalMoveInput = newInput;
-    }
+    void HorizontalMoveInput(float newInput) { horizontalMoveInput = newInput; }
+    void VerticalMoveInput(float newInput) { verticalMoveInput = newInput; }
     void AttackInput(bool newInput) { attack = newInput; }
     void FastFallInput(bool newInput) { fastFall = newInput; }
     void JumpInput(bool newInput) { jump = newInput; }
