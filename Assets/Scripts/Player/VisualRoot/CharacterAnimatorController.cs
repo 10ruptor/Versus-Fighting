@@ -10,7 +10,6 @@ public class CharacterAnimatorController : MonoBehaviour
     private int Run = Animator.StringToHash("Run");
     private int Dash = Animator.StringToHash("Dash");
     
-    
     public void AnimationTransition(string StateName)
     {
         if (!animator.HasState(0, Animator.StringToHash(StateName))) { return; }
@@ -20,11 +19,6 @@ public class CharacterAnimatorController : MonoBehaviour
     public void UpdateVelocityAnimation(float velocity)
     {
         animator.SetFloat(Velocity, Math.Abs(velocity) );
-    }
-    
-    public void UpdateAttackAnimation(string attackTrigger)
-    {
-        animator.SetTrigger(attackTrigger);
     }
     
     public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)
@@ -40,6 +34,8 @@ public class CharacterAnimatorController : MonoBehaviour
         }
     }
     
+    #region old
+    /*
     public void UpdateRunAnimation(bool run)
     {
         animator.SetBool(Run,run);
@@ -59,5 +55,10 @@ public class CharacterAnimatorController : MonoBehaviour
     {
         animator.SetFloat(Velocity, verticalMove);
     }
-
+    public void UpdateAttackAnimation(string attackTrigger)
+    {
+        animator.SetTrigger(attackTrigger);
+    }
+    */
+    #endregion
 }

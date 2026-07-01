@@ -67,10 +67,10 @@ public class PlayerGameplay : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         collisionController = GetComponent<CharacterCollisionController>();
-        attackController = GetComponent<AttackController>();collisionController = GetComponent<CharacterCollisionController>();
         attackController = GetComponent<AttackController>();
+        collisionController = GetComponent<CharacterCollisionController>();
         playerInputManager = GetComponent<PlayerInputManager>();
-        jumpController = new JumpController(rb, transform, characterStats);
+        jumpController = GetComponent<JumpController>();
         
         InitializeStateMachine();
         

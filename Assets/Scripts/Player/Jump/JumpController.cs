@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 
-public class JumpController
+public class JumpController : MonoBehaviour
 {
-    public enum Phase { Ascent, Descent }
-
-    readonly Rigidbody rigidbody;
-    readonly Transform transform;
-    readonly CharacterStatData stats;
+    public enum Phase { Start, Ascent, Descent }
+    
+    private PlayerGameplay playerGameplay;
+    private Rigidbody rigidbody => playerGameplay.Rigidbody;
+    private Transform transform => playerGameplay.transform;
+    private CharacterStatData stats => playerGameplay.Stats;
 
     Phase currentPhase;
     float ascentTimer;
@@ -16,13 +18,17 @@ public class JumpController
     public Phase CurrentPhase => currentPhase;
     public int JumpCount => jumpCount;
     public bool CanJump => stats != null && jumpCount < stats.maxAddJumpCount;
-    public JumpController(Rigidbody rigidbody, Transform transform, CharacterStatData stats)
-    {
-        this.rigidbody = rigidbody;
-        this.transform = transform;
-        this.stats = stats;
-    }
     
+    private void Awake()
+    {
+        playerGameplay = GetComponent<PlayerGameplay>();
+    }
+
+    public void PrepareJump()
+    {
+        currentPhase = Phase.Start;
+    }
+
     public void Begin()
     {
         currentPhase = Phase.Ascent;
@@ -38,6 +44,9 @@ public class JumpController
     {
         float ascentDuration = Mathf.Max(stats.jumpAscentDuration, 0.01f);
         Vector3 velocity = rigidbody.linearVelocity;
+        
+        if(currentPhase == Phase.Start)
+            return;
 
         if (currentPhase == Phase.Ascent)
         {
@@ -55,7 +64,7 @@ public class JumpController
                 velocity.y = 0f;
             }
         }
-        else
+        else if(currentPhase == Phase.Descent)
         {
             float fallAccelerationMultiplier = stats.weight;
 

@@ -17,7 +17,7 @@ public class PlayerJumpState : PlayerState
         base.Enter();
         playerGameplay.PlayerInputManager.ConsumeJumpRequest();
         playerGameplay.JumpController.ConsumeJump();
-        playerGameplay.JumpController.Begin();
+        playerGameplay.JumpController.PrepareJump();
     }
 
     public override void Exit()
@@ -41,7 +41,7 @@ public class PlayerJumpState : PlayerState
         playerGameplay.ApplyAirHorizontalMovement();
         playerGameplay.JumpController.ApplyVerticalPhysics(playerGameplay.PlayerInputManager.fastFall);
 
-        if (!playerGameplay.IsGrounded || playerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
+        if (playerGameplay.JumpController.CurrentPhase == JumpController.Phase.Start || !playerGameplay.IsGrounded || playerGameplay.Rigidbody.linearVelocity.y > LandingVelocityThreshold)
             return;
 
         CheckTransitions();
