@@ -10,7 +10,12 @@ public class AttackController : MonoBehaviour
         UpTilt,
         SideTilt,
         DownTilt,
-        NeutralTilt
+        NeutralTilt,
+        
+        Nair,
+        Fair,
+        Bair,
+        Dair
     }
 
     public bool IsAttacking { get; private set; }
@@ -27,6 +32,17 @@ public class AttackController : MonoBehaviour
     
     public void ResolveAttack()
     {
+        if (playerGameplay.IsGrounded){
+            ResolveGroundAttack();
+        }
+        else
+        {
+            ResolveAerialAttack();
+        }
+    }
+    
+    private void ResolveGroundAttack()
+    {
         if(playerGameplay.PlayerInputManager.HasWalkInput)
         {
             currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.SideTilt)?.AttackStat;
@@ -40,6 +56,12 @@ public class AttackController : MonoBehaviour
             currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.NeutralTilt)?.AttackStat;
         }
     }
+    
+    private void ResolveAerialAttack()
+    {
+        currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.Nair)?.AttackStat;
+    }
+
     public void StartAttack()
     {
         if (!currentAttack)        
