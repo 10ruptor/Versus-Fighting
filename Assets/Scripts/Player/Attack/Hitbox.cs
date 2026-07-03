@@ -6,19 +6,10 @@ public class Hitbox : MonoBehaviour
 {
     float size;
     private bool isActive = false;
-    private SphereCollider collider;
-
-    public void Initialize(float size)
-    {
-        this.size = size;
-        collider.radius = size;
-    }
-
+    
     private void Awake()
     {
         isActive = true;
-        collider = GetComponent<SphereCollider>();
-        
     }
     
     private void OnDrawGizmos()
@@ -27,8 +18,13 @@ public class Hitbox : MonoBehaviour
         {
             return;
         }
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, size);
     }
+    public void Initialize(float size)
+    {
+        this.size = size;
+        GetComponent<SphereCollider>().radius = size;
+    }
+    
 }

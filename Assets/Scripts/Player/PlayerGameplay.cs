@@ -39,7 +39,7 @@ public class PlayerGameplay : MonoBehaviour
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerDashState playerDashState { get; private set; }
     public PlayerIdleState playerIdleState { get; private set; }
-    public PlayerJumpState playerJumpState { get; private set; }
+    public PlayerJumpingState PlayerJumpingState { get; private set; }
     public PlayerMoveState playerMoveState { get; private set; }
     public PlayerCrouchState playerCrouchState { get; private set; }
     public PlayerAttackState playerAttackState { get; private set; }
@@ -51,7 +51,7 @@ public class PlayerGameplay : MonoBehaviour
         
         playerDashState = new PlayerDashState(this);
         playerIdleState = new PlayerIdleState(this);
-        playerJumpState = new PlayerJumpState(this);
+        PlayerJumpingState = new PlayerJumpingState(this);
         playerMoveState = new PlayerMoveState(this);
         playerCrouchState = new PlayerCrouchState(this);
         playerAttackState = new PlayerAttackState(this);
@@ -59,7 +59,7 @@ public class PlayerGameplay : MonoBehaviour
         
         playerDashState.RegisterTransition();
         playerIdleState.RegisterTransition();
-        playerJumpState.RegisterTransition();
+        PlayerJumpingState.RegisterTransition();
         playerMoveState.RegisterTransition();
         playerCrouchState.RegisterTransition();
         playerAttackState.RegisterTransition();

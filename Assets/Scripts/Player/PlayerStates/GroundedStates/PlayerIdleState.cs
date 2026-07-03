@@ -21,7 +21,7 @@ public class PlayerIdleState : PlayerState
     public override void RegisterTransition()
     {
         AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, playerGameplay.playerCrouchState);
-        AddTransition(() => playerHasJumpInput && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.playerJumpState);
+        AddTransition(() => playerHasJumpInput && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
         AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
         AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, playerGameplay.playerDashState);
         AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, playerGameplay.playerMoveState);

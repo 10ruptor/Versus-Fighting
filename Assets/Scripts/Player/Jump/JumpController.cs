@@ -6,8 +6,8 @@ public class JumpController : MonoBehaviour
     public enum Phase { Start, Ascent, Descent }
     
     private PlayerGameplay playerGameplay;
-    private Rigidbody rigidbody => playerGameplay.Rigidbody;
-    private Transform transform => playerGameplay.transform;
+    private Rigidbody playerRb => playerGameplay.Rigidbody;
+    private Transform playerTransform => playerGameplay.transform;
     private CharacterStatData stats => playerGameplay.Stats;
 
     Phase currentPhase;
@@ -34,16 +34,16 @@ public class JumpController : MonoBehaviour
         currentPhase = Phase.Ascent;
         ascentTimer = 0f;
         startHeight = transform.position.y;
-        rigidbody.useGravity = false;
+        playerRb.useGravity = false;
     }
     public void End()
     {
-        rigidbody.useGravity = true;
+        playerRb.useGravity = true;
     }
     public void ApplyVerticalPhysics(bool isFastFallHeld)
     {
         float ascentDuration = Mathf.Max(stats.jumpAscentDuration, 0.01f);
-        Vector3 velocity = rigidbody.linearVelocity;
+        Vector3 velocity = playerRb.linearVelocity;
         
         if(currentPhase == Phase.Start)
             return;
@@ -74,9 +74,9 @@ public class JumpController : MonoBehaviour
             velocity.y += Physics.gravity.y * fallAccelerationMultiplier * Time.fixedDeltaTime;
         }
 
-        Vector3 current = rigidbody.linearVelocity;
+        Vector3 current = playerRb.linearVelocity;
         current.y = velocity.y;
-        rigidbody.linearVelocity = current;
+        playerRb.linearVelocity = current;
     }
     public void ConsumeJump()
     {

@@ -1,0 +1,26 @@
+public class #SCRIPTNAME# : PlayerState
+{
+    public #SCRIPTNAME#(PlayerGameplay playerGameplay) : base(playerGameplay){}
+    protected override string StateAnimationName => "#ANIMATIONNAME#";
+        
+    public override void RegisterTransition()
+    {
+        // Register your state transitions here
+        // AddTransition(() => condition, targetPlayerState);
+    }
+    
+    public override void Update()
+    {
+        CheckTransitions();
+    }
+    
+    public override void Enter()
+    {
+
+    }
+
+    public override void Exit()
+    {
+
+    }
+}

@@ -16,7 +16,7 @@ public class PlayerMoveState : PlayerState
     public override void RegisterTransition()
     {
         AddTransition(() => playerGameplay.PlayerInputManager.attack && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
-        AddTransition(() => playerGameplay.PlayerInputManager.jump && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.playerJumpState);
+        AddTransition(() => playerGameplay.PlayerInputManager.jump && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
         AddTransition(() => !playerGameplay.PlayerInputManager.HasWalkInput && playerGameplay.IsGrounded, playerGameplay.playerIdleState);
     }
     

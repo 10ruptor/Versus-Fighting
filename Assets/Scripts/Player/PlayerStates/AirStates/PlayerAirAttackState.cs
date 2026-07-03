@@ -1,14 +1,14 @@
 
 using System.Collections.Generic;
 
-public class PlayerAirAttackState : PlayerJumpState
+public class PlayerAirAttackState : PlayerAirState
 {
     public PlayerAirAttackState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
-    protected override string StateAnimationName => "Airborned";
+    protected override string StateAnimationName => "AirAttack";
     
     public override void RegisterTransition()
     {
-        AddTransition(() => !playerGameplay.AttackController.IsAttacking, playerGameplay.playerJumpState);
+        AddTransition(() => !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerJumpingState);
     }
 
     public override void Enter()
@@ -25,6 +25,7 @@ public class PlayerAirAttackState : PlayerJumpState
     public override void Update()
     {
         base.Update();
+        CheckTransitions();
     }
 
     public override void FixedUpdate()

@@ -19,7 +19,7 @@ public class AttackController : MonoBehaviour
     }
 
     public bool IsAttacking { get; private set; }
-    private int elapsedFrames = 0;
+    //private int elapsedFrames = 0; CONTROLLED BY ANIMATOR
     PlayerGameplay playerGameplay;
     public List<AttackEntry> AttackStatList = new List<AttackEntry>();
     private AttackData currentAttack;
@@ -69,7 +69,6 @@ public class AttackController : MonoBehaviour
             Debug.Log("No AttackData found for attack type: " + currentAttack);
             return;
         }
-        elapsedFrames = 0;
         IsAttacking = true;
         InstantiateHitbox();
         DeactivateHitbox();
@@ -81,7 +80,6 @@ public class AttackController : MonoBehaviour
         Destroy(currentHitboxInstance);
         IsAttacking = false;
         currentAttack = null;
-        elapsedFrames = 0;
     }
     private void InstantiateHitbox()
     {
