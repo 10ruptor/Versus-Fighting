@@ -10,6 +10,7 @@ public class PlayerJumpState : PlayerState
     {
         AddTransition(() => playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerMoveState);
         AddTransition(() => playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerIdleState);
+        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.attack,playerGameplay.playerAirAttackState);
     }
 
     public override void Enter()
