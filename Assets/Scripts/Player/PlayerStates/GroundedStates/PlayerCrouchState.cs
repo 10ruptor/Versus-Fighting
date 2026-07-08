@@ -13,6 +13,7 @@ public class PlayerCrouchState : PlayerState
     public override void RegisterTransition()
     {
         AddTransition(() => !playerGameplay.PlayerInputManager.HasDownMoveInput, playerGameplay.playerIdleState);
+        AddTransition(() => playerGameplay.PlayerInputManager.jump && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
     }
 
     public override void Enter()

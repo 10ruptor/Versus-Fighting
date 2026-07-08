@@ -43,8 +43,10 @@ public class PlayerGameplay : MonoBehaviour
     public PlayerMoveState playerMoveState { get; private set; }
     public PlayerCrouchState playerCrouchState { get; private set; }
     public PlayerAttackState playerAttackState { get; private set; }
-    
     public PlayerAirAttackState playerAirAttackState { get; private set; }
+    
+    public PlayerLandingState playerLandingState { get; private set; }
+    
     void InitializeStateMachine()
     {
         StateMachine = new PlayerStateMachine(this);
@@ -56,6 +58,7 @@ public class PlayerGameplay : MonoBehaviour
         playerCrouchState = new PlayerCrouchState(this);
         playerAttackState = new PlayerAttackState(this);
         playerAirAttackState = new PlayerAirAttackState(this);
+        playerLandingState = new PlayerLandingState(this);
         
         playerDashState.RegisterTransition();
         playerIdleState.RegisterTransition();
@@ -64,6 +67,7 @@ public class PlayerGameplay : MonoBehaviour
         playerCrouchState.RegisterTransition();
         playerAttackState.RegisterTransition();
         playerAirAttackState.RegisterTransition();
+        playerLandingState.RegisterTransition();
         
     }
     #endregion

@@ -447,23 +447,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &410231413 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4391677530036869735, guid: f6c8c4113414bbc4e8321dd7034ef341, type: 3}
-  m_PrefabInstance: {fileID: 1577773486}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &410231424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410231413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4b7c2a91f3d4e6b8c0d2e4f6a8b0c2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JumpController
 --- !u!4 &410231435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3347559413452167385, guid: f6c8c4113414bbc4e8321dd7034ef341, type: 3}
@@ -1310,10 +1293,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3347559413452167385, guid: f6c8c4113414bbc4e8321dd7034ef341, type: 3}
       insertIndex: -1
       addedObject: {fileID: 219654912}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4391677530036869735, guid: f6c8c4113414bbc4e8321dd7034ef341, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 410231424}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6c8c4113414bbc4e8321dd7034ef341, type: 3}
 --- !u!1001 &8631584135005611323
 PrefabInstance:

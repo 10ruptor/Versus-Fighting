@@ -1,34 +1,24 @@
-public class PlayerJumpingState : PlayerAirState
+public class PlayerLandingState : PlayerAirState
 {
-    public PlayerJumpingState(PlayerGameplay playerGameplay) : base(playerGameplay){}
-    protected override string StateAnimationName => "Jump";
+    public PlayerLandingState(PlayerGameplay playerGameplay) : base(playerGameplay){}
+    protected override string StateAnimationName => "Landing";
         
     public override void RegisterTransition()
     {
         AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerMoveState);
         AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerIdleState);
+        AddTransition(() => playerGameplay.PlayerInputManager.jump && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
         AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.attack,playerGameplay.playerAirAttackState);
-        AddTransition(() => IsLanding &&!playerGameplay.IsGrounded ,playerGameplay.playerLandingState);
     }
     
     public override void Update()
     {
-        base.Update();
         CheckTransitions();
     }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-    
     
     public override void Enter()
     {
-        base.Enter();
-        playerGameplay.PlayerInputManager.ConsumeJumpRequest();
-        playerGameplay.JumpController.ConsumeJump();
-        playerGameplay.JumpController.PrepareJump();
+
     }
 
     public override void Exit()
