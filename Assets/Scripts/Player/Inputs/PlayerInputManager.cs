@@ -7,7 +7,7 @@ public class PlayerInputManager : MonoBehaviour
 {
     [Header("Horizontal movement")]
     [SerializeField] float walkThreshold = 0.2f;
-    [SerializeField] float dashThreshold = 0.5f;
+    [SerializeField] float dashThreshold = 0.4f;
     [Header("Vertical movement")]
     [SerializeField] float downMoveInputThreshold = -0.5f;
     [SerializeField] float upMoveInputThreshold = 0.5f;
