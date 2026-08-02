@@ -25,7 +25,7 @@ public abstract class PlayerAirState : PlayerState
 
     public override void Update()
     {
-        if (playerGameplay.PlayerInputManager.jump && playerGameplay.JumpController.CanJump && !playerGameplay.IsGrounded)
+        if (playerGameplay.PlayerInputManager.Jump && playerGameplay.JumpController.CanJump && !playerGameplay.IsGrounded)
         {
             playerGameplay.PlayerInputManager.ConsumeJumpRequest();
             playerGameplay.JumpController.ConsumeJump();
@@ -36,6 +36,6 @@ public abstract class PlayerAirState : PlayerState
     public override void FixedUpdate()
     {
         playerGameplay.ApplyAirHorizontalMovement();
-        playerGameplay.JumpController.ApplyVerticalPhysics(playerGameplay.PlayerInputManager.fastFall);
+        playerGameplay.JumpController.ApplyVerticalPhysics(playerGameplay.PlayerInputManager.FastFall);
     }
 }

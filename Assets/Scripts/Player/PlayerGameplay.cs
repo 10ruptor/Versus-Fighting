@@ -1,6 +1,8 @@
+using System;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInputManager))]
@@ -17,10 +19,12 @@ public class PlayerGameplay : MonoBehaviour
     
     [Header("Visuals")]
     [SerializeField] CharacterAnimatorController characterAnimatorController;
+    [SerializeField] VFXManager vfxManager;
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
-    public enum Orientations { Left, Right }
-    private Orientations currentOrientation;
-    public Orientations CurrentOrientation => currentOrientation;
+    public enum Orientation { Left, Right }
+    private Orientation currentOrientation;
+    public Orientation CurrentOrientation => currentOrientation;
+    
     
     Rigidbody rb;
     PlayerInputManager playerInputManager;
@@ -34,6 +38,7 @@ public class PlayerGameplay : MonoBehaviour
     public PlayerInputManager PlayerInputManager => playerInputManager;
     public AttackController AttackController => attackController;
     public bool IsGrounded => collisionController.IsGrounded;
+    public VFXManager VFXManager => vfxManager;
 
     #region  StateMachine
     public PlayerStateMachine StateMachine { get; private set; }
@@ -107,11 +112,11 @@ public class PlayerGameplay : MonoBehaviour
 
     public void ApplyAirHorizontalMovement()
     {
-        if (Mathf.Abs(PlayerInputManager.horizontalMoveInput) <= MoveInputThreshold)
+        if (Mathf.Abs(PlayerInputManager.HorizontalMoveInputValue) <= MoveInputThreshold)
             return;
 
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputManager.horizontalMoveInput * Stats.moveSpeed;
+        velocity.x = PlayerInputManager.HorizontalMoveInputValue * Stats.moveSpeed;
         rb.linearVelocity = velocity;
     }
     public void SetCurrentStateName(string stateName)
@@ -132,12 +137,12 @@ public class PlayerGameplay : MonoBehaviour
         }
         else if (rb.linearVelocity.x > 0)
         {
-            currentOrientation = Orientations.Right;
+            currentOrientation = Orientation.Right;
             
         }
         else if (rb.linearVelocity.x < 0)
         {
-            currentOrientation  = Orientations.Left;
+            currentOrientation  = Orientation.Left;
         }
         characterAnimatorController.VisualOrientationUpdate(currentOrientation);
     }

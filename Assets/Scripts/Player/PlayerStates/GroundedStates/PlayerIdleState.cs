@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerIdleState : PlayerState
+public class PlayerIdleState : PlayerGroundedState
 {
     public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
     protected override string StateAnimationName => "Idle";
@@ -10,9 +10,8 @@ public class PlayerIdleState : PlayerState
     private bool playerHasWalkInput => playerGameplay.PlayerInputManager.HasWalkInput;
     private bool playerHasDashInput => playerGameplay.PlayerInputManager.HasDashInput;
     private bool playerHasDownMoveInput => playerGameplay.PlayerInputManager.HasDownMoveInput;
-    private bool playerHasUpMoveInput => playerGameplay.PlayerInputManager.HasUpMoveInput;
-    private bool playerHasAttackInput => playerGameplay.PlayerInputManager.attack;
-    private bool playerHasJumpInput => playerGameplay.PlayerInputManager.jump;
+    private bool playerHasAttackInput => playerGameplay.PlayerInputManager.Attack;
+    
 
     #endregion
     
@@ -21,7 +20,6 @@ public class PlayerIdleState : PlayerState
     public override void RegisterTransition()
     {
         AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, playerGameplay.playerCrouchState);
-        AddTransition(() => playerHasJumpInput && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
         AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
         AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, playerGameplay.playerDashState);
         AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, playerGameplay.playerMoveState);

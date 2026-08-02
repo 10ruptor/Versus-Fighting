@@ -12,6 +12,7 @@ public class CharacterCollisionController : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collision Entered with: " + collision.gameObject.tag);
         if (IsStageCollision(collision))
             SetGrounded(stageContactCount + 1);
     }

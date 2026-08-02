@@ -21,14 +21,14 @@ public class CharacterAnimatorController : MonoBehaviour
         animator.SetFloat(Velocity, Math.Abs(velocity) );
     }
     
-    public void VisualOrientationUpdate(PlayerGameplay.Orientations orientation)
+    public void VisualOrientationUpdate(PlayerGameplay.Orientation orientation)
     {
         switch (orientation)
         {
-            case PlayerGameplay.Orientations.Left:
+            case PlayerGameplay.Orientation.Left:
                 transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
                 break;
-            case PlayerGameplay.Orientations.Right:
+            case PlayerGameplay.Orientation.Right:
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
                 break;
         }

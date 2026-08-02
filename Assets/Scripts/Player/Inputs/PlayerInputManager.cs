@@ -19,16 +19,16 @@ public class PlayerInputManager : MonoBehaviour
     InputAction fastFallAction;
     InputAction attackAction; 
     //values
-    public bool jump;
-    public bool fastFall;
-    public bool attack;
-    public float horizontalMoveInput;
-    public float verticalMoveInput;
+    public bool Jump;
+    public bool FastFall;
+    public bool Attack;
+    public float HorizontalMoveInputValue;
+    public float VerticalMoveInputValue;
     
-    public bool HasDownMoveInput => verticalMoveInput < downMoveInputThreshold;
-    public bool HasUpMoveInput => verticalMoveInput > upMoveInputThreshold;
-    public bool HasWalkInput => Mathf.Abs(horizontalMoveInput) > walkThreshold;
-    public bool HasDashInput => Mathf.Abs(horizontalMoveInput) > dashThreshold;
+    public bool HasDownMoveInput => VerticalMoveInputValue < downMoveInputThreshold;
+    public bool HasUpMoveInput => VerticalMoveInputValue > upMoveInputThreshold;
+    public bool HasWalkInput => Mathf.Abs(HorizontalMoveInputValue) > walkThreshold;
+    public bool HasDashInput => Mathf.Abs(HorizontalMoveInputValue) > dashThreshold;
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -44,12 +44,12 @@ public class PlayerInputManager : MonoBehaviour
         attackAction = playerInput.actions.FindAction("Attack", true);
         
     }
-    void HorizontalMoveInput(float newInput) { horizontalMoveInput = newInput; }
-    void VerticalMoveInput(float newInput) { verticalMoveInput = newInput; }
-    void AttackInput(bool newInput) { attack = newInput; }
-    void FastFallInput(bool newInput) { fastFall = newInput; }
-    void JumpInput(bool newInput) { jump = newInput; }
-    public void ConsumeJumpRequest() { jump = false; }
+    void HorizontalMoveInput(float newInput) { HorizontalMoveInputValue = newInput; }
+    void VerticalMoveInput(float newInput) { VerticalMoveInputValue = newInput; }
+    void AttackInput(bool newInput) { Attack = newInput; }
+    void FastFallInput(bool newInput) { FastFall = newInput; }
+    void JumpInput(bool newInput) { Jump = newInput; }
+    public void ConsumeJumpRequest() { Jump = false; }
     
     #region callbacks
 

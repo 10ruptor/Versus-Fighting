@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEditor.Animations;
-public class PlayerMoveState : PlayerState
+public class PlayerMoveState : PlayerGroundedState
 {
     public PlayerMoveState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
     protected override string StateAnimationName => "Move"; 
@@ -8,15 +8,14 @@ public class PlayerMoveState : PlayerState
     private void ApplyHorizontalMovement()
     {
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
-        velocity.x = playerGameplay.PlayerInputManager.horizontalMoveInput * playerGameplay.Stats.moveSpeed;
+        velocity.x = playerGameplay.PlayerInputManager.HorizontalMoveInputValue * playerGameplay.Stats.moveSpeed;
         playerGameplay.Rigidbody.linearVelocity = velocity;
-        playerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(playerGameplay.PlayerInputManager.horizontalMoveInput);
+        playerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(playerGameplay.PlayerInputManager.HorizontalMoveInputValue);
     }
 
     public override void RegisterTransition()
     {
-        AddTransition(() => playerGameplay.PlayerInputManager.attack && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
-        AddTransition(() => playerGameplay.PlayerInputManager.jump && playerGameplay.IsGrounded && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
+        AddTransition(() => playerGameplay.PlayerInputManager.Attack && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
         AddTransition(() => !playerGameplay.PlayerInputManager.HasWalkInput && playerGameplay.IsGrounded, playerGameplay.playerIdleState);
     }
     
