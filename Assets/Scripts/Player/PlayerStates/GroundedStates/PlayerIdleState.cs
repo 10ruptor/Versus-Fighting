@@ -16,9 +16,10 @@ public class PlayerIdleState : PlayerGroundedState
     #endregion
     
     #region  Transitions
-    
+
     public override void RegisterTransition()
     {
+        base.RegisterTransition();
         AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, playerGameplay.playerCrouchState);
         AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
         AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, playerGameplay.playerDashState);

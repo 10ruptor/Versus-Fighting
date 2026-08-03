@@ -2,7 +2,7 @@ public class PlayerLandingState : PlayerAirState
 {
     public PlayerLandingState(PlayerGameplay playerGameplay) : base(playerGameplay){}
     protected override string StateAnimationName => "Landing";
-        
+
     public override void RegisterTransition()
     {
         AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.HasWalkInput,playerGameplay.playerMoveState);

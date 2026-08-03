@@ -15,6 +15,7 @@ public class PlayerMoveState : PlayerGroundedState
 
     public override void RegisterTransition()
     {
+        base.RegisterTransition();
         AddTransition(() => playerGameplay.PlayerInputManager.Attack && playerGameplay.IsGrounded, playerGameplay.playerAttackState);
         AddTransition(() => !playerGameplay.PlayerInputManager.HasWalkInput && playerGameplay.IsGrounded, playerGameplay.playerIdleState);
     }
@@ -28,6 +29,7 @@ public class PlayerMoveState : PlayerGroundedState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        CheckTransitions();
         ApplyHorizontalMovement();
     }
 

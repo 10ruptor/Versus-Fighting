@@ -17,6 +17,7 @@ public class PlayerCrouchState : PlayerGroundedState
 
     public override void RegisterTransition()
     {
+        base.RegisterTransition();
         AddTransition(() => !playerGameplay.PlayerInputManager.HasDownMoveInput, playerGameplay.playerIdleState);
     }
     
