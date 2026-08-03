@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class PlayerState
 {
     protected readonly PlayerGameplay playerGameplay;
-    protected List<StateTransition>  transitions = new List<StateTransition>();
-    protected abstract string StateAnimationName { get; }
+    private List<StateTransition>  transitions = new List<StateTransition>();
+    protected virtual string StateAnimationName => null;
 
     protected PlayerState(PlayerGameplay playerGameplay)
     {
@@ -30,17 +30,25 @@ public abstract class PlayerState
         transitions.Add(new StateTransition(condition, targetState));
     }
 
+    private void PlayAnimation()
+    {
+        if (StateAnimationName != null)
+        {
+            playerGameplay.CharacterAnimatorController.AnimationTransition(StateAnimationName);
+        }
+    }
+
     public abstract void RegisterTransition();
 
     public virtual void Enter()
     {
         Debug.Log("Enter state : " + this);
-        playerGameplay.CharacterAnimatorController.AnimationTransition(StateAnimationName);
+        PlayAnimation();
     }
-
+    
     public virtual void Exit() { Debug.Log("Exit state : " + this); }
 
     public virtual void Update() { }
-
+    
     public virtual void FixedUpdate() { }
 }

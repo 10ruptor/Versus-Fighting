@@ -24,17 +24,11 @@ public class PlayerMoveState : PlayerGroundedState
         playerGameplay.Rigidbody.linearVelocity = Vector3.zero;
         playerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(0);
     }
-
+    
     public override void FixedUpdate()
     {
+        base.FixedUpdate();
         ApplyHorizontalMovement();
-        CheckTransitions();
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        
     }
 
     public override void Exit()

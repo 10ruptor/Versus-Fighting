@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class PlayerCrouchState : PlayerGroundedState
 {
-    public PlayerCrouchState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
+    public PlayerCrouchState(PlayerGameplay playerGameplay) : base(playerGameplay)
+    {
+    }
+
     protected override string StateAnimationName => "Crouch";
+
     public override void Update()
     {
+        base.Update();
         CheckTransitions();
     }
 
@@ -14,14 +19,5 @@ public class PlayerCrouchState : PlayerGroundedState
     {
         AddTransition(() => !playerGameplay.PlayerInputManager.HasDownMoveInput, playerGameplay.playerIdleState);
     }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
+    
 }

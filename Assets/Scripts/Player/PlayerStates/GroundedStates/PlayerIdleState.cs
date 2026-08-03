@@ -30,9 +30,10 @@ public class PlayerIdleState : PlayerGroundedState
     
     public override void FixedUpdate()
     {
+        base.FixedUpdate();
+        CheckTransitions();
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
         velocity.x = 0f;
         playerGameplay.Rigidbody.linearVelocity = velocity;
-        CheckTransitions();
     }
 }

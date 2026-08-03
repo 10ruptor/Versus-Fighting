@@ -19,20 +19,4 @@ public class PlayerAirAttackState : PlayerAirState
         playerGameplay.AttackController.ResolveAttack();
         playerGameplay.AttackController.StartAttack();
     }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
-    public override void Update()
-    {
-        base.Update();
-        CheckTransitions();
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
 }

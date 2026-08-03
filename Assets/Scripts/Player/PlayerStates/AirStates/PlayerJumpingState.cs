@@ -16,12 +16,6 @@ public class PlayerJumpingState : PlayerAirState
         base.Update();
         CheckTransitions();
     }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-    
     
     public override void Enter()
     {
@@ -29,10 +23,5 @@ public class PlayerJumpingState : PlayerAirState
         playerGameplay.PlayerInputManager.ConsumeJumpRequest();
         playerGameplay.JumpController.ConsumeJump();
         playerGameplay.JumpController.PrepareJump();
-    }
-
-    public override void Exit()
-    {
-
     }
 }

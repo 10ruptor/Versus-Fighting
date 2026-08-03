@@ -1,7 +1,8 @@
+using UnityEngine;
+
 public abstract class PlayerGroundedState : PlayerState
 {
-    public PlayerGroundedState(PlayerGameplay playerGameplay) : base(playerGameplay){}
-    protected override string StateAnimationName => "Grounded";
+    protected PlayerGroundedState(PlayerGameplay playerGameplay) : base(playerGameplay){}
         
     public override void RegisterTransition()
     {
@@ -11,16 +12,13 @@ public abstract class PlayerGroundedState : PlayerState
     
     public override void Update()
     {
+        base.Update();
         CheckTransitions();
     }
-    
-    public override void Enter()
+
+    public override void FixedUpdate()
     {
-
-    }
-
-    public override void Exit()
-    {
-
+        base.FixedUpdate();
+        CheckTransitions();
     }
 }
