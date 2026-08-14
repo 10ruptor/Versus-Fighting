@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerState
 {
-    private int dashDuration => playerGameplay.Stats.dashDurationFrames;
-    private float dashSpeed => playerGameplay.Stats.dashSpeed;
+    private int dashDuration => playerGameplay.Character.CharacterStatData.dashDurationFrames;
+    private float dashSpeed => playerGameplay.Character.CharacterStatData.dashSpeed;
     private float dashFrameCounter;
     private float dashInputValue;
     private bool DashIsOver => dashFrameCounter >= dashDuration;

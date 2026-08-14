@@ -13,9 +13,9 @@ public class PlayerGameplay : MonoBehaviour
     [Header("FSM")]
     [SerializeField] string currentStateName;
     
-    [Header("Stats")]
-    [SerializeField] CharacterStatData characterStats;
-    public CharacterStatData Stats => characterStats;
+    [Header("Character")]
+    [SerializeField] Character character;
+    public Character Character => character;
     
     [Header("Visuals")]
     [SerializeField] CharacterAnimatorController characterAnimatorController;
@@ -87,8 +87,8 @@ public class PlayerGameplay : MonoBehaviour
         
         InitializeStateMachine();
         
-        if (!characterStats)
-            Debug.LogError("CharacterStatsSO is not assigned on Player.", this);
+        if (!character)
+            Debug.LogError("No Character assigned to player.", this);
         
     }
 
@@ -116,7 +116,7 @@ public class PlayerGameplay : MonoBehaviour
             return;
 
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = PlayerInputManager.HorizontalMoveInputValue * Stats.moveSpeed;
+        velocity.x = PlayerInputManager.HorizontalMoveInputValue * Character.CharacterStatData.moveSpeed;
         rb.linearVelocity = velocity;
     }
     public void SetCurrentStateName(string stateName)

@@ -8,7 +8,7 @@ public class JumpController : MonoBehaviour
     private PlayerGameplay playerGameplay;
     private Rigidbody playerRb => playerGameplay.Rigidbody;
     private Transform playerTransform => playerGameplay.transform;
-    private CharacterStatData stats => playerGameplay.Stats;
+    private CharacterStatData stats => playerGameplay.Character.CharacterStatData;
 
     Phase currentPhase;
     float ascentTimer;

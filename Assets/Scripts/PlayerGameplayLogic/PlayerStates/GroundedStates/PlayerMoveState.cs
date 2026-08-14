@@ -8,7 +8,7 @@ public class PlayerMoveState : PlayerGroundedState
     private void ApplyHorizontalMovement()
     {
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
-        velocity.x = playerGameplay.PlayerInputManager.HorizontalMoveInputValue * playerGameplay.Stats.moveSpeed;
+        velocity.x = playerGameplay.PlayerInputManager.HorizontalMoveInputValue * playerGameplay.Character.CharacterStatData.moveSpeed;
         playerGameplay.Rigidbody.linearVelocity = velocity;
         playerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(playerGameplay.PlayerInputManager.HorizontalMoveInputValue);
     }
