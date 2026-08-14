@@ -22,7 +22,7 @@ public class PlayerDashState : PlayerState
         base.Enter();
         dashFrameCounter = 0;
         dashInputValue = playerGameplay.PlayerInputManager.HorizontalMoveInputValue;
-        playerGameplay.VFXManager.PlayDashParticle();
+        playerGameplay.Character.VFXManager.PlayDashParticle();
         ApplyDashMovement();
     }
 

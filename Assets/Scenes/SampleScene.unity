@@ -915,24 +915,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566561960}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1964560498 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3170843807014584496, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+--- !u!114 &1711204619 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3839186917089588856, guid: 13efc00f79a218349a455e92599f6573, type: 3}
   m_PrefabInstance: {fileID: 3662899712367915139}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1964560500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1964560498}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff1143399c0b6cd498821ff760aab29b, type: 3}
+  m_Script: {fileID: 11500000, guid: 33570ecf7887ffc44b37d7cbf9a9f8e2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
-  characterStatData: {fileID: 11400000, guid: 25e9c6d99a7a17a4b85c6b2ac35d3278, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::AnimatorController
 --- !u!1001 &3662899712367915139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -941,10 +934,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 503696300578344550, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-      propertyPath: character
-      value: 
-      objectReference: {fileID: 1964560500}
     - target: {fileID: 1019894427381039946, guid: 13efc00f79a218349a455e92599f6573, type: 3}
       propertyPath: m_Name
       value: Player
@@ -989,13 +978,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: vfxManager
+      value: 
+      objectReference: {fileID: 9011385295966934305}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: characterAnimatorController
+      value: 
+      objectReference: {fileID: 1711204619}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3170843807014584496, guid: 13efc00f79a218349a455e92599f6573, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1964560500}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13efc00f79a218349a455e92599f6573, type: 3}
 --- !u!4 &7038214226014400720 stripped
 Transform:
@@ -1075,6 +1069,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38dd6e5c37e0426449bd717fa1e0b0e0, type: 3}
+--- !u!114 &9011385295966934305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5889424329164598187, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+  m_PrefabInstance: {fileID: 3662899712367915139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a50e44b89c411489e9a71c2696de64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

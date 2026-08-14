@@ -17,10 +17,7 @@ public class PlayerGameplay : MonoBehaviour
     [SerializeField] Character character;
     public Character Character => character;
     
-    [Header("Visuals")]
-    [SerializeField] CharacterAnimatorController characterAnimatorController;
-    [SerializeField] VFXManager vfxManager;
-    public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
+    
     public enum Orientation { Left, Right }
     private Orientation currentOrientation;
     public Orientation CurrentOrientation => currentOrientation;
@@ -38,7 +35,7 @@ public class PlayerGameplay : MonoBehaviour
     public PlayerInputManager PlayerInputManager => playerInputManager;
     public AttackController AttackController => attackController;
     public bool IsGrounded => collisionController.IsGrounded;
-    public VFXManager VFXManager => vfxManager;
+    
 
     #region  StateMachine
     public PlayerStateMachine StateMachine { get; private set; }
@@ -144,6 +141,6 @@ public class PlayerGameplay : MonoBehaviour
         {
             currentOrientation  = Orientation.Left;
         }
-        characterAnimatorController.VisualOrientationUpdate(currentOrientation);
+        Character.CharacterAnimatorController.VisualOrientationUpdate(currentOrientation);
     }
 }

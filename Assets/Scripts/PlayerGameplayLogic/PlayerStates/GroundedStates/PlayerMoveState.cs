@@ -10,7 +10,7 @@ public class PlayerMoveState : PlayerGroundedState
         Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
         velocity.x = playerGameplay.PlayerInputManager.HorizontalMoveInputValue * playerGameplay.Character.CharacterStatData.moveSpeed;
         playerGameplay.Rigidbody.linearVelocity = velocity;
-        playerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(playerGameplay.PlayerInputManager.HorizontalMoveInputValue);
+        playerGameplay.Character.CharacterAnimatorController.UpdateVelocityAnimation(playerGameplay.PlayerInputManager.HorizontalMoveInputValue);
     }
 
     public override void RegisterTransition()
@@ -23,7 +23,7 @@ public class PlayerMoveState : PlayerGroundedState
     private void CancelHorizontalMovement()
     {
         playerGameplay.Rigidbody.linearVelocity = Vector3.zero;
-        playerGameplay.CharacterAnimatorController.UpdateVelocityAnimation(0);
+        playerGameplay.Character.CharacterAnimatorController.UpdateVelocityAnimation(0);
     }
     
     public override void FixedUpdate()

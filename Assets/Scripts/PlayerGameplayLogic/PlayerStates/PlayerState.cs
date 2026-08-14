@@ -34,7 +34,7 @@ public abstract class PlayerState
     {
         if (StateAnimationName != null)
         {
-            playerGameplay.CharacterAnimatorController.AnimationTransition(StateAnimationName);
+            playerGameplay.Character.CharacterAnimatorController.AnimationTransition(StateAnimationName);
         }
     }
 
