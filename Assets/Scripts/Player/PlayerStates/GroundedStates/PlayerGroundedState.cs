@@ -6,6 +6,7 @@ public abstract class PlayerGroundedState : PlayerState
 
     public override void RegisterTransition()
     {
+        //bug here 20260308
         Debug.Log("PlayerGroundedState: " + playerGameplay.IsGrounded);
         AddTransition(() => !playerGameplay.IsGrounded && !playerGameplay.PlayerInputManager.Jump , playerGameplay.playerLandingState);
         AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputManager.Jump && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
