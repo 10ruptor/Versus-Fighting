@@ -983,9 +983,65 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9011385295966934305}
     - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: characterStatData
+      value: 
+      objectReference: {fileID: 11400000, guid: 25e9c6d99a7a17a4b85c6b2ac35d3278, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
       propertyPath: characterAnimatorController
       value: 
       objectReference: {fileID: 1711204619}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: 'AttackStatList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a2a108ceb0695a48af41e17cfd7aec1, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: 'AttackStatList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ffbd964bd17f404887493e0c3e2e837, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: 'AttackStatList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c40073b0c93777f48bb6db3561b30977, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: 'AttackStatList.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c63461054907fb4a8b987cf4fcb5c70, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: 'AttackStatList.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 832d966ec53349e42a264af9a752c949, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[0].AttackStat
+      value: 
+      objectReference: {fileID: 11400000, guid: 832d966ec53349e42a264af9a752c949, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[1].AttackStat
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c63461054907fb4a8b987cf4fcb5c70, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[1].AttackType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[2].AttackStat
+      value: 
+      objectReference: {fileID: 11400000, guid: c40073b0c93777f48bb6db3561b30977, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[2].AttackType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[3].AttackStat
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ffbd964bd17f404887493e0c3e2e837, type: 2}
+    - target: {fileID: 5569768136126252503, guid: 13efc00f79a218349a455e92599f6573, type: 3}
+      propertyPath: AttackStatList.Array.data[3].AttackType
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

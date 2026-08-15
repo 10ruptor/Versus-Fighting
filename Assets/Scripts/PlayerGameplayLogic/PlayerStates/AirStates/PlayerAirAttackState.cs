@@ -16,7 +16,7 @@ public class PlayerAirAttackState : PlayerAirState
 
     public override void Enter()
     {
-        playerGameplay.AttackController.ResolveAttack();
+        playerGameplay.AttackController.ResolveAerialAttack();
         playerGameplay.AttackController.StartAttack();
     }
 

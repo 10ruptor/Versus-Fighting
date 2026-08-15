@@ -5,23 +5,9 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    public enum Attacks
-    {
-        UpTilt,
-        SideTilt,
-        DownTilt,
-        NeutralTilt,
-        
-        Nair,
-        Fair,
-        Bair,
-        Dair
-    }
-
     public bool IsAttacking { get; private set; }
     //private int elapsedFrames = 0; CONTROLLED BY ANIMATOR
     PlayerGameplay playerGameplay;
-    public List<AttackEntry> AttackStatList = new List<AttackEntry>();
     private AttackData currentAttack;
     private GameObject currentHitboxInstance;
 
@@ -30,36 +16,30 @@ public class AttackController : MonoBehaviour
         playerGameplay = GetComponent<PlayerGameplay>();
     }
     
-    public void ResolveAttack()
-    {
-        if (playerGameplay.IsGrounded){
-            ResolveGroundAttack();
-        }
-        else
-        {
-            ResolveAerialAttack();
-        }
-    }
     
-    private void ResolveGroundAttack()
+    public void ResolveGroundAttack()
     {
         if(playerGameplay.PlayerInputManager.HasWalkInput)
         {
-            currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.SideTilt)?.AttackStat;
+            //currentAttack = playerGameplay.Character.AttackStatList.Find(entry => entry.AttackType == Attacks.SideTilt)?.AttackStat;
+            currentAttack = playerGameplay.Character.attackLookup[AttackTypes.SideTilt];
         }
         else if(playerGameplay.PlayerInputManager.HasUpMoveInput)
         {
-            currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.UpTilt)?.AttackStat;
+            //currentAttack = playerGameplay.Character.AttackStatList.Find(entry => entry.AttackType == Attacks.UpTilt)?.AttackStat;
+            currentAttack = playerGameplay.Character.attackLookup[AttackTypes.UpTilt];
         }
         else
         {
-            currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.NeutralTilt)?.AttackStat;
+            //currentAttack = playerGameplay.Character.AttackStatList.Find(entry => entry.AttackType == Attacks.NeutralTilt)?.AttackStat;
+            currentAttack = playerGameplay.Character.attackLookup[AttackTypes.NeutralTilt];
         }
     }
     
-    private void ResolveAerialAttack()
+    public void ResolveAerialAttack()
     {
-        currentAttack = AttackStatList.Find(entry => entry.AttackType == Attacks.Nair)?.AttackStat;
+        //currentAttack = playerGameplay.Character.AttackStatList.Find(entry => entry.AttackType == Attacks.Nair)?.AttackStat;
+        currentAttack = playerGameplay.Character.attackLookup[AttackTypes.Nair];
     }
 
     public void StartAttack()
