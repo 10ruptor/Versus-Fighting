@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Stage
   - Hitbox
+  - Hurtbox
   layers:
   - Default
   - TransparentFX
