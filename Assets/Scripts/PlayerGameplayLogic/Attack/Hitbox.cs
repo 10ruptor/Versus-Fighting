@@ -6,10 +6,13 @@ public class Hitbox : MonoBehaviour
 {
     float size;
     private bool isActive = false;
+    [SerializeField] public AttackTypes attack;
+    private Collider collider;
     
     private void Awake()
     {
         isActive = true;
+        collider = GetComponent<Collider>();
     }
     
     private void OnDrawGizmos()
@@ -26,5 +29,15 @@ public class Hitbox : MonoBehaviour
         this.size = size;
         GetComponent<SphereCollider>().radius = size;
     }
+
+    public void ActivateHitbox()
+    {
+        collider.enabled = true;
+    }
     
+    public void DeactivateHitbox()
+    {
+        collider.enabled = false;
+    }
+
 }

@@ -50,8 +50,6 @@ public class AttackController : MonoBehaviour
             return;
         }
         IsAttacking = true;
-        InstantiateHitbox();
-        DeactivateHitbox();
         playerGameplay.Character.CharacterAnimatorController.AnimationTransition(currentAttack.AnimationTrigger);
     }
     public void EndAttack()
@@ -61,23 +59,13 @@ public class AttackController : MonoBehaviour
         IsAttacking = false;
         currentAttack = null;
     }
-    private void InstantiateHitbox()
-    {
-        currentHitboxInstance = Instantiate(currentAttack.hitbox, transform.position + currentAttack.hitboxPosition, Quaternion.identity).gameObject;
-        currentHitboxInstance.GetComponent<Hitbox>().Initialize(currentAttack.hitboxRadius);
-    }
+    
     public void ActivateHitbox()
     {
-        if (currentHitboxInstance != null)
-        {
-            currentHitboxInstance.SetActive(true);
-        }
+        playerGameplay.Character.HitboxManager.selectHitbox(currentAttack.AttackType).ActivateHitbox();
     }
     public void DeactivateHitbox()
     {
-        if (currentHitboxInstance != null)
-        {
-            currentHitboxInstance.SetActive(false);
-        }
+        playerGameplay.Character.HitboxManager.selectHitbox(currentAttack.AttackType).DeactivateHitbox();
     }
 }

@@ -15,8 +15,10 @@ public class Character : MonoBehaviour
     
     [Header("Attacks")]
     [SerializeField] private List<AttackData> AttackStatList = new List<AttackData>();
+    [SerializeField] private HitboxManager hitboxManager;
     
     public Dictionary<AttackTypes, AttackData> attackLookup = new Dictionary<AttackTypes, AttackData>();
+    public HitboxManager HitboxManager => hitboxManager;
     
     private void Awake()
     {
