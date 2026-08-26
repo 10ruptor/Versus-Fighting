@@ -27,7 +27,7 @@ public class PlayerGameplay : MonoBehaviour
     public int PlayerIndex => playerIndex;
     
     Rigidbody rb;
-    PlayerInputController _playerInputController;
+    PlayerInputController playerInputController;
     JumpController jumpController;
     CharacterCollisionController collisionController;
     AttackController attackController;
@@ -37,7 +37,7 @@ public class PlayerGameplay : MonoBehaviour
     public JumpController JumpController => jumpController;
     public CharacterCollisionController CollisionController => collisionController;
     public Rigidbody Rigidbody => rb;
-    public PlayerInputController PlayerInputController => _playerInputController;
+    public PlayerInputController PlayerInputController => playerInputController;
     public AttackController AttackController => attackController;
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
@@ -93,7 +93,7 @@ public class PlayerGameplay : MonoBehaviour
         collisionController = GetComponent<CharacterCollisionController>();
         attackController = GetComponent<AttackController>();
         collisionController = GetComponent<CharacterCollisionController>();
-        _playerInputController = GetComponent<PlayerInputController>();
+        playerInputController = GetComponent<PlayerInputController>();
         jumpController = GetComponent<JumpController>();
         knockbackController = GetComponent<KnockbackController>();
         damageController = GetComponent<DamageController>();
