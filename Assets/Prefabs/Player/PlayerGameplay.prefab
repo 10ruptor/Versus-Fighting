@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 9160438339941519510}
   - component: {fileID: 9218052650967258397}
   - component: {fileID: 5098477322471243067}
+  - component: {fileID: 7049177349929776903}
+  - component: {fileID: 8996904306740983771}
   m_Layer: 0
   m_Name: PlayerGameplay
   m_TagString: Player
@@ -330,6 +332,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b7c2a91f3d4e6b8c0d2e4f6a8b0c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpController
+--- !u!114 &7049177349929776903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019894427381039946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed0994f81024494d8f677298d87fa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageController
+  startingPercent: 0
+  percentText: {fileID: 0}
+--- !u!114 &8996904306740983771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019894427381039946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08a18cdfa34f33b408f858d7ffaa2dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
 --- !u!1 &4547226484722733049
 GameObject:
   m_ObjectHideFlags: 0

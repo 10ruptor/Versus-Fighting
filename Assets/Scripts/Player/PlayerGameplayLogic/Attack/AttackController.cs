@@ -8,7 +8,7 @@ public class AttackController : MonoBehaviour
     public bool IsAttacking { get; private set; }
     //private int elapsedFrames = 0; CONTROLLED BY ANIMATOR
     PlayerGameplay playerGameplay;
-    private AttackData currentAttack;
+    Attack currentAttack;
 
     private void Awake()
     {
@@ -20,27 +20,27 @@ public class AttackController : MonoBehaviour
     {
         if(playerGameplay.PlayerInputController.HasWalkInput)
         {
-            currentAttack = playerGameplay.Character.attackLookup[AttackTypes.SideTilt];
+            currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.SideTilt];
         }
         else if(playerGameplay.PlayerInputController.HasUpMoveInput)
         {
-            currentAttack = playerGameplay.Character.attackLookup[AttackTypes.UpTilt];
+            currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.UpTilt];
         }
         else
         {
-            currentAttack = playerGameplay.Character.attackLookup[AttackTypes.NeutralTilt];
+            currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.NeutralTilt];
         }
     }
     
     public void ResolveAerialAttack()
     {
         //currentAttack = playerGameplay.Character.AttackStatList.Find(entry => entry.AttackType == Attacks.Nair)?.AttackStat;
-        currentAttack = playerGameplay.Character.attackLookup[AttackTypes.Nair];
+        currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.Nair];
     }
 
     public void StartAttack()
     {
-        if (!currentAttack)        
+        if (currentAttack is null)        
         {
             Debug.Log("No AttackData found for attack type: " + currentAttack);
             return;

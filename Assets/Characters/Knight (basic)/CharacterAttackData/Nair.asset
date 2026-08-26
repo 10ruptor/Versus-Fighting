@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6ddd40b7fbcaeb44afa9a8f95b7b105, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c758301492a80d4b905b297c3c0cb0a, type: 3}
   m_Name: Nair
-  m_EditorClassIdentifier: Assembly-CSharp::AttackStatSO
+  m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
+  Damage: 0
   AnimationTrigger: Nair
-  hitbox: {fileID: 366360708884843322, guid: 77fdf61b1908b354db54569bcb97454e, type: 3}
-  hitboxPosition: {x: 1, y: 0.8, z: 0}
-  hitboxRadius: 1
   AttackType: 4
+  KnockbackPower: 0
+  KnockbackAngle: {x: 0, y: 0, z: 0, w: 0}

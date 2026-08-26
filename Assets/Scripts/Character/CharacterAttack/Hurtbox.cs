@@ -16,12 +16,45 @@ public class Hurtbox : MonoBehaviour
     {
         if (other.tag == "Hitbox")
         {
-            if(other.GetComponent<Hitbox>().Owner != owner)
+            if(IsOtherPlayer(other))
             {
-                Debug.Log("Hurtbox: Hit by " + other.name + " of player  : " + owner.PlayerIndex);
-                // Here you can add logic to handle the hit, such as reducing health, playing a sound, etc.
+                Hitbox hitbox = other.GetComponent<Hitbox>();
+                HitData hitData = CreateHit(hitbox, other.ClosestPoint(transform.position));
+                owner.KnockbackController.Knockback(hitData);
             }
         }
     }
 
+    private bool IsOtherPlayer(Collider other)
+    {
+        switch (other.tag)
+        {
+            case "Hitbox":
+                return other.GetComponent<Hitbox>().Owner != this.owner;
+            
+            case "Hurtbox":
+                return other.GetComponent<Hurtbox>().Owner != this.owner;
+            
+            default:
+                return false;
+        }
+    }
+    
+    private HitData CreateHit(Hitbox hitbox, Vector3 position)
+    {
+        AttackDataSO attackData = hitbox.attackData;
+
+        if (attackData == null)
+        {
+            Debug.LogError("AttackDataSO not found on hitbox.");
+            return default;
+        }
+
+        return new HitData
+        {
+            Attacker = hitbox.Owner,
+            Attack = attackData,
+            HitPosition = position
+        };
+    }
 }

@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: AttackType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 366360708884843322, guid: 77fdf61b1908b354db54569bcb97454e, type: 3}
+      propertyPath: attackData
+      value: 
+      objectReference: {fileID: 11400000, guid: cd685fae69d7d0b4fab167b423184b32, type: 2}
     - target: {fileID: 5404817848952363284, guid: 77fdf61b1908b354db54569bcb97454e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.31

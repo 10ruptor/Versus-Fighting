@@ -14,11 +14,14 @@ public class Character : MonoBehaviour
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
     
     [Header("Attacks")]
-    [SerializeField] private List<AttackData> AttackStatList = new List<AttackData>();
+    //[SerializeField] private List<AttackStatsSO> AttackStatList = new List<AttackStatsSO>();
+    
     [SerializeField] private HitboxManager hitboxManager;
     [SerializeField] private HurtBoxManager hurtBoxManager;
-    
-    public Dictionary<AttackTypes, AttackData> attackLookup = new Dictionary<AttackTypes, AttackData>();
+    [SerializeField] private CharacterAttackLibrary attackLibrary;
+        
+    //public Dictionary<AttackTypes, AttackStatsSO> attackLookup = new Dictionary<AttackTypes, AttackStatsSO>();
+    public CharacterAttackLibrary AttackLibrary => attackLibrary;
     public HitboxManager HitboxManager => hitboxManager;
     public HurtBoxManager HurtBoxManager => hurtBoxManager;
     
@@ -26,7 +29,7 @@ public class Character : MonoBehaviour
     
     private void Awake()
     {
-        attackLookup = AttackStatList.ToDictionary(x => x.AttackType);
+        //attackLookup = AttackStatList.ToDictionary(x => x.AttackType);
     }
 
     public void Initialize(PlayerGameplay owner)

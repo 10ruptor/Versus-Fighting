@@ -31,12 +31,17 @@ public class PlayerGameplay : MonoBehaviour
     JumpController jumpController;
     CharacterCollisionController collisionController;
     AttackController attackController;
+    KnockbackController knockbackController;
+    DamageController damageController;
     
     public JumpController JumpController => jumpController;
     public CharacterCollisionController CollisionController => collisionController;
     public Rigidbody Rigidbody => rb;
     public PlayerInputController PlayerInputController => _playerInputController;
     public AttackController AttackController => attackController;
+    public KnockbackController KnockbackController => knockbackController;
+    public DamageController DamageController => damageController;
+    
     public bool IsGrounded => collisionController.IsGrounded;
 
     public void Initialize(int playerIndex)
@@ -53,8 +58,8 @@ public class PlayerGameplay : MonoBehaviour
     public PlayerCrouchState PlayerCrouchState { get; private set; }
     public PlayerAttackState PlayerAttackState { get; private set; }
     public PlayerAirAttackState PlayerAirAttackState { get; private set; }
-    
     public PlayerLandingState PlayerLandingState { get; private set; }
+    public PlayerKnockedState PlayerKnockedState { get; private set; }
     
     void InitializeStateMachine()
     {
@@ -68,6 +73,7 @@ public class PlayerGameplay : MonoBehaviour
         PlayerAttackState = new PlayerAttackState(this);
         PlayerAirAttackState = new PlayerAirAttackState(this);
         PlayerLandingState = new PlayerLandingState(this);
+        PlayerKnockedState = new PlayerKnockedState(this);
         
         PlayerDashState.RegisterTransition();
         PlayerIdleState.RegisterTransition();
@@ -77,6 +83,7 @@ public class PlayerGameplay : MonoBehaviour
         PlayerAttackState.RegisterTransition();
         PlayerAirAttackState.RegisterTransition();
         PlayerLandingState.RegisterTransition();
+        PlayerKnockedState.RegisterTransition();
         
     }
     #endregion
@@ -88,6 +95,8 @@ public class PlayerGameplay : MonoBehaviour
         collisionController = GetComponent<CharacterCollisionController>();
         _playerInputController = GetComponent<PlayerInputController>();
         jumpController = GetComponent<JumpController>();
+        knockbackController = GetComponent<KnockbackController>();
+        damageController = GetComponent<DamageController>();
         
         if (!characterPrefab)
         {

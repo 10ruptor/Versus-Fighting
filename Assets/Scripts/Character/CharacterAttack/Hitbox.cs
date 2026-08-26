@@ -11,6 +11,8 @@ public class Hitbox : MonoBehaviour
     public PlayerGameplay Owner => owner;
     private Collider hitboxCollider;
     public Collider HitboxCollider => hitboxCollider;
+    public AttackDataSO attackData;
+    
 
     public void Initialize(PlayerGameplay owner)
     {
