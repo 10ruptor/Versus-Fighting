@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8008559719811453122}
   m_Layer: 0
   m_Name: TiltHitbox
-  m_TagString: Untagged
+  m_TagString: Hitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28f460ecb070854b911a76a55eca57b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  size: 1
 --- !u!135 &8008559719811453122
 SphereCollider:
   m_ObjectHideFlags: 0
