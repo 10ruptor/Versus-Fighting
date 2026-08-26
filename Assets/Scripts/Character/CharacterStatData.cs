@@ -8,6 +8,12 @@ public class CharacterStatData : ScriptableObject
     public float dashSpeed = 7f;
     public int dashDurationFrames = 7;
 
+    [Tooltip("Frames spent easing in from the current speed up to full dash speed (0 = instant).")]
+    public int dashAccelerationFrames = 2;
+
+    [Tooltip("Frames spent easing out of dash speed after the active phase, sliding into a stop or into the held walk speed.")]
+    public int dashDecelerationFrames = 6;
+
     [Header("Jump - Ascent")]
     [Tooltip("Target height reached during the ascent phase (world units).")]
     public float jumpHeight = 2f;
