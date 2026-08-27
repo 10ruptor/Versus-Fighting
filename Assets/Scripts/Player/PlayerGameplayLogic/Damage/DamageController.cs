@@ -6,7 +6,12 @@ public class DamageController : MonoBehaviour
 {
     [SerializeField] private float startingPercent = 0f;
     [SerializeField] private TextMeshProUGUI percentText;
-    
+
+    public void Initialize(TextMeshProUGUI percentText)
+    {
+        this.percentText = percentText;
+    }
+
     private float currentPercent;
     public float CurrentPercent => currentPercent;
 

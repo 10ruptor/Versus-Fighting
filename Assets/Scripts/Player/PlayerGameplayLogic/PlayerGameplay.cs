@@ -11,6 +11,11 @@ public class PlayerGameplay : MonoBehaviour
 {
     const float MoveInputThreshold = 0.01f;
     
+    [Header("UI")]
+    [SerializeField] GameObject playerUIPrefab;
+
+    public GameObject PlayerUIPrefab => playerUIPrefab;
+
     [Header("FSM")]
     [SerializeField] string currentStateName;
 
@@ -33,6 +38,7 @@ public class PlayerGameplay : MonoBehaviour
     AttackController attackController;
     KnockbackController knockbackController;
     DamageController damageController;
+    
     
     public JumpController JumpController => jumpController;
     public CharacterCollisionController CollisionController => collisionController;
