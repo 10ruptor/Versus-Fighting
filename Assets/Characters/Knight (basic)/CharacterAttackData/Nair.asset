@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c758301492a80d4b905b297c3c0cb0a, type: 3}
   m_Name: Nair
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
-  Damage: 0
+  Damage: 8
   AttackType: 4
-  launchAngle: 45.0
-  baseKnockback: 6.0
-  knockbackScaling: 0.07
+  launchAngle: 50
+  baseKnockback: 13
+  knockbackScaling: 0.13
