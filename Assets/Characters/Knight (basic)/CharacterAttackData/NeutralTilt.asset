@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
   Damage: 0
   AttackType: 3
-  KnockbackPower: 1
-  KnockbackAngle: {x: 0, y: 0, z: 0, w: 0}
+  launchAngle: 55.0
+  baseKnockback: 5.0
+  knockbackScaling: 0.06

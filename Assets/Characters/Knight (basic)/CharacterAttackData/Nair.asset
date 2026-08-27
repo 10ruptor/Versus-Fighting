@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nair
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
   Damage: 0
-  AnimationTrigger: Nair
   AttackType: 4
-  KnockbackPower: 0
-  KnockbackAngle: {x: 0, y: 0, z: 0, w: 0}
+  launchAngle: 45.0
+  baseKnockback: 6.0
+  knockbackScaling: 0.07

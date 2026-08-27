@@ -40,6 +40,18 @@ public class JumpController : MonoBehaviour
     {
         playerRb.useGravity = true;
     }
+
+    /// <summary>
+    /// Arme la physique verticale directement en descente, sans impulsion de saut.
+    /// Utilise par les etats qui provoquent une chute pilotee (knockback...) : la
+    /// velocite verticale courante est conservee telle quelle et se fait ensuite
+    /// eroder par la gravite ponderee du personnage.
+    /// </summary>
+    public void BeginFall()
+    {
+        currentPhase = Phase.Descent;
+        playerRb.useGravity = false;
+    }
     public void ApplyVerticalPhysics(bool isFastFallHeld)
     {
         float ascentDuration = Mathf.Max(stats.jumpAscentDuration, 0.01f);

@@ -21,4 +21,5 @@ MonoBehaviour:
   jumpAscentDuration: 0.3
   maxAddJumpCount: 1
   weight: 4
+  knockedDuration: 0.5
   fastFallAccelerationMultiplier: 3
