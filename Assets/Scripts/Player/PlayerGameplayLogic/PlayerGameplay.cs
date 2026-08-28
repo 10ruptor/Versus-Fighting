@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,6 +39,7 @@ public class PlayerGameplay : MonoBehaviour
     AttackController attackController;
     KnockbackController knockbackController;
     DamageController damageController;
+    GameObject uiParent;
     
     
     public JumpController JumpController => jumpController;
@@ -50,9 +52,10 @@ public class PlayerGameplay : MonoBehaviour
     
     public bool IsGrounded => collisionController.IsGrounded;
 
-    public void Initialize(int playerIndex)
+    public void Initialize(int playerIndex, GameObject uiParent)
     {
         this.playerIndex = playerIndex;
+        this.uiParent = uiParent;
     }
 
     #region  StateMachine
@@ -119,6 +122,7 @@ public class PlayerGameplay : MonoBehaviour
     void Start()
     {
         StateMachine.Initialize(PlayerIdleState);
+        InitializePlayerUI();
     }
     void Update()
     {
@@ -174,5 +178,11 @@ public class PlayerGameplay : MonoBehaviour
         var characterInstance = Instantiate(characterPrefab, transform);
         character = characterInstance.GetComponent<Character>();
         character.Initialize(this);
+    }
+
+    void InitializePlayerUI()
+    {
+        TextMeshProUGUI percentText = Instantiate(this.PlayerUIPrefab, uiParent.transform).GetComponent<PlayerUIArea>().PercentText;
+        this.DamageController.Initialize(percentText);
     }
 }

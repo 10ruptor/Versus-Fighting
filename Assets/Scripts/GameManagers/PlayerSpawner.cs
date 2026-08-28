@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+
 public class PlayerSpawner : MonoBehaviour
 {
     private PlayerInputManager playerInputController;
     [SerializeField] private MainCamera mainCamera;
-    [SerializeField] private GameObject UIParent;
+    [SerializeField] private GameObject uiParent;
     private void Awake()
     {
         playerInputController = GetComponent<PlayerInputManager>();
@@ -18,16 +20,9 @@ public class PlayerSpawner : MonoBehaviour
 
         PlayerGameplay gameplay = player.GetComponent<PlayerGameplay>();
     
-        gameplay.Initialize(player.playerIndex);
-        InitializeUI(gameplay);
+        gameplay.Initialize(player.playerIndex,uiParent);
         mainCamera.AddTrackingTarget(gameplay.transform);
-        
-       
     }
 
-    private void InitializeUI(PlayerGameplay gameplay)
-    {
-        TextMeshProUGUI percentText = Instantiate(gameplay.PlayerUIPrefab, UIParent.transform).GetComponent<PlayerUIArea>().PercentText;
-        gameplay.DamageController.Initialize(percentText);
-    }
+    
 }
