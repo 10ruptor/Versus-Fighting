@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawner
   mainCamera: {fileID: 1241262952}
-  UIParent: {fileID: 1882998483}
+  uiParent: {fileID: 1882998483}
 --- !u!1 &1882998483
 GameObject:
   m_ObjectHideFlags: 0
