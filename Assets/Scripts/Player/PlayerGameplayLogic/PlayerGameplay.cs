@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(VisualOrientationController))]
 public class PlayerGameplay : MonoBehaviour
 {
     const float MoveInputThreshold = 0.01f;
@@ -26,8 +27,7 @@ public class PlayerGameplay : MonoBehaviour
     public Character Character => character;
     
     public enum Orientation { Left, Right }
-    private Orientation currentOrientation;
-    public Orientation CurrentOrientation => currentOrientation;
+    public Orientation CurrentOrientation => visualOrientationController.CurrentOrientation;
     
     private int playerIndex;
     public int PlayerIndex => playerIndex;
@@ -39,6 +39,7 @@ public class PlayerGameplay : MonoBehaviour
     AttackController attackController;
     KnockbackController knockbackController;
     DamageController damageController;
+    VisualOrientationController visualOrientationController;
     GameObject uiParent;
     
     
@@ -49,6 +50,7 @@ public class PlayerGameplay : MonoBehaviour
     public AttackController AttackController => attackController;
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
+    public VisualOrientationController VisualOrientationController => visualOrientationController;
     
     public bool IsGrounded => collisionController.IsGrounded;
 
@@ -106,6 +108,7 @@ public class PlayerGameplay : MonoBehaviour
         jumpController = GetComponent<JumpController>();
         knockbackController = GetComponent<KnockbackController>();
         damageController = GetComponent<DamageController>();
+        visualOrientationController = GetComponent<VisualOrientationController>();
         
         if (!characterPrefab)
         {
@@ -128,7 +131,7 @@ public class PlayerGameplay : MonoBehaviour
     {
         StateMachine.CurrentState.Update();
         GroundCheck();
-        if(IsGrounded) OrientationCheck();
+        if(IsGrounded) visualOrientationController.UpdateOrientation();
     }
 
     void FixedUpdate()
@@ -153,24 +156,6 @@ public class PlayerGameplay : MonoBehaviour
     void GroundCheck()
     {
         if (IsGrounded) JumpController.ResetJumpCount();
-    }
-
-    void OrientationCheck()
-    {
-        if (rb.linearVelocity.x == 0)
-        {
-            return;
-        }
-        else if (rb.linearVelocity.x > 0)
-        {
-            currentOrientation = Orientation.Right;
-            
-        }
-        else if (rb.linearVelocity.x < 0)
-        {
-            currentOrientation  = Orientation.Left;
-        }
-        Character.CharacterAnimatorController.VisualOrientationUpdate(currentOrientation);
     }
 
     void InitializeCharacter()

@@ -46,7 +46,12 @@ public class PlayerKnockedState : PlayerAirState
 
         elapsedTime = 0f;
         hasLeftGround = false;
-        
+
+        // L'orientation est figee sur celle de l'impact. Sans ce verrou, le
+        // VisualOrientationController - qui oriente selon la velocite horizontale -
+        // retournerait le personnage vers sa destination d'ejection.
+        playerGameplay.VisualOrientationController.SetOrientationLocked(true);
+
         playerGameplay.Rigidbody.linearVelocity = launchVelocity;
 
         // Le JumpController porte le domaine "physique verticale" : on l'arme en descente
@@ -70,5 +75,12 @@ public class PlayerKnockedState : PlayerAirState
         // Seule la physique verticale continue de tourner.
         playerGameplay.JumpController.ApplyVerticalPhysics(false);
     }
-    
+
+    public override void Exit()
+    {
+        // base.Exit() (PlayerAirState) rend la main au JumpController : useGravity = true.
+        base.Exit();
+
+        playerGameplay.VisualOrientationController.SetOrientationLocked(false);
+    }
 }
