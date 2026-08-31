@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 5098477322471243067}
   - component: {fileID: 7049177349929776903}
   - component: {fileID: 8996904306740983771}
+  - component: {fileID: 8606195972280711352}
   m_Layer: 0
   m_Name: PlayerGameplay
   m_TagString: Player
@@ -285,6 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ae86d43f2b442ba670f18f48ee17d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  playerUIPrefab: {fileID: 2840066549668211299, guid: 103ca1b13394e1845b01943ebbec176d, type: 3}
   currentStateName: 
   characterPrefab: {fileID: 325868527477161847, guid: d40b52877e9893f4bb80b403c93765ee, type: 3}
 --- !u!114 &9160438339941519510
@@ -358,6 +360,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a18cdfa34f33b408f858d7ffaa2dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
+--- !u!114 &8606195972280711352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019894427381039946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f385f862d5d40fba89f3b04331aa05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualOrientationController
 --- !u!1 &4547226484722733049
 GameObject:
   m_ObjectHideFlags: 0

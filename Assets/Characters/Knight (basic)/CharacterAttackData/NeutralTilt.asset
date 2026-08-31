@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c758301492a80d4b905b297c3c0cb0a, type: 3}
   m_Name: NeutralTilt
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
-  Damage: 0
+  Damage: 4
   AttackType: 3
-  KnockbackPower: 1
-  KnockbackAngle: {x: 0, y: 0, z: 0, w: 0}
+  launchAngle: 60
+  baseKnockback: 12
+  knockbackScaling: 0.1

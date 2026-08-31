@@ -27,6 +27,10 @@ public class CharacterStatData : ScriptableObject
     [Tooltip("Gravity multiplier while falling. 1 = normal gravity, higher = faster fall.")]
     public float weight = 1f;
 
+    [Header("Knockback")]
+    [Tooltip("Duree de l'etat Knocked en secondes : temps pendant lequel les actions du joueur sont bloquees apres avoir ete touche. Volontairement independante de l'attaque recue.")]
+    public float knockedDuration = 0.5f;
+
     [Header("Fast Fall")]
     [Tooltip("Multiplies descent acceleration while holding FastFall (only during descent).")]
     public float fastFallAccelerationMultiplier = 2f;

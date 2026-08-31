@@ -9,7 +9,7 @@ public class ElementalAttackDataSO : AttackDataSO
         [Tooltip("Damage added on top of the base damage when the element lands.")]
         public float ElementalDamage;
 
-        [Tooltip("Multiplies the base knockback power. 1 = unchanged.")]
+        [Tooltip("Multiplies the knockback speed computed from the victim's percent. 1 = unchanged.")]
         public float ElementalKnockbackMultiplier = 1f;
 
         [Header("Status Effect")]
@@ -28,7 +28,7 @@ public class ElementalAttackDataSO : AttackDataSO
 
         public override ElementTypes ElementType => elementType;
         public override float TotalDamage => Damage + ElementalDamage;
-        public override float TotalKnockbackPower => KnockbackPower * ElementalKnockbackMultiplier;
+        public override float KnockbackMultiplier => ElementalKnockbackMultiplier;
 
         public bool HasStatusEffect => StatusDuration > 0f && StatusChance > 0f;
 

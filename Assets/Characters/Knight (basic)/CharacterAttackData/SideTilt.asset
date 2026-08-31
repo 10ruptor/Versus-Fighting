@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SideTilt
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
   Damage: 10
-  AttackType: 0
-  KnockbackPower: -300
-  KnockBackDirection: {x: 1, y: 0.5, z: 0}
+  AttackType: 1
+  launchAngle: 40
+  baseKnockback: 14
+  knockbackScaling: 0.16

@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,10 +8,16 @@ using Object = UnityEngine.Object;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(VisualOrientationController))]
 public class PlayerGameplay : MonoBehaviour
 {
     const float MoveInputThreshold = 0.01f;
     
+    [Header("UI")]
+    [SerializeField] GameObject playerUIPrefab;
+
+    public GameObject PlayerUIPrefab => playerUIPrefab;
+
     [Header("FSM")]
     [SerializeField] string currentStateName;
 
@@ -20,8 +27,7 @@ public class PlayerGameplay : MonoBehaviour
     public Character Character => character;
     
     public enum Orientation { Left, Right }
-    private Orientation currentOrientation;
-    public Orientation CurrentOrientation => currentOrientation;
+    public Orientation CurrentOrientation => visualOrientationController.CurrentOrientation;
     
     private int playerIndex;
     public int PlayerIndex => playerIndex;
@@ -33,6 +39,9 @@ public class PlayerGameplay : MonoBehaviour
     AttackController attackController;
     KnockbackController knockbackController;
     DamageController damageController;
+    VisualOrientationController visualOrientationController;
+    GameObject uiParent;
+    
     
     public JumpController JumpController => jumpController;
     public CharacterCollisionController CollisionController => collisionController;
@@ -41,12 +50,14 @@ public class PlayerGameplay : MonoBehaviour
     public AttackController AttackController => attackController;
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
+    public VisualOrientationController VisualOrientationController => visualOrientationController;
     
     public bool IsGrounded => collisionController.IsGrounded;
 
-    public void Initialize(int playerIndex)
+    public void Initialize(int playerIndex, GameObject uiParent)
     {
         this.playerIndex = playerIndex;
+        this.uiParent = uiParent;
     }
 
     #region  StateMachine
@@ -97,6 +108,7 @@ public class PlayerGameplay : MonoBehaviour
         jumpController = GetComponent<JumpController>();
         knockbackController = GetComponent<KnockbackController>();
         damageController = GetComponent<DamageController>();
+        visualOrientationController = GetComponent<VisualOrientationController>();
         
         if (!characterPrefab)
         {
@@ -113,12 +125,13 @@ public class PlayerGameplay : MonoBehaviour
     void Start()
     {
         StateMachine.Initialize(PlayerIdleState);
+        InitializePlayerUI();
     }
     void Update()
     {
         StateMachine.CurrentState.Update();
         GroundCheck();
-        if(IsGrounded) OrientationCheck();
+        if(IsGrounded) visualOrientationController.UpdateOrientation();
     }
 
     void FixedUpdate()
@@ -145,28 +158,16 @@ public class PlayerGameplay : MonoBehaviour
         if (IsGrounded) JumpController.ResetJumpCount();
     }
 
-    void OrientationCheck()
-    {
-        if (rb.linearVelocity.x == 0)
-        {
-            return;
-        }
-        else if (rb.linearVelocity.x > 0)
-        {
-            currentOrientation = Orientation.Right;
-            
-        }
-        else if (rb.linearVelocity.x < 0)
-        {
-            currentOrientation  = Orientation.Left;
-        }
-        Character.CharacterAnimatorController.VisualOrientationUpdate(currentOrientation);
-    }
-
     void InitializeCharacter()
     {
         var characterInstance = Instantiate(characterPrefab, transform);
         character = characterInstance.GetComponent<Character>();
         character.Initialize(this);
+    }
+
+    void InitializePlayerUI()
+    {
+        TextMeshProUGUI percentText = Instantiate(this.PlayerUIPrefab, uiParent.transform).GetComponent<PlayerUIArea>().PercentText;
+        this.DamageController.Initialize(percentText);
     }
 }
