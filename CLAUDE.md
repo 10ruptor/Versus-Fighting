@@ -34,11 +34,19 @@ La machine à états orchestre le gameplay mais délègue la logique métier aux
 
 ### Contrôleurs
 
-La logique est répartie dans des composants spécialisés, chacun responsable d'un seul domaine. Exemples : `CharacterMovementController`, `CharacterJumpController`, `CharacterAttackController`, `CharacterAnimatorController`, `CharacterCollisionController`, `VisualOrientationController`.
+La logique est répartie dans des composants spécialisés, chacun responsable d'un seul domaine.
+
+Contrôleurs portés par `PlayerGameplay` : `PlayerInputController`, `JumpController`, `AttackController`, `KnockbackController`, `DamageController`, `CharacterCollisionController`.
+
+Contrôleurs portés par le prefab `Character` : `CharacterAnimatorController`, `VFXManager`, `HitboxManager`, `HurtBoxManager`, `CharacterAttackLibrary`.
+
+*État actuel :* le déplacement horizontal n'a pas encore de contrôleur dédié — il est appliqué directement par `PlayerMoveState` et `PlayerDashState`. L'orientation visuelle non plus : elle est calculée par `PlayerGameplay.OrientationCheck()` et appliquée par `CharacterAnimatorController.VisualOrientationUpdate()`.
 
 ### Données (ScriptableObjects)
 
 Le projet utilise énormément les ScriptableObjects, notamment pour : statistiques des personnages, statistiques des attaques, paramètres divers.
+
+ScriptableObjects existants : `CharacterStatData` (stats de déplacement, saut, poids, durée de knocked) et `AttackDataSO` (dégâts, angle et puissance d'éjection).
 
 Objectif : que toutes les données de gameplay soient configurables depuis l'éditeur.
 
@@ -46,7 +54,7 @@ Objectif : que toutes les données de gameplay soient configurables depuis l'éd
 
 Les attaques sont identifiées par un enum `AttackTypes` (NeutralTilt, SideTilt, UpTilt, DownTilt, Nair, Fair, Bair, Dair).
 
-Chaque attaque possède un `AttackStatsSO` contenant les infos de gameplay (dégâts, knockback, angle, durée, etc.). Les attaques sont référencées dans le `Character` afin que chaque personnage puisse avoir ses propres statistiques.
+Chaque attaque possède un `AttackDataSO` contenant les infos de gameplay (dégâts, knockback, angle, durée, etc.). Les attaques sont référencées dans le `Character` via `CharacterAttackLibrary` afin que chaque personnage puisse avoir ses propres statistiques.
 
 ### Hitbox / Hurtbox
 
@@ -54,7 +62,7 @@ Chaque personnage possède plusieurs Hitbox et une ou plusieurs Hurtbox.
 
 Les Hitbox restent présentes sur le personnage mais sont activées/désactivées pendant les animations via des Animation Events.
 
-Lorsqu'une Hurtbox détecte une Hitbox : elle récupère les informations de l'attaque, elle déclenche l'état `PlayerKnockedState`, le knockback est calculé à partir des statistiques de l'attaque.
+Lorsqu'une Hurtbox détecte une Hitbox : elle construit un `HitData` (attaquant, `AttackDataSO`, point de contact) et le transmet au `KnockbackController` de la victime. Ce contrôleur encaisse le %, calcule le vecteur d'éjection, puis déclenche `PlayerKnockedState` qui l'applique au Rigidbody.
 
 ### Animations
 
