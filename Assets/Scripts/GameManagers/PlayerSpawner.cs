@@ -23,5 +23,4 @@ public class PlayerSpawner : MonoBehaviour
         gameplay.Initialize(player.playerIndex,uiParent);
         mainCamera.AddTrackingTarget(gameplay.transform);
     }
-    
 }

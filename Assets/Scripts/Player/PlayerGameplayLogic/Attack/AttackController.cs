@@ -34,8 +34,14 @@ public class AttackController : MonoBehaviour
     
     public void ResolveAerialAttack()
     {
-        //currentAttack = playerGameplay.Character.AttackStatList.Find(entry => entry.AttackType == Attacks.Nair)?.AttackStat;
-        currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.Nair];
+        if(playerGameplay.PlayerInputController.HasUpMoveInput)
+        {
+            currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.Uair];
+        }
+        else
+        {
+            currentAttack = playerGameplay.Character.AttackLibrary.Attacks[AttackTypes.Nair];
+        }
     }
 
     public void StartAttack()

@@ -10,7 +10,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] float dashThreshold = 0.4f;
     [Header("Vertical movement")]
     [SerializeField] float downMoveInputThreshold = -0.5f;
-    [SerializeField] float upMoveInputThreshold = 0.5f;
+    [SerializeField] float upMoveInputThreshold = 0.2f;
     const string PlayerActionMapName = "Player";
     //inputs
     PlayerInput playerInput;

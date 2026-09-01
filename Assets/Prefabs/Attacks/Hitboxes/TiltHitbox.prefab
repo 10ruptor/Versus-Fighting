@@ -40,11 +40,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7726660869317859275}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c28f460ecb070854b911a76a55eca57b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  AttackType: 0
+  attackData: {fileID: 0}
+  drawGizmo: 1
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  drawKnockbackPreview: 1
+  knockbackPreviewColor: {r: 1, g: 0.55, b: 0, a: 1}
+  knockbackPreviewScale: 0.25
 --- !u!135 &8008559719811453122
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -60,9 +67,9 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
