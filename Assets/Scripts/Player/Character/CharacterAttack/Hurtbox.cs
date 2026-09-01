@@ -96,7 +96,8 @@ public class Hurtbox : MonoBehaviour
         {
             Attacker = hitbox.Owner,
             Attack = attackData,
-            HitPosition = position
+            HitPosition = position,
+            TargetHurtbox = this
         };
     }
 
@@ -144,6 +145,12 @@ public class Hurtbox : MonoBehaviour
 
     private void RecordHit(HitData hitData, Vector3 launchVelocity)
     {
+        // Toutes les hurtbox d'un personnage sont abonnees au meme KnockbackController,
+        // puisqu'il n'en existe qu'un par joueur. Sans ce filtre, chacune afficherait les
+        // coups encaisses par les autres.
+        if (hitData.TargetHurtbox != this)
+            return;
+
         PruneExpiredHits();
 
         recordedHits.Add(new RecordedHit
