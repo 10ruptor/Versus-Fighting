@@ -101,7 +101,6 @@ public class PlayerGameplay : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        collisionController = GetComponent<CharacterCollisionController>();
         attackController = GetComponent<AttackController>();
         collisionController = GetComponent<CharacterCollisionController>();
         playerInputController = GetComponent<PlayerInputController>();
@@ -170,4 +169,12 @@ public class PlayerGameplay : MonoBehaviour
         TextMeshProUGUI percentText = Instantiate(this.PlayerUIPrefab, uiParent.transform).GetComponent<PlayerUIArea>().PercentText;
         this.DamageController.Initialize(percentText);
     }
+
+    public void PlayerReswpan()
+    {
+        damageController.ResetPercent();
+        transform.position = new Vector3(0, 3, 0);
+    }
+    
+    
 }

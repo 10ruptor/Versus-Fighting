@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CharacterCollisionController : MonoBehaviour
@@ -5,6 +6,7 @@ public class CharacterCollisionController : MonoBehaviour
     const string StageTag = "Stage";
     const string PlayerTag = "Player";
     const string HitboxTag = "Hitbox";
+    const string DeadzoneTag =  "Deadzone";
     
     int stageContactCount;
     public bool IsGrounded => stageContactCount > 0;
@@ -24,6 +26,12 @@ public class CharacterCollisionController : MonoBehaviour
     {
         return collision.collider != null && collision.gameObject.CompareTag(HitboxTag);
     }
+
+    static bool IsDeadZoneTrigger(Collider other)
+    {
+        return other.gameObject.CompareTag(DeadzoneTag);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collision Entered with: " + collision.gameObject.tag);
@@ -47,11 +55,20 @@ public class CharacterCollisionController : MonoBehaviour
         {
             Debug.Log(this.gameObject + " : hit");
         }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (IsDeadZoneTrigger(other))
+        {
+            playerGameplay.PlayerReswpan();
+        }
     }
 
     void SetGrounded(int contactCount)
     {
         stageContactCount = Mathf.Max(0, contactCount);
     }
+    
+    
 }

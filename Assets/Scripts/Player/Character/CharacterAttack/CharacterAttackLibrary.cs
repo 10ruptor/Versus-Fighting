@@ -12,7 +12,8 @@ public enum AttackTypes
     Nair,
     Fair,
     Bair,
-    Dair
+    Dair,
+    Uair
 }
 
 [System.Serializable] public class Attack
