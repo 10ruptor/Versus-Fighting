@@ -12,6 +12,10 @@ public class Hitbox : MonoBehaviour
     private Collider hitboxCollider;
     public Collider HitboxCollider => hitboxCollider;
     public AttackDataSO attackData;
+
+    [Header("Debug")]
+    [SerializeField] private bool drawGizmo = true;
+    [SerializeField] private Color gizmoColor = Color.red;
     
 
     public void Initialize(PlayerGameplay owner)
@@ -21,7 +25,7 @@ public class Hitbox : MonoBehaviour
 
     private void Awake()
     {
-        hitboxCollider = GetComponent<Collider>();
+        hitboxCollider = ResolveCollider();
         hitboxCollider.enabled = false;
     }
 
@@ -35,20 +39,25 @@ public class Hitbox : MonoBehaviour
         hitboxCollider.enabled = false;
     }
 
+    /// <summary>
+    /// Awake ne tourne pas en mode edition : le collider est resolu a la demande pour
+    /// que les gizmos fonctionnent aussi bien dans la Scene view qu'en play.
+    /// </summary>
+    private Collider ResolveCollider()
+    {
+        if (hitboxCollider == null)
+            hitboxCollider = GetComponent<Collider>();
+
+        return hitboxCollider;
+    }
+
     private void OnDrawGizmos()
     {
-        SphereCollider sphere = GetComponent<SphereCollider>();
-
-        if (sphere == null)
+        if (!drawGizmo)
             return;
 
-        Gizmos.color = Color.red;
-
-        Gizmos.matrix = transform.localToWorldMatrix;
-
-        Gizmos.DrawWireSphere(
-            sphere.center,
-            sphere.radius
-        );
+        // Le gizmo suit strictement l'etat du collider : il n'apparait que pendant la
+        // fenetre active de l'attaque, ouverte et fermee par les Animation Events.
+        ColliderGizmoDrawer.DrawWireIfActive(this, ResolveCollider(), gizmoColor);
     }
 }
