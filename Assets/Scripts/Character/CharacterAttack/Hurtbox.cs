@@ -17,27 +17,41 @@ public class Hurtbox : MonoBehaviour
     [Tooltip("Rayon du point affiche a l'endroit exact du contact.")]
     [SerializeField, Min(0f)] private float hitPointRadius = 0.05f;
 
-    [Tooltip("Duree d'affichage d'un point d'impact, en secondes. 0 = une seule frame.")]
-    [SerializeField, Min(0f)] private float hitPointLifetime = 1f;
+    [Tooltip("Duree d'affichage d'un impact, en secondes. 0 = une seule frame.")]
+    [SerializeField, Min(0f)] private float hitLifetime = 1f;
 
     [SerializeField] private Color hitPointColor = Color.yellow;
 
+    [Tooltip("Affiche le vecteur d'ejection reellement applique par le KnockbackController.")]
+    [SerializeField] private bool drawLaunchVector = true;
+    [SerializeField] private Color launchVectorColor = Color.magenta;
+
+    [Tooltip("Longueur du vecteur = vitesse d'ejection x ce facteur.")]
+    [SerializeField, Min(0f)] private float launchVectorScale = 0.25f;
+
     /// <summary>
     /// Impacts recus recemment, conserves uniquement pour l'affichage des gizmos.
-    /// La liste n'est alimentee que dans l'editeur (voir RecordHitGizmo) : en build,
-    /// l'appel est supprime a la compilation et la liste reste vide.
+    /// La liste n'est alimentee que dans l'editeur : hors editeur, l'abonnement n'a
+    /// jamais lieu (voir SubscribeHitGizmo) et elle reste donc vide.
     /// </summary>
     private readonly List<RecordedHit> recordedHits = new List<RecordedHit>();
 
     private struct RecordedHit
     {
         public Vector3 Position;
+        public Vector3 LaunchVelocity;
         public float ExpirationTime;
     }
     
     public void Initialize(PlayerGameplay owner)
     {
         this.owner = owner;
+        SubscribeHitGizmo();
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeHitGizmo();
     }
 
     void OnTriggerEnter(Collider other)
@@ -48,12 +62,6 @@ public class Hurtbox : MonoBehaviour
             {
                 Hitbox hitbox = other.GetComponent<Hitbox>();
                 HitData hitData = CreateHit(hitbox, other.ClosestPoint(transform.position));
-
-                // CreateHit renvoie default quand l'attaque n'est pas configuree :
-                // sans ce garde, l'impact serait dessine a l'origine du monde.
-                if (hitData.Attack != null)
-                    RecordHitGizmo(hitData.HitPosition);
-
                 owner.KnockbackController.Knockback(hitData);
             }
         }
@@ -104,20 +112,45 @@ public class Hurtbox : MonoBehaviour
         return hurtboxCollider;
     }
 
+    #region Gizmos
+
     /// <summary>
-    /// Memorise un point d'impact pour l'affichage. L'attribut Conditional supprime les
-    /// appels a la compilation hors editeur : aucun cout, et surtout aucune liste qui
-    /// grossirait indefiniment en build, ou les gizmos ne sont jamais dessines.
+    /// L'impact est enregistre depuis le resultat du KnockbackController plutot que
+    /// depuis OnTriggerEnter : point de contact et vecteur d'ejection arrivent ainsi
+    /// ensemble, dans la meme frame, sans jamais produire d'enregistrement incomplet.
+    /// L'attribut Conditional supprime les appels a la compilation hors editeur : aucun
+    /// abonnement, et donc aucune liste qui grossirait indefiniment en build, ou les
+    /// gizmos ne sont jamais dessines.
     /// </summary>
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
-    private void RecordHitGizmo(Vector3 position)
+    private void SubscribeHitGizmo()
+    {
+        if (owner == null || owner.KnockbackController == null)
+            return;
+
+        // Desabonnement prealable : Initialize reste ainsi idempotent.
+        owner.KnockbackController.KnockbackResolved -= RecordHit;
+        owner.KnockbackController.KnockbackResolved += RecordHit;
+    }
+
+    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+    private void UnsubscribeHitGizmo()
+    {
+        if (owner == null || owner.KnockbackController == null)
+            return;
+
+        owner.KnockbackController.KnockbackResolved -= RecordHit;
+    }
+
+    private void RecordHit(HitData hitData, Vector3 launchVelocity)
     {
         PruneExpiredHits();
 
         recordedHits.Add(new RecordedHit
         {
-            Position = position,
-            ExpirationTime = Time.time + hitPointLifetime
+            Position = hitData.HitPosition,
+            LaunchVelocity = launchVelocity,
+            ExpirationTime = Time.time + hitLifetime
         });
     }
 
@@ -139,21 +172,30 @@ public class Hurtbox : MonoBehaviour
         // d'encaisser un coup.
         ColliderGizmoDrawer.DrawWireIfActive(this, ResolveCollider(), gizmoColor);
 
-        DrawRecordedHits();
-    }
-
-    /// <summary>
-    /// Les impacts sont dessines en coordonnees monde, figes la ou le contact a eu lieu :
-    /// la victime etant ejectee dans la foulee, un point solidaire du personnage serait
-    /// illisible.
-    /// </summary>
-    private void DrawRecordedHits()
-    {
         PruneExpiredHits();
 
         foreach (RecordedHit hit in recordedHits)
         {
-            ColliderGizmoDrawer.DrawWorldPoint(hit.Position, hitPointRadius, hitPointColor);
+            DrawHit(hit);
         }
     }
+
+    /// <summary>
+    /// Representation d'un impact. Les impacts sont dessines en coordonnees monde, figes
+    /// la ou le contact a eu lieu : la victime etant ejectee dans la foulee, un point
+    /// solidaire du personnage serait illisible.
+    ///
+    /// Point d'extension : afficher la trajectoire predite plutot que le seul vecteur ne
+    /// demande que de remplacer le trace ci-dessous. Les donnees necessaires (position et
+    /// vitesse initiale) sont deja enregistrees, la plomberie n'a pas a changer.
+    /// </summary>
+    private void DrawHit(RecordedHit hit)
+    {
+        ColliderGizmoDrawer.DrawWorldPoint(hit.Position, hitPointRadius, hitPointColor);
+
+        if (drawLaunchVector)
+            ColliderGizmoDrawer.DrawArrow(hit.Position, hit.LaunchVelocity * launchVectorScale, launchVectorColor);
+    }
+
+    #endregion
 }

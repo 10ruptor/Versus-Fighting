@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +16,14 @@ public class KnockbackController : MonoBehaviour
     const float SideResolutionThreshold = 0.001f;
 
     PlayerGameplay playerGameplay;
+
+    /// <summary>
+    /// Publie le resultat d'un coup encaisse : le HitData d'origine et le vecteur
+    /// d'ejection effectivement applique. Point de sortie generique qui evite a un
+    /// observateur (gizmos de debug, VFX, secousse de camera...) d'avoir a rejouer le
+    /// calcul, sans que ce controleur ait a connaitre ses observateurs.
+    /// </summary>
+    public event Action<HitData, Vector3> KnockbackResolved;
 
     private void Awake()
     {
@@ -39,6 +48,10 @@ public class KnockbackController : MonoBehaviour
 
         playerGameplay.PlayerKnockedState.Initialize(hitData, launchVelocity, knockedDuration);
         playerGameplay.StateMachine.ChangeState(playerGameplay.PlayerKnockedState);
+
+        // Publie en dernier : le gameplay est deja entierement applique, un observateur
+        // defaillant ne peut donc pas empecher l'ejection d'avoir lieu.
+        KnockbackResolved?.Invoke(hitData, launchVelocity);
     }
 
     /// <summary>

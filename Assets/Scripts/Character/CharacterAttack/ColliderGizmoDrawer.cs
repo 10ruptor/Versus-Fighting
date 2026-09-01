@@ -88,6 +88,46 @@ public static class ColliderGizmoDrawer
     }
 
     /// <summary>
+    /// Fleche partant de origin et representant vector (longueur = norme du vecteur).
+    /// Utilisee pour visualiser une ejection : apercu statique cote Hitbox, vecteur
+    /// reellement applique cote Hurtbox.
+    /// </summary>
+    public static void DrawArrow(Vector3 origin, Vector3 vector, Color color, float headRatio = 0.2f)
+    {
+        // Un vecteur nul n'a pas de direction : rien a dessiner, et normalized
+        // renverrait zero.
+        if (vector.sqrMagnitude <= Mathf.Epsilon)
+            return;
+
+        Color previousColor = Gizmos.color;
+        Matrix4x4 previousMatrix = Gizmos.matrix;
+
+        Gizmos.color = color;
+        Gizmos.matrix = Matrix4x4.identity;
+
+        Vector3 tip = origin + vector;
+        Vector3 direction = vector.normalized;
+
+        // Le gameplay se joue dans le plan XY : la pointe est ouverte autour de l'axe Z,
+        // donc toujours lisible depuis la camera de jeu.
+        Vector3 side = Vector3.Cross(direction, Vector3.forward);
+
+        if (side.sqrMagnitude <= Mathf.Epsilon)
+            side = Vector3.Cross(direction, Vector3.up);
+
+        side = side.normalized;
+
+        float headLength = vector.magnitude * headRatio;
+
+        Gizmos.DrawLine(origin, tip);
+        Gizmos.DrawLine(tip, tip - direction * headLength + side * headLength * 0.5f);
+        Gizmos.DrawLine(tip, tip - direction * headLength - side * headLength * 0.5f);
+
+        Gizmos.color = previousColor;
+        Gizmos.matrix = previousMatrix;
+    }
+
+    /// <summary>
     /// Unity ne fournit pas de DrawWireCapsule : on l'approxime par les deux calottes
     /// et les quatre aretes qui les relient.
     /// </summary>
