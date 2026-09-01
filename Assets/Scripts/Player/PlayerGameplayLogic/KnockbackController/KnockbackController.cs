@@ -1,21 +1,26 @@
 using UnityEngine;
 
 /// <summary>
-/// Domaine "encaisser un coup" : encaisse le %, calcule le vecteur d'ejection
-/// (angle + vitesse) a partir des stats de l'attaque et du % courant de la victime,
+/// Domaine "encaisser un coup" : encaisse le %, calcule le vecteur d'ejection (angle + vitesse) a partir des stats de l'attaque et du % courant de la victime,
 /// puis transmet le resultat a PlayerKnockedState.
-/// Le calcul vit ici et nulle part ailleurs : DamageController reste un pur stockage
-/// de donnees, AttackDataSO reste de la config pure.
 /// </summary>
 [RequireComponent(typeof(PlayerGameplay))]
 public class KnockbackController : MonoBehaviour
 {
-    // En dessous de ce seuil, le contact est considere comme centre sur la victime :
-    // le cote d'ejection n'est plus lisible geometriquement.
+    // En dessous de ce seuil, le contact est considere comme centre sur la victime : le cote d'ejection n'est plus lisible geometriquement.
     const float SideResolutionThreshold = 0.001f;
 
     PlayerGameplay playerGameplay;
 
+<<<<<<< Updated upstream
+=======
+    /// <summary>
+    /// Publie le resultat d'un coup encaisse : le HitData d'origine et le vecteur d'ejection effectivement applique. Point de sortie generique qui evite a un
+    /// observateur (gizmos de debug, VFX, secousse de camera...) d'avoir a rejouer le calcul, sans que ce controleur ait a connaitre ses observateurs.
+    /// </summary>
+    public event Action<HitData, Vector3> KnockbackResolved;
+
+>>>>>>> Stashed changes
     private void Awake()
     {
         playerGameplay = GetComponent<PlayerGameplay>();
@@ -29,9 +34,7 @@ public class KnockbackController : MonoBehaviour
             return;
         }
 
-        // Le coup qui touche compte dans son propre scaling : on encaisse le %
-        // AVANT de calculer l'ejection. TotalDamage inclut la part elementaire
-        // quand l'attaque en porte une, sans que ce controleur ait a le savoir.
+        // Le coup qui touche compte dans son propre scaling : on encaisse le % AVANT de calculer l'ejection. TotalDamage inclut la part elementaire quand l'attaque en porte une, sans que ce controleur ait a le savoir.
         playerGameplay.DamageController.AddDamage(hitData.Attack.TotalDamage);
 
         Vector3 launchVelocity = ComputeLaunchVelocity(hitData);
@@ -43,8 +46,7 @@ public class KnockbackController : MonoBehaviour
 
     /// <summary>
     /// Vitesse d'ejection = stats de l'attaque, mise a l'echelle par le % de la victime.
-    /// Direction = launchAngle (degres, config designer) projete en 2D, mirrore selon
-    /// le cote d'ou vient le coup.
+    /// Direction = launchAngle (degres, config designer) projete en 2D, mirrore selon le cote d'ou vient le coup.
     /// </summary>
     Vector3 ComputeLaunchVelocity(HitData hitData)
     {
@@ -70,9 +72,7 @@ public class KnockbackController : MonoBehaviour
 
         if (Mathf.Abs(horizontalOffset) >= SideResolutionThreshold)
             return Mathf.Sign(horizontalOffset);
-
-        // Contact centre : on retombe sur l'orientation de l'attaquant, qui porte
-        // l'intention de jeu.
+        
         if (hitData.Attacker == null)
             return 1f;
 
