@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -12,15 +13,14 @@ public class KnockbackController : MonoBehaviour
 
     PlayerGameplay playerGameplay;
 
-<<<<<<< Updated upstream
-=======
+
     /// <summary>
     /// Publie le resultat d'un coup encaisse : le HitData d'origine et le vecteur d'ejection effectivement applique. Point de sortie generique qui evite a un
     /// observateur (gizmos de debug, VFX, secousse de camera...) d'avoir a rejouer le calcul, sans que ce controleur ait a connaitre ses observateurs.
     /// </summary>
     public event Action<HitData, Vector3> KnockbackResolved;
 
->>>>>>> Stashed changes
+
     private void Awake()
     {
         playerGameplay = GetComponent<PlayerGameplay>();
