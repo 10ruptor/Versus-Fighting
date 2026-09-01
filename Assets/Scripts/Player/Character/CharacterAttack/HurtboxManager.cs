@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class HurtBoxManager : MonoBehaviour
 {
 
-    [SerializeField] Hurtbox characterHurtbox ;
+    [SerializeField] List<Hurtbox> characterHurtboxes = new List<Hurtbox>() ;
  
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -11,22 +11,14 @@ public class HurtBoxManager : MonoBehaviour
     public void Initialize(PlayerGameplay owner)
     {
         this.owner = owner;
-        characterHurtbox.Initialize(owner);
+        foreach (Hurtbox hurtbox in characterHurtboxes)
+        {
+            hurtbox.Initialize(owner);
+        }
     }
 
     void Awake()
     {
-        characterHurtbox = GetComponentInChildren<Hurtbox>();
-    }
-
-    public void ActivateHurtbox(AttackTypes attackType)
-    {
-        characterHurtbox.enabled = true;
-    }
-    
-    public void DeactivateHurtbox(AttackTypes attackType)
-    {
-        
-        characterHurtbox.enabled = false;
+        characterHurtboxes.AddRange(GetComponentsInChildren<Hurtbox>(includeInactive: true));
     }
 }
