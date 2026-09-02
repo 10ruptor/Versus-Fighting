@@ -19,7 +19,7 @@ public enum AttackTypes
 [System.Serializable] public class Attack
 {
     public string AnimationTrigger;
-    public Hitbox Hitbox;
+    public List<Hitbox> attackHitboxes = new  List<Hitbox>();
     public AttackTypes AttackType;
 }
 
