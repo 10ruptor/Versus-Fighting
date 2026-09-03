@@ -58,7 +58,7 @@ public class Hurtbox : MonoBehaviour
             if(IsOtherPlayer(other))
             {
                 Hitbox hitbox = other.GetComponent<Hitbox>();
-                HitData hitData = CreateHit(hitbox, other.ClosestPoint(transform.position));
+                HitData hitData = CreateHit(hitbox.CurrentAttack, hitbox, other.ClosestPoint(transform.position));
                 owner.KnockbackController.Knockback(hitData);
             }
         }
@@ -79,9 +79,9 @@ public class Hurtbox : MonoBehaviour
         }
     }
     
-    private HitData CreateHit(Hitbox hitbox, Vector3 position)
+    private HitData CreateHit(Attack attack, Hitbox hitbox, Vector3 position)
     {
-        AttackDataSO attackData = hitbox.attackData;
+        AttackDataSO attackData = attack.attackData;
 
         if (attackData == null)
         {

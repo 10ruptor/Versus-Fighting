@@ -2,16 +2,25 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Hitbox : MonoBehaviour
 {
 
-    [SerializeField] public AttackTypes AttackType;
-    
-    private PlayerGameplay owner;
+    private Attack currentAttack;
+
+    public Attack CurrentAttack => currentAttack;
+    public void ReadAttack(Attack attack)
+    {
+        currentAttack = attack;
+    }
+
+    private PlayerGameplay owner; //owner is used to be able to differenciate players when hitting
     public PlayerGameplay Owner => owner;
+    
     private Collider hitboxCollider;
     public Collider HitboxCollider => hitboxCollider;
-    public AttackDataSO attackData;
+    
+    [SerializeField]  AttackDataSO attackData; //used for knockback previsualization only
 
     [Header("Debug")]
     [SerializeField] private bool drawGizmo = true;
@@ -25,10 +34,9 @@ public class Hitbox : MonoBehaviour
     [Tooltip("Longueur de l'apercu = vitesse d'ejection x ce facteur.")]
     [SerializeField, Min(0f)] private float knockbackPreviewScale = 0.25f;
     
-
     public void Initialize(PlayerGameplay owner)
     {
-        this.owner = owner;
+        this.owner = owner; 
     }
 
     private void Awake()

@@ -16,13 +16,12 @@ public class Character : MonoBehaviour
     [Header("Attacks")]
     //[SerializeField] private List<AttackStatsSO> AttackStatList = new List<AttackStatsSO>();
     
-    [SerializeField] private HitboxManager hitboxManager;
     [SerializeField] private HurtBoxManager hurtBoxManager;
     [SerializeField] private CharacterAttackLibrary attackLibrary;
         
     //public Dictionary<AttackTypes, AttackStatsSO> attackLookup = new Dictionary<AttackTypes, AttackStatsSO>();
     public CharacterAttackLibrary AttackLibrary => attackLibrary;
-    public HitboxManager HitboxManager => hitboxManager;
+    
     public HurtBoxManager HurtBoxManager => hurtBoxManager;
     
     private PlayerGameplay owner;
@@ -35,7 +34,7 @@ public class Character : MonoBehaviour
     public void Initialize(PlayerGameplay owner)
     {
         this.owner = owner;
-        hitboxManager.Initialize(owner);
+        attackLibrary.Initialize(owner);
         hurtBoxManager.Initialize(owner);
     }
 }

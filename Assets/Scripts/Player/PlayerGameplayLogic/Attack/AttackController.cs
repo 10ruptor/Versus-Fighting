@@ -63,10 +63,10 @@ public class AttackController : MonoBehaviour
     
     public void ActivateHitbox()
     {
-        playerGameplay.Character.HitboxManager.ActivateHitbox(currentAttack.AttackType);
+        playerGameplay.Character.AttackLibrary.ActivateHitbox(currentAttack.AttackType);
     }
     public void DeactivateHitbox()
     {
-        playerGameplay.Character.HitboxManager.DeactivateHitbox(currentAttack.AttackType);
+        playerGameplay.Character.AttackLibrary.DeactivateHitbox(currentAttack.AttackType);
     }
 }
