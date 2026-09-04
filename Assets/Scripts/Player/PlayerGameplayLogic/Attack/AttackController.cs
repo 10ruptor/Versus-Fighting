@@ -63,10 +63,45 @@ public class AttackController : MonoBehaviour
     
     public void ActivateHitbox()
     {
+        if (!HasCurrentAttack("ActivateHitbox"))
+            return;
+
         playerGameplay.Character.AttackLibrary.ActivateHitbox(currentAttack.AttackType);
     }
+
+    // Le type d'attaque n'a pas a etre passe par l'Animation Event : l'animation jouee est
+    // celle de currentAttack. L'argument du event ne sert donc qu'a designer la hitbox
+    // voulue parmi celles de cette attaque.
+    public void ActivateHitbox(HitboxSlot slot)
+    {
+        if (!HasCurrentAttack("ActivateHitbox"))
+            return;
+
+        playerGameplay.Character.AttackLibrary.ActivateHitbox(currentAttack.AttackType, slot);
+    }
+
     public void DeactivateHitbox()
     {
+        if (!HasCurrentAttack("DeactivateHitbox"))
+            return;
+
         playerGameplay.Character.AttackLibrary.DeactivateHitbox(currentAttack.AttackType);
+    }
+
+    public void DeactivateHitbox(HitboxSlot slot)
+    {
+        if (!HasCurrentAttack("DeactivateHitbox"))
+            return;
+
+        playerGameplay.Character.AttackLibrary.DeactivateHitbox(currentAttack.AttackType, slot);
+    }
+
+    private bool HasCurrentAttack(string context)
+    {
+        if (currentAttack != null)
+            return true;
+
+        Debug.LogWarning($"AttackController: {context} appele hors attaque sur {name}.", this);
+        return false;
     }
 }

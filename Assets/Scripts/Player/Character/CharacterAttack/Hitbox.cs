@@ -6,6 +6,11 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
 
+    [Tooltip("Identifie cette hitbox au sein de l'attaque. C'est la valeur choisie dans " +
+             "l'Animation Event pour ouvrir ou fermer cette hitbox en particulier.")]
+    [SerializeField] private HitboxSlot slot = HitboxSlot.Primary;
+    public HitboxSlot Slot => slot;
+
     private Attack currentAttack;
 
     public Attack CurrentAttack => currentAttack;
