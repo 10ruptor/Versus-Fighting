@@ -16,34 +16,30 @@ public enum AttackTypes
 }
 
 /// <summary>
-/// Identifie une hitbox a l'interieur d'une meme attaque. Un Animation Event ne peut
-/// porter qu'un seul argument : le type d'attaque etant deja connu au runtime (l'animation
-/// jouee EST l'attaque en cours), l'argument sert a designer laquelle des hitbox de cette
-/// attaque on ouvre ou ferme. Un enum plutot qu'un index : la fenetre d'animation affiche
-/// alors une liste deroulante lisible, et reordonner la liste de hitbox dans l'Inspecteur
-/// ne casse pas les events deja poses.
-/// A completer selon les besoins des personnages.
+/// Identifie une hitbox a l'interieur d'une meme attaque. 
 /// </summary>
 public enum HitboxSlot
 {
-    Primary,
+    First,
     Secondary,
     Tertiary,
+    Fourth,
+    Fifth
+}
 
-    Head,
-    Body,
-    LeftHand,
-    RightHand,
-    LeftFoot,
-    RightFoot,
-    Tail,
-    Weapon
+[System.Serializable]
+public class UsedHitbox
+{
+    public Hitbox Hitbox;
+    [Tooltip("Identifie cette hitbox au sein de l'attaque. C'est la valeur choisie dans " +
+             "l'Animation Event pour ouvrir ou fermer cette hitbox en particulier.")]
+    public HitboxSlot Slot;
 }
 
 [System.Serializable] public class Attack
 {
     public string AnimationTrigger;
-    public List<Hitbox> attackHitboxes = new  List<Hitbox>();
+    public List<UsedHitbox> attackHitboxes = new  List<UsedHitbox>();
     public AttackTypes AttackType;
     public AttackDataSO attackData;
 
@@ -54,10 +50,10 @@ public enum HitboxSlot
     /// </summary>
     public Hitbox GetHitbox(HitboxSlot slot)
     {
-        foreach (Hitbox hitbox in attackHitboxes)
+        foreach (UsedHitbox usedhitbox in attackHitboxes)
         {
-            if (hitbox != null && hitbox.Slot == slot)
-                return hitbox;
+            if (usedhitbox.Hitbox != null && usedhitbox.Slot == slot)
+                return usedhitbox.Hitbox;
         }
 
         return null;

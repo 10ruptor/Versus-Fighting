@@ -22,9 +22,9 @@ public class CharacterAttackLibrary : MonoBehaviour
         this.owner = owner;
         foreach (Attack attack in Attacks.Values)
         {
-            foreach (Hitbox hitbox in attack.attackHitboxes)
+            foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
             {
-                hitbox.Initialize(owner);
+                usedHitbox.Hitbox.Initialize(owner);
             }
 
         }
@@ -36,10 +36,10 @@ public class CharacterAttackLibrary : MonoBehaviour
         if (!TryGetAttack(attackType, out Attack attack))
             return;
 
-        foreach (Hitbox hitbox in attack.attackHitboxes)
+        foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
         {
-            hitbox.ReadAttack(attack);
-            hitbox.enabled = true;
+            usedHitbox.Hitbox.ReadAttack(attack);
+            usedHitbox.Hitbox.enabled = true;
         }
     }
 
@@ -59,9 +59,9 @@ public class CharacterAttackLibrary : MonoBehaviour
         if (!TryGetAttack(attackType, out Attack attack))
             return;
 
-        foreach (Hitbox hitbox in attack.attackHitboxes)
+        foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
         {
-            hitbox.enabled = false;
+            usedHitbox.Hitbox.enabled = false;
         }
     }
 
@@ -110,10 +110,10 @@ public class CharacterAttackLibrary : MonoBehaviour
             return "aucun";
 
         List<string> slots = new List<string>(attack.attackHitboxes.Count);
-        foreach (Hitbox hitbox in attack.attackHitboxes)
+        foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
         {
-            if (hitbox != null)
-                slots.Add(hitbox.Slot.ToString());
+            if (usedHitbox.Hitbox != null)
+                slots.Add(usedHitbox.Slot.ToString());
         }
 
         return string.Join(", ", slots);

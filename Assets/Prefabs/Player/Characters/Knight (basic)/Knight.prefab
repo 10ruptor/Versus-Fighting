@@ -6452,7 +6452,8 @@ MonoBehaviour:
   attackList:
   - AnimationTrigger: SideTilt
     attackHitboxes:
-    - {fileID: 7477472946464500389}
+    - Hitbox: {fileID: 7477472946464500389}
+      Slot: 0
     AttackType: 1
     attackData: {fileID: 11400000, guid: 4c63461054907fb4a8b987cf4fcb5c70, type: 2}
 --- !u!114 &7380005547300873542
