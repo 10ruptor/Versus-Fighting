@@ -27,8 +27,7 @@ public class Hitbox : MonoBehaviour
     [SerializeField] private bool drawGizmo = true;
     [SerializeField] private Color gizmoColor = Color.red;
 
-    [Tooltip("Affiche l'angle d'ejection configure dans l'AttackDataSO. Apercu theorique : " +
-             "il ne tient pas compte du % de la victime ni du cote reel du contact.")]
+    [Tooltip("Affiche l'angle d'ejection configure dans l'AttackDataSO. Apercu theorique : il ne tient pas compte du % de la victime ni du cote reel du contact.")]
     [SerializeField] private bool drawKnockbackPreview = true;
     [SerializeField] private Color knockbackPreviewColor = new Color(1f, 0.55f, 0f);
 

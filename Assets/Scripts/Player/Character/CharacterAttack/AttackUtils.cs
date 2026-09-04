@@ -28,7 +28,7 @@ public enum HitboxSlot
 }
 
 [System.Serializable]
-public class UsedHitbox
+public class HitboxBinding
 {
     public Hitbox Hitbox;
     [Tooltip("Identifie cette hitbox au sein de l'attaque. C'est la valeur choisie dans " +
@@ -39,7 +39,7 @@ public class UsedHitbox
 [System.Serializable] public class Attack
 {
     public string AnimationTrigger;
-    public List<UsedHitbox> attackHitboxes = new  List<UsedHitbox>();
+    public List<HitboxBinding> attackHitboxes = new  List<HitboxBinding>();
     public AttackTypes AttackType;
     public AttackDataSO attackData;
 
@@ -50,7 +50,7 @@ public class UsedHitbox
     /// </summary>
     public Hitbox GetHitbox(HitboxSlot slot)
     {
-        foreach (UsedHitbox usedhitbox in attackHitboxes)
+        foreach (HitboxBinding usedhitbox in attackHitboxes)
         {
             if (usedhitbox.Hitbox != null && usedhitbox.Slot == slot)
                 return usedhitbox.Hitbox;

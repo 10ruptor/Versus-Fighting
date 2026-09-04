@@ -66,7 +66,7 @@ public class AttackController : MonoBehaviour
         if (!HasCurrentAttack("ActivateHitbox"))
             return;
 
-        playerGameplay.Character.AttackLibrary.ActivateHitbox(currentAttack.AttackType);
+        playerGameplay.Character.AttackLibrary.ActivateAttackHitboxAll(currentAttack.AttackType);
     }
 
     // Le type d'attaque n'a pas a etre passe par l'Animation Event : l'animation jouee est
@@ -77,7 +77,7 @@ public class AttackController : MonoBehaviour
         if (!HasCurrentAttack("ActivateHitbox"))
             return;
 
-        playerGameplay.Character.AttackLibrary.ActivateHitbox(currentAttack.AttackType, slot);
+        playerGameplay.Character.AttackLibrary.ActivateAttackHitboxAtSlot(currentAttack.AttackType, slot);
     }
 
     public void DeactivateHitbox()
@@ -85,7 +85,7 @@ public class AttackController : MonoBehaviour
         if (!HasCurrentAttack("DeactivateHitbox"))
             return;
 
-        playerGameplay.Character.AttackLibrary.DeactivateHitbox(currentAttack.AttackType);
+        playerGameplay.Character.AttackLibrary.DeactivateAttackHitboxAll(currentAttack.AttackType);
     }
 
     public void DeactivateHitbox(HitboxSlot slot)
@@ -93,7 +93,7 @@ public class AttackController : MonoBehaviour
         if (!HasCurrentAttack("DeactivateHitbox"))
             return;
 
-        playerGameplay.Character.AttackLibrary.DeactivateHitbox(currentAttack.AttackType, slot);
+        playerGameplay.Character.AttackLibrary.DeactivateAttackHitboxAtSlot(currentAttack.AttackType, slot);
     }
 
     private bool HasCurrentAttack(string context)

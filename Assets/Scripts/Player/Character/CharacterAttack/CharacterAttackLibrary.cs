@@ -22,29 +22,29 @@ public class CharacterAttackLibrary : MonoBehaviour
         this.owner = owner;
         foreach (Attack attack in Attacks.Values)
         {
-            foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
+            foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
             {
-                usedHitbox.Hitbox.Initialize(owner);
+                hitboxBinding.Hitbox.Initialize(owner);
             }
 
         }
     }
 
     /// <summary>Ouvre toutes les hitbox de l'attaque.</summary>
-    public void ActivateHitbox(AttackTypes attackType)
+    public void ActivateAttackHitboxAll(AttackTypes attackType)
     {
         if (!TryGetAttack(attackType, out Attack attack))
             return;
 
-        foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
+        foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
         {
-            usedHitbox.Hitbox.ReadAttack(attack);
-            usedHitbox.Hitbox.enabled = true;
+            hitboxBinding.Hitbox.ReadAttack(attack);
+            hitboxBinding.Hitbox.enabled = true;
         }
     }
 
     /// <summary>Ouvre uniquement la hitbox de l'attaque occupant le slot demande.</summary>
-    public void ActivateHitbox(AttackTypes attackType, HitboxSlot slot)
+    public void ActivateAttackHitboxAtSlot(AttackTypes attackType, HitboxSlot slot)
     {
         if (!TryGetHitbox(attackType, slot, out Attack attack, out Hitbox hitbox))
             return;
@@ -54,19 +54,19 @@ public class CharacterAttackLibrary : MonoBehaviour
     }
 
     /// <summary>Ferme toutes les hitbox de l'attaque.</summary>
-    public void DeactivateHitbox(AttackTypes attackType)
+    public void DeactivateAttackHitboxAll(AttackTypes attackType)
     {
         if (!TryGetAttack(attackType, out Attack attack))
             return;
 
-        foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
+        foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
         {
-            usedHitbox.Hitbox.enabled = false;
+            hitboxBinding.Hitbox.enabled = false;
         }
     }
 
     /// <summary>Ferme uniquement la hitbox de l'attaque occupant le slot demande.</summary>
-    public void DeactivateHitbox(AttackTypes attackType, HitboxSlot slot)
+    public void DeactivateAttackHitboxAtSlot(AttackTypes attackType, HitboxSlot slot)
     {
         if (!TryGetHitbox(attackType, slot, out _, out Hitbox hitbox))
             return;
@@ -91,12 +91,11 @@ public class CharacterAttackLibrary : MonoBehaviour
     {
         hitbox = null;
 
-        if (!TryGetAttack(attackType, out attack))
-            return false;
+        if (!TryGetAttack(attackType, out attack)) return false;
 
         hitbox = attack.GetHitbox(slot);
-        if (hitbox != null)
-            return true;
+        
+        if (hitbox != null) return true;
 
         Debug.LogError(
             $"CharacterAttackLibrary: l'attaque {attackType} de {name} n'a pas de hitbox sur le slot {slot}. " +
@@ -110,10 +109,10 @@ public class CharacterAttackLibrary : MonoBehaviour
             return "aucun";
 
         List<string> slots = new List<string>(attack.attackHitboxes.Count);
-        foreach (UsedHitbox usedHitbox in attack.attackHitboxes)
+        foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
         {
-            if (usedHitbox.Hitbox != null)
-                slots.Add(usedHitbox.Slot.ToString());
+            if (hitboxBinding.Hitbox != null)
+                slots.Add(hitboxBinding.Slot.ToString());
         }
 
         return string.Join(", ", slots);
