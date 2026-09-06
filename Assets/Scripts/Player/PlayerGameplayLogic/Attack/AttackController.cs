@@ -10,6 +10,8 @@ public class AttackController : MonoBehaviour
     PlayerGameplay playerGameplay;
     Attack currentAttack;
 
+    public Attack CurrentAttack => currentAttack;
+
     private void Awake()
     {
         playerGameplay = GetComponent<PlayerGameplay>();

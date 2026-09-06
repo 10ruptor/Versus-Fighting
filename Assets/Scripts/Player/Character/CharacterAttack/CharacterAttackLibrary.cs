@@ -38,7 +38,6 @@ public class CharacterAttackLibrary : MonoBehaviour
 
         foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
         {
-            hitboxBinding.Hitbox.ReadAttack(attack);
             hitboxBinding.Hitbox.enabled = true;
         }
     }
@@ -46,10 +45,9 @@ public class CharacterAttackLibrary : MonoBehaviour
     /// <summary>Ouvre uniquement la hitbox de l'attaque occupant le slot demande.</summary>
     public void ActivateAttackHitboxAtSlot(AttackTypes attackType, HitboxSlot slot)
     {
-        if (!TryGetHitbox(attackType, slot, out Attack attack, out Hitbox hitbox))
+        if (!TryGetHitbox(attackType, slot, out Hitbox hitbox))
             return;
 
-        hitbox.ReadAttack(attack);
         hitbox.enabled = true;
     }
 
@@ -68,7 +66,7 @@ public class CharacterAttackLibrary : MonoBehaviour
     /// <summary>Ferme uniquement la hitbox de l'attaque occupant le slot demande.</summary>
     public void DeactivateAttackHitboxAtSlot(AttackTypes attackType, HitboxSlot slot)
     {
-        if (!TryGetHitbox(attackType, slot, out _, out Hitbox hitbox))
+        if (!TryGetHitbox(attackType, slot, out Hitbox hitbox))
             return;
 
         hitbox.enabled = false;
@@ -87,11 +85,11 @@ public class CharacterAttackLibrary : MonoBehaviour
     /// Resout le couple attaque + slot en une hitbox. Le message d'erreur liste les slots
     /// disponibles : un Animation Event mal parametre se diagnostique sans ouvrir le prefab.
     /// </summary>
-    private bool TryGetHitbox(AttackTypes attackType, HitboxSlot slot, out Attack attack, out Hitbox hitbox)
+    private bool TryGetHitbox(AttackTypes attackType, HitboxSlot slot, out Hitbox hitbox)
     {
         hitbox = null;
 
-        if (!TryGetAttack(attackType, out attack)) return false;
+        if (!TryGetAttack(attackType, out Attack attack)) return false;
 
         hitbox = attack.GetHitbox(slot);
         

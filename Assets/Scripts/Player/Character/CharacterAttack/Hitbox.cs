@@ -5,18 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Hitbox : MonoBehaviour
 {
-    
-
-    private Attack currentAttack;
-
-    public Attack CurrentAttack => currentAttack;
-    public void ReadAttack(Attack attack)
-    {
-        currentAttack = attack;
-    }
-
     private PlayerGameplay owner; //owner is used to be able to differenciate players when hitting
     public PlayerGameplay Owner => owner;
+
+    /// <summary>
+    /// L'attaque en cours n'est pas recopiee ici a l'activation : elle est lue sur le
+    /// controleur du proprietaire. Source unique, donc une hitbox restee ouverte ne peut
+    /// plus porter une attaque perimee.
+    ///
+    /// Comparaison explicite a null plutot que l'operateur ?. : ce dernier court-circuite
+    /// le == surcharge de Unity et passerait sur un objet detruit.
+    /// </summary>
+    public Attack CurrentAttack => owner != null ? owner.AttackController.CurrentAttack : null;
     
     private Collider hitboxCollider;
     public Collider HitboxCollider => hitboxCollider;
