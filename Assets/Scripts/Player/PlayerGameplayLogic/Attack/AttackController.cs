@@ -63,7 +63,8 @@ public class AttackController : MonoBehaviour
         currentAttack = null;
     }
     
-    public void ActivateHitbox()
+    // Pour toutes les hitboxes de l'attaque
+    public void ActivateHitboxAll()
     {
         if (!HasCurrentAttack("ActivateHitbox"))
             return;
@@ -71,10 +72,8 @@ public class AttackController : MonoBehaviour
         playerGameplay.Character.AttackLibrary.ActivateAttackHitboxAll(currentAttack.AttackType);
     }
 
-    // Le type d'attaque n'a pas a etre passe par l'Animation Event : l'animation jouee est
-    // celle de currentAttack. L'argument du event ne sert donc qu'a designer la hitbox
-    // voulue parmi celles de cette attaque.
-    public void ActivateHitbox(HitboxSlot slot)
+    // Pour n'activer q'une seule hitbox de l'attaque
+    public void ActivateHitboxAtSlot(HitboxSlot slot)
     {
         if (!HasCurrentAttack("ActivateHitbox"))
             return;
@@ -82,7 +81,7 @@ public class AttackController : MonoBehaviour
         playerGameplay.Character.AttackLibrary.ActivateAttackHitboxAtSlot(currentAttack.AttackType, slot);
     }
 
-    public void DeactivateHitbox()
+    public void DeactivateHitboxAll()
     {
         if (!HasCurrentAttack("DeactivateHitbox"))
             return;
@@ -90,7 +89,7 @@ public class AttackController : MonoBehaviour
         playerGameplay.Character.AttackLibrary.DeactivateAttackHitboxAll(currentAttack.AttackType);
     }
 
-    public void DeactivateHitbox(HitboxSlot slot)
+    public void DeactivateHitboxAtSlot(HitboxSlot slot)
     {
         if (!HasCurrentAttack("DeactivateHitbox"))
             return;
