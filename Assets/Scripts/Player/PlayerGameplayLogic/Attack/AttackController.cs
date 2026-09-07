@@ -58,7 +58,7 @@ public class AttackController : MonoBehaviour
     }
     public void EndAttack()
     {
-        Debug.Log("Attack ended.");
+        DeactivateHitboxAll();
         IsAttacking = false;
         currentAttack = null;
     }
