@@ -10,6 +10,8 @@ public class AttackController : MonoBehaviour
     PlayerGameplay playerGameplay;
     Attack currentAttack;
 
+    public Attack CurrentAttack => currentAttack;
+
     private void Awake()
     {
         playerGameplay = GetComponent<PlayerGameplay>();
@@ -61,12 +63,46 @@ public class AttackController : MonoBehaviour
         currentAttack = null;
     }
     
-    public void ActivateHitbox()
+    // Pour toutes les hitboxes de l'attaque
+    public void ActivateHitboxAll()
     {
-        playerGameplay.Character.AttackLibrary.ActivateHitbox(currentAttack.AttackType);
+        if (!HasCurrentAttack("ActivateHitbox"))
+            return;
+
+        playerGameplay.Character.AttackLibrary.ActivateAttackHitboxAll(currentAttack.AttackType);
     }
-    public void DeactivateHitbox()
+
+    // Pour n'activer q'une seule hitbox de l'attaque
+    public void ActivateHitboxAtSlot(HitboxSlot slot)
     {
-        playerGameplay.Character.AttackLibrary.DeactivateHitbox(currentAttack.AttackType);
+        if (!HasCurrentAttack("ActivateHitbox"))
+            return;
+
+        playerGameplay.Character.AttackLibrary.ActivateAttackHitboxAtSlot(currentAttack.AttackType, slot);
+    }
+
+    public void DeactivateHitboxAll()
+    {
+        if (!HasCurrentAttack("DeactivateHitbox"))
+            return;
+
+        playerGameplay.Character.AttackLibrary.DeactivateAttackHitboxAll(currentAttack.AttackType);
+    }
+
+    public void DeactivateHitboxAtSlot(HitboxSlot slot)
+    {
+        if (!HasCurrentAttack("DeactivateHitbox"))
+            return;
+
+        playerGameplay.Character.AttackLibrary.DeactivateAttackHitboxAtSlot(currentAttack.AttackType, slot);
+    }
+
+    private bool HasCurrentAttack(string context)
+    {
+        if (currentAttack != null)
+            return true;
+
+        Debug.LogWarning($"AttackController: {context} appele hors attaque sur {name}.", this);
+        return false;
     }
 }

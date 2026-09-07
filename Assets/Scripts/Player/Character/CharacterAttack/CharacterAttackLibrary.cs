@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,45 +22,97 @@ public class CharacterAttackLibrary : MonoBehaviour
         this.owner = owner;
         foreach (Attack attack in Attacks.Values)
         {
-            foreach (Hitbox hitbox in attack.attackHitboxes)
+            foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
             {
-                hitbox.Initialize(owner);
+                hitboxBinding.Hitbox.Initialize(owner);
             }
 
         }
     }
-    
-    public void ActivateHitbox(AttackTypes attackType)
+
+    /// <summary>Ouvre toutes les hitbox de l'attaque.</summary>
+    public void ActivateAttackHitboxAll(AttackTypes attackType)
     {
-        Attack attack = Attacks[attackType];
-        foreach (Hitbox hitbox in attack.attackHitboxes)
+        if (!TryGetAttack(attackType, out Attack attack))
+            return;
+
+        foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
         {
-            hitbox.ReadAttack(attack);
-            hitbox.enabled = true;
+            hitboxBinding.Hitbox.enabled = true;
         }
-        /*
-        if (hitboxes.ContainsKey(attackType))
-        {
-            hitboxes[attackType].enabled = true;
-        }
-        else Debug.LogError("HitboxManager: No hitbox found for attack type " + attackType);*/
     }
-    
-    public void DeactivateHitbox(AttackTypes attackType)
+
+    /// <summary>Ouvre uniquement la hitbox de l'attaque occupant le slot demande.</summary>
+    public void ActivateAttackHitboxAtSlot(AttackTypes attackType, HitboxSlot slot)
     {
-        Attack attack = Attacks[attackType];
-        foreach (Hitbox hitbox in attack.attackHitboxes)
-        {
-            hitbox.enabled = false;
-        }
-        /*
-        if (hitboxes.ContainsKey(attackType))
-        {
-            hitboxes[attackType].enabled = false;
-        }
-        else Debug.LogError("HitboxManager: No hitbox found for attack type " + attackType);*/
+        if (!TryGetHitbox(attackType, slot, out Hitbox hitbox))
+            return;
+
+        hitbox.enabled = true;
     }
-    
+
+    /// <summary>Ferme toutes les hitbox de l'attaque.</summary>
+    public void DeactivateAttackHitboxAll(AttackTypes attackType)
+    {
+        if (!TryGetAttack(attackType, out Attack attack))
+            return;
+
+        foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
+        {
+            hitboxBinding.Hitbox.enabled = false;
+        }
+    }
+
+    /// <summary>Ferme uniquement la hitbox de l'attaque occupant le slot demande.</summary>
+    public void DeactivateAttackHitboxAtSlot(AttackTypes attackType, HitboxSlot slot)
+    {
+        if (!TryGetHitbox(attackType, slot, out Hitbox hitbox))
+            return;
+
+        hitbox.enabled = false;
+    }
+
+    private bool TryGetAttack(AttackTypes attackType, out Attack attack)
+    {
+        if (Attacks.TryGetValue(attackType, out attack))
+            return true;
+
+        Debug.LogError($"CharacterAttackLibrary: aucune attaque configuree pour {attackType} sur {name}.", this);
+        return false;
+    }
+
+    /// <summary>
+    /// Resout le couple attaque + slot en une hitbox. Le message d'erreur liste les slots
+    /// disponibles : un Animation Event mal parametre se diagnostique sans ouvrir le prefab.
+    /// </summary>
+    private bool TryGetHitbox(AttackTypes attackType, HitboxSlot slot, out Hitbox hitbox)
+    {
+        hitbox = null;
+
+        if (!TryGetAttack(attackType, out Attack attack)) return false;
+
+        hitbox = attack.GetHitbox(slot);
+        
+        if (hitbox != null) return true;
+
+        Debug.LogError(
+            $"CharacterAttackLibrary: l'attaque {attackType} de {name} n'a pas de hitbox sur le slot {slot}. " +
+            $"Slots disponibles : {DescribeSlots(attack)}.", this);
+        return false;
+    }
+
+    private static string DescribeSlots(Attack attack)
+    {
+        if (attack.attackHitboxes.Count == 0)
+            return "aucun";
+
+        List<string> slots = new List<string>(attack.attackHitboxes.Count);
+        foreach (HitboxBinding hitboxBinding in attack.attackHitboxes)
+        {
+            if (hitboxBinding.Hitbox != null)
+                slots.Add(hitboxBinding.Slot.ToString());
+        }
+
+        return string.Join(", ", slots);
+    }
 }
-
-

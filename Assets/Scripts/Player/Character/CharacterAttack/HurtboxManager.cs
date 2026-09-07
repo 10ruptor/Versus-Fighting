@@ -22,4 +22,5 @@ public class HurtBoxManager : MonoBehaviour
     {
         characterHurtboxes.AddRange(GetComponentsInChildren<Hurtbox>(includeInactive: true));
     }
+    
 }
