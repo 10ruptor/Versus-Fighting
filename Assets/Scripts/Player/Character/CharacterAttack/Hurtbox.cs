@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Hurtbox : MonoBehaviour
 {
 
@@ -38,6 +40,11 @@ public class Hurtbox : MonoBehaviour
         public Vector3 Position;
         public Vector3 LaunchVelocity;
         public float ExpirationTime;
+    }
+
+    private void Awake()
+    {
+        hurtboxCollider = GetComponent<Collider>();
     }
 
     private void OnDisable()
@@ -112,7 +119,7 @@ public class Hurtbox : MonoBehaviour
         return new HitData
         {
             Attacker = hitbox.Owner,
-            Attack = attackData,
+            AttackData = attackData,
             HitPosition = position,
             HurtedHurtbox = this
         };
