@@ -39,7 +39,27 @@ public class Hurtbox : MonoBehaviour
         public Vector3 LaunchVelocity;
         public float ExpirationTime;
     }
+
+    private void OnDisable()
+    {
+        DisableCollider();
+    }
     
+    private void OnEnable()
+    {
+        EnableCollider();
+    }
+
+    public void DisableCollider()
+    {
+        this.hurtboxCollider.enabled = false;
+    }
+    
+    public void EnableCollider()
+    {
+        this.hurtboxCollider.enabled = true;
+    }
+
     public void Initialize(PlayerGameplay owner)
     {
         this.owner = owner;

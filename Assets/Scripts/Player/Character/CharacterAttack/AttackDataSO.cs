@@ -4,7 +4,6 @@ using UnityEngine;
 public class AttackDataSO : ScriptableObject
 {
         public float Damage;
-        public AttackTypes AttackType;
 
         [Header("Knockback")]
         [Tooltip("Angle d'ejection en degres, exprime pour un coup porte vers la droite (0 = horizontal, 90 = vertical). Mirrore automatiquement selon le cote touche.")]

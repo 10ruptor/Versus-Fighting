@@ -42,20 +42,16 @@ public class PlayerKnockedState : PlayerAirState
 
     public override void Enter()
     {
+        playerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
+        playerGameplay.VisualOrientationController.SetOrientationLocked(true);
         base.Enter(); // joue l'animation "Knocked"
-
+        
         elapsedTime = 0f;
         hasLeftGround = false;
 
-        // L'orientation est figee sur celle de l'impact. Sans ce verrou, le
-        // VisualOrientationController - qui oriente selon la velocite horizontale -
-        // retournerait le personnage vers sa destination d'ejection.
-        playerGameplay.VisualOrientationController.SetOrientationLocked(true);
-
         playerGameplay.Rigidbody.linearVelocity = launchVelocity;
 
-        // Le JumpController porte le domaine "physique verticale" : on l'arme en descente
-        // pour que la retombee suive le poids du personnage comme tout autre etat aerien.
+        // Le JumpController porte le domaine "physique verticale" : on l'arme en descente pour que la retombee suive le poids du personnage comme tout autre etat aerien.
         playerGameplay.JumpController.BeginFall();
     }
 
@@ -71,8 +67,7 @@ public class PlayerKnockedState : PlayerAirState
         if (!playerGameplay.IsGrounded)
             hasLeftGround = true;
 
-        // Pas de base.FixedUpdate() : pas de controle horizontal aerien pendant le knocked.
-        // Seule la physique verticale continue de tourner.
+        // Pas de base.FixedUpdate() : pas de controle horizontal aerien pendant le knocked. Seule la physique verticale continue de tourner.
         playerGameplay.JumpController.ApplyVerticalPhysics(false);
     }
 
@@ -80,7 +75,7 @@ public class PlayerKnockedState : PlayerAirState
     {
         // base.Exit() (PlayerAirState) rend la main au JumpController : useGravity = true.
         base.Exit();
-
+        playerGameplay.Character.HurtBoxManager.EnableAllHurtboxesCollider();
         playerGameplay.VisualOrientationController.SetOrientationLocked(false);
     }
 }

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Uair
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
   Damage: 6
-  AttackType: 8
   launchAngle: 75.7
   baseKnockback: 6
-  knockbackScaling: 0.08
+  knockbackScaling: 0.31
