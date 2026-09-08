@@ -7,7 +7,7 @@ public class PlayerLandingState : PlayerAirState
     {
         AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
         AddTransition(() => playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => playerGameplay.PlayerInputController.Jump && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
+        AddTransition(() => playerGameplay.PlayerInputController.Jump && CanAirJump, playerGameplay.PlayerJumpingState);
         AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.Attack,playerGameplay.PlayerAirAttackState);
     }
     

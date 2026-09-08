@@ -42,9 +42,11 @@ public class PlayerKnockedState : PlayerAirState
 
     public override void Enter()
     {
+        
+        base.Enter(); // joue l'animation "Knocked"
+        
         playerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
         playerGameplay.VisualOrientationController.SetOrientationLocked(true);
-        base.Enter(); // joue l'animation "Knocked"
         
         elapsedTime = 0f;
         hasLeftGround = false;
@@ -57,7 +59,6 @@ public class PlayerKnockedState : PlayerAirState
 
     public override void Update()
     {
-        // Pas de base.Update() : aucun input n'est lu pendant le knocked, saut compris.
         elapsedTime += Time.deltaTime;
         CheckTransitions();
     }
