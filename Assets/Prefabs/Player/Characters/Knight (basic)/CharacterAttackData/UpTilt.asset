@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c758301492a80d4b905b297c3c0cb0a, type: 3}
   m_Name: UpTilt
   m_EditorClassIdentifier: Assembly-CSharp::AttackDataSO
-  Damage: 7.32
-  AttackType: 0
-  launchAngle: 84.8
-  baseKnockback: 15.14
-  knockbackScaling: 0.2
+  Damage: 9.86
+  launchAngle: 84.3
+  baseKnockback: 10.1
+  knockbackScaling: 0.3

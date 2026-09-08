@@ -28,14 +28,14 @@ public class KnockbackController : MonoBehaviour
 
     public void Knockback(HitData hitData)
     {
-        if (hitData.Attack == null)
+        if (hitData.AttackData == null)
         {
             Debug.LogError("KnockbackController: HitData recu sans AttackDataSO.", this);
             return;
         }
 
         // Le coup qui touche compte dans son propre scaling : on encaisse le % AVANT de calculer l'ejection. TotalDamage inclut la part elementaire quand l'attaque en porte une, sans que ce controleur ait a le savoir.
-        playerGameplay.DamageController.AddDamage(hitData.Attack.TotalDamage);
+        playerGameplay.DamageController.AddDamage(hitData.AttackData.TotalDamage);
 
         Vector3 launchVelocity = ComputeLaunchVelocity(hitData);
         float knockedDuration = playerGameplay.Character.CharacterStatData.knockedDuration;
@@ -50,7 +50,7 @@ public class KnockbackController : MonoBehaviour
     /// </summary>
     Vector3 ComputeLaunchVelocity(HitData hitData)
     {
-        AttackDataSO attack = hitData.Attack;
+        AttackDataSO attack = hitData.AttackData;
 
         float speed = attack.baseKnockback + attack.knockbackScaling * playerGameplay.DamageController.CurrentPercent;
         speed *= attack.KnockbackMultiplier;

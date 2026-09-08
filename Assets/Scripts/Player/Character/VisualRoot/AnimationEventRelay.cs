@@ -24,13 +24,13 @@ public class AnimationEventRelay : MonoBehaviour
         }
 
         /// <summary>Animation Event : ouvre toutes les hitbox de l'attaque en cours.</summary>
-        public void ActivateAttackHitbox()
+        public void ActivateAllAttackHitbox()
         {
             attackController.ActivateHitboxAll();
         }
 
         /// <summary>Animation Event : ferme toutes les hitbox de l'attaque en cours.</summary>
-        public void DeactivateAttackHitbox()
+        public void DeactivateAllAttackHitbox()
         {
             attackController.DeactivateHitboxAll();
         }

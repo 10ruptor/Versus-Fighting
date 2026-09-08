@@ -22,5 +22,20 @@ public class HurtBoxManager : MonoBehaviour
     {
         characterHurtboxes.AddRange(GetComponentsInChildren<Hurtbox>(includeInactive: true));
     }
+
+    public void DisableAllHurtboxesCollider()
+    {
+        foreach (Hurtbox hurtbox in characterHurtboxes)
+        {
+            hurtbox.DisableCollider();
+        }
+    }
     
+    public void EnableAllHurtboxesCollider()
+    {
+        foreach (Hurtbox hurtbox in characterHurtboxes)
+        {
+            hurtbox.EnableCollider();
+        }
+    }
 }
