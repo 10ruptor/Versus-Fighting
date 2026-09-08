@@ -50,7 +50,7 @@ public class AttackController : MonoBehaviour
     {
         if (currentAttack is null)        
         {
-            Debug.Log("No AttackData found for attack type: " + currentAttack);
+            Debug.Log("No Attack found for attack type: " + currentAttack);
             return;
         }
         IsAttacking = true;
