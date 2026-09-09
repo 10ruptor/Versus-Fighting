@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BufferInputSettingsSO
   m_EditorClassIdentifier: Assembly-CSharp::BufferInputSettingsSO
   settings:
-  - action: 0
-    buffertime: 0.1
-  - action: 1
-    buffertime: 0.1
+  - actionType: 0
+    bufferDuration: 0.1
+  - actionType: 1
+    bufferDuration: 0.1
