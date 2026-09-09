@@ -22,17 +22,11 @@ public class BufferedActionController : MonoBehaviour
             }
         }
     }
-
-    public void AddBufferedAction(BufferedAction action)
+    
+    bool IsAlive(BufferedAction a) => !a.bufferedTimeConsumed(actionsBufferDurations[a.actionType]);
+    public bool HasAlive(BufferedAction.BufferedActionType actionType)
     {
-        actionQueue.Add(action);
-        Purge();
-    }
-
-    public bool Has(BufferedAction.BufferedActionType actionType)
-    {
-        return actionQueue.Find(a =>
-            a.actionType == actionType && !a.bufferedTimeConsumed(actionsBufferDurations[a.actionType])) != null;
+        return actionQueue.Find(a => a.actionType == actionType && IsAlive(a)) != null;
     }
 
     public void Purge()
@@ -40,11 +34,15 @@ public class BufferedActionController : MonoBehaviour
         actionQueue.RemoveAll(a => a.bufferedTimeConsumed(actionsBufferDurations[a.actionType]));
     }
     
-    public bool TryConsume(BufferedAction.BufferedActionType actionType, out BufferedAction consumed)
+    public void AddBufferedAction(BufferedAction action)
     {
-        
-        out actionQueue.Find(a => a.actionType == actionType && !a.bufferedTimeConsumed(actionsBufferDurations[a.actionType]));
-        return true;
+        actionQueue.Add(action);
+        Purge();
+    }
+    
+    public void Consume(BufferedAction.BufferedActionType actionType)
+    {
+       actionQueue.RemoveAll(a => a.actionType == actionType);
     }
     
     private void PrintActionQueue()
