@@ -8,7 +8,7 @@ public abstract class PlayerGroundedState : PlayerState
     {
         //bug here 20260308
         Debug.Log("PlayerGroundedState: " + playerGameplay.IsGrounded);
-        AddTransition(() => !playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.JumpBuffered , playerGameplay.PlayerLandingState);
+        AddTransition(() => !playerGameplay.IsGrounded, playerGameplay.PlayerLandingState);
         AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputController.JumpBuffered && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
     }
     
