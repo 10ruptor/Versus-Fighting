@@ -25,12 +25,16 @@ public class PlayerInputController : MonoBehaviour
     InputAction fastFallAction;
     InputAction attackAction; 
     //values
-    public bool Jump;
     public bool FastFall;
-    public bool Attack;
     public float HorizontalMoveInputValue;
     public float VerticalMoveInputValue;
-    
+
+    // Actions bufferisees : la FSM interroge le buffer plutot qu'un flag "presse cette frame".
+    public bool JumpBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Jump);
+    public bool AttackBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Attack);
+    public void ConsumeJumpBuffer() => bufferedActionController.Consume(BufferedAction.BufferedActionType.Jump);
+    public void ConsumeAttackBuffer() => bufferedActionController.Consume(BufferedAction.BufferedActionType.Attack);
+
     public bool HasDownMoveInput => VerticalMoveInputValue < downMoveInputThreshold;
     public bool HasUpMoveInput => VerticalMoveInputValue > upMoveInputThreshold;
     public bool HasWalkInput => Mathf.Abs(HorizontalMoveInputValue) > walkThreshold;
@@ -53,18 +57,12 @@ public class PlayerInputController : MonoBehaviour
     }
     void HorizontalMoveInput(float newInput) { HorizontalMoveInputValue = newInput; }
     void VerticalMoveInput(float newInput) { VerticalMoveInputValue = newInput; }
-    void AttackInput(bool newInput) { Attack = newInput; }
     void FastFallInput(bool newInput) { FastFall = newInput; }
-    
-    void JumpInput() { Jump = true; }
-    
-    public void ConsumeBufferedJumpRequest() { Jump = false; }
-    
+
     #region callbacks
 
     public void OnJump(InputValue value)
     {
-        //JumpInput(value.isPressed);
         bufferedActionController.AddBufferedAction(new BufferedAction( BufferedAction.BufferedActionType.Jump , Time.time ));
     }
 
@@ -81,7 +79,6 @@ public class PlayerInputController : MonoBehaviour
     
     public void OnAttack(InputValue value)
     {
-        //AttackInput(value.isPressed);
         bufferedActionController.AddBufferedAction(new BufferedAction( BufferedAction.BufferedActionType.Attack , Time.time ));
     }
     

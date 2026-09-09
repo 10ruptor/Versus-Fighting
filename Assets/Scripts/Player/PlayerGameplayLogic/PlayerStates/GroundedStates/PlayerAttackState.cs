@@ -17,6 +17,7 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        playerGameplay.PlayerInputController.ConsumeAttackBuffer();
         playerGameplay.AttackController.ResolveGroundAttack();
         playerGameplay.AttackController.StartAttack();
     }

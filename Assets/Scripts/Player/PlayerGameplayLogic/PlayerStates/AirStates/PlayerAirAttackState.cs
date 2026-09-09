@@ -10,12 +10,13 @@ public class PlayerAirAttackState : PlayerAirState
     {
         AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
         AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => playerGameplay.PlayerInputController.Jump && playerGameplay.JumpController.CanJump  && !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerJumpingState);
+        AddTransition(() => playerGameplay.PlayerInputController.JumpBuffered && playerGameplay.JumpController.CanJump  && !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerJumpingState);
         AddTransition(() => IsLanding && !playerGameplay.IsGrounded && !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerLandingState);
     }
 
     public override void Enter()
     {
+        playerGameplay.PlayerInputController.ConsumeAttackBuffer();
         playerGameplay.AttackController.ResolveAerialAttack();
         playerGameplay.AttackController.StartAttack();
     }
