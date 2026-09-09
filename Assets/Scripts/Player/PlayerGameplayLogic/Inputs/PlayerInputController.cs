@@ -34,6 +34,7 @@ public class PlayerInputController : MonoBehaviour
     public bool AttackBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Attack);
     public void ConsumeJumpBuffer() => bufferedActionController.Consume(BufferedAction.BufferedActionType.Jump);
     public void ConsumeAttackBuffer() => bufferedActionController.Consume(BufferedAction.BufferedActionType.Attack);
+    public void ClearBuffer() => bufferedActionController.Clear();
 
     public bool HasDownMoveInput => VerticalMoveInputValue < downMoveInputThreshold;
     public bool HasUpMoveInput => VerticalMoveInputValue > upMoveInputThreshold;
@@ -63,7 +64,7 @@ public class PlayerInputController : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        bufferedActionController.AddBufferedAction(new BufferedAction( BufferedAction.BufferedActionType.Jump , Time.time ));
+        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Jump);
     }
 
     public void OnFastFall(InputValue value)
@@ -79,7 +80,7 @@ public class PlayerInputController : MonoBehaviour
     
     public void OnAttack(InputValue value)
     {
-        bufferedActionController.AddBufferedAction(new BufferedAction( BufferedAction.BufferedActionType.Attack , Time.time ));
+        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Attack);
     }
     
     #endregion

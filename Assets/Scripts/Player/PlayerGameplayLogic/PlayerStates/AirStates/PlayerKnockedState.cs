@@ -47,6 +47,10 @@ public class PlayerKnockedState : PlayerAirState
         
         playerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
         playerGameplay.VisualOrientationController.SetOrientationLocked(true);
+
+        // Les intentions posees avant l'impact sont annulees : sans cela, un joueur qui
+        // martele pendant l'ejection sortirait du knocked en sautant ou en attaquant.
+        playerGameplay.PlayerInputController.ClearBuffer();
         
         elapsedTime = 0f;
         hasLeftGround = false;

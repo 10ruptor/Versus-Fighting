@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections.Generic;
-using System.Linq;
 
+/// <summary>
+/// Une intention de joueur horodatee. Immuable une fois posee : seule sa fraicheur evolue.
+/// </summary>
 public class BufferedAction
 {
     public enum BufferedActionType
@@ -11,20 +10,18 @@ public class BufferedAction
         Jump,
         Attack
     }
-    
-    public BufferedActionType actionType;
-    private float pressedAt = 0f;
 
-    public BufferedAction(BufferedActionType actionType, float bufferedTime)
+    public BufferedActionType ActionType { get; }
+    public float PressedAt { get; }
+
+    public BufferedAction(BufferedActionType actionType, float pressedAt)
     {
-        this.actionType = actionType;
-        this.pressedAt = bufferedTime;
+        ActionType = actionType;
+        PressedAt = pressedAt;
     }
 
-    public bool bufferedTimeConsumed(float bufferDuration)
-    {
-        return Time.time - pressedAt > bufferDuration;
-    }
+    /// <summary>Vraie quand l'appui est trop vieux pour la fenetre de buffer de son type.</summary>
+    public bool IsExpired(float bufferDuration) => Time.time - PressedAt > bufferDuration;
+
+    public override string ToString() => $"{ActionType}@{PressedAt:F2}";
 }
-
-
