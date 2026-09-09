@@ -3,6 +3,7 @@ using System;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(BufferedActionController))]
 public class PlayerInputController : MonoBehaviour
 {
     [Header("Horizontal movement")]
@@ -13,6 +14,8 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] float downMoveInputThreshold = -0.5f;
     [SerializeField] float upMoveInputThreshold = 0.2f;
     const string PlayerActionMapName = "Player";
+    
+    BufferedActionController bufferedActionController;
     
     //inputs
     PlayerInput playerInput;
@@ -34,6 +37,7 @@ public class PlayerInputController : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        bufferedActionController = GetComponent<BufferedActionController>();
     }
     private void Start()
     {
@@ -50,14 +54,18 @@ public class PlayerInputController : MonoBehaviour
     void VerticalMoveInput(float newInput) { VerticalMoveInputValue = newInput; }
     void AttackInput(bool newInput) { Attack = newInput; }
     void FastFallInput(bool newInput) { FastFall = newInput; }
-    void JumpInput(bool newInput) { Jump = newInput; }
-    public void ConsumeJumpRequest() { Jump = false; }
+    
+    void JumpInput() { Jump = true; }
+    
+    public void ConsumeBufferedJumpRequest() { Jump = false; }
+    public void ConsumeBufferedAttackRequest() { Attack = false; }
     
     #region callbacks
 
     public void OnJump(InputValue value)
     {
-        JumpInput(value.isPressed);
+        //JumpInput(value.isPressed);
+        bufferedActionController.bufferAction(new BufferedAction(BufferedAction.InputBufferedAction.Jump,Time.time));
     }
 
     public void OnFastFall(InputValue value)
@@ -73,7 +81,8 @@ public class PlayerInputController : MonoBehaviour
     
     public void OnAttack(InputValue value)
     {
-        AttackInput(value.isPressed);
+        //AttackInput(value.isPressed);
+        bufferedActionController.bufferAction(new BufferedAction(BufferedAction.InputBufferedAction.Attack,Time.time));
     }
     
     #endregion

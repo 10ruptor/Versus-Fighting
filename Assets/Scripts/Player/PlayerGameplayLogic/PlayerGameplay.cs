@@ -7,7 +7,6 @@ using Object = UnityEngine.Object;
 
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerInputController))]
 [RequireComponent(typeof(VisualOrientationController))]
 public class PlayerGameplay : MonoBehaviour
 {
@@ -26,6 +25,9 @@ public class PlayerGameplay : MonoBehaviour
     Character character;
     public Character Character => character;
     
+    [Header("Input")]
+    [SerializeField] PlayerInputController playerInputController;
+    
     public enum Orientation { Left, Right }
     public Orientation CurrentOrientation => visualOrientationController.CurrentOrientation;
     
@@ -33,7 +35,6 @@ public class PlayerGameplay : MonoBehaviour
     public int PlayerIndex => playerIndex;
     
     Rigidbody rb;
-    PlayerInputController playerInputController;
     JumpController jumpController;
     CharacterCollisionController collisionController;
     AttackController attackController;
@@ -103,7 +104,6 @@ public class PlayerGameplay : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         attackController = GetComponent<AttackController>();
         collisionController = GetComponent<CharacterCollisionController>();
-        playerInputController = GetComponent<PlayerInputController>();
         jumpController = GetComponent<JumpController>();
         knockbackController = GetComponent<KnockbackController>();
         damageController = GetComponent<DamageController>();

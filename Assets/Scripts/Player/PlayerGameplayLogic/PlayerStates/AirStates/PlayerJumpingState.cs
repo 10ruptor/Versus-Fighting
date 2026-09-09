@@ -20,7 +20,7 @@ public class PlayerJumpingState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        playerGameplay.PlayerInputController.ConsumeJumpRequest();
+        playerGameplay.PlayerInputController.ConsumeBufferedJumpRequest();
         playerGameplay.JumpController.ConsumeJump();
         playerGameplay.JumpController.PrepareJump();
     }
