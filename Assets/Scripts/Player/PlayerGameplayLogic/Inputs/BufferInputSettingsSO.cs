@@ -7,8 +7,8 @@ public class BufferInputSettingsSO : ScriptableObject
     [System.Serializable]
     public class bufferInputSetting
     {
-        public BufferedAction.InputBufferedAction action;
-        public float buffertime;
+        public BufferedAction.BufferedActionType actionType;
+        public float bufferDuration;
     }
 
     public List<bufferInputSetting> settings = new List<bufferInputSetting>();

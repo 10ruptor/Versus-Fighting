@@ -6,19 +6,24 @@ using System.Linq;
 
 public class BufferedAction
 {
-    public enum InputBufferedAction
+    public enum BufferedActionType
     {
         Jump,
         Attack
     }
     
-    InputBufferedAction action;
-    float bufferedTime = 0f;
+    public BufferedActionType actionType;
+    private float pressedAt = 0f;
 
-    public BufferedAction(InputBufferedAction action, float bufferedTime)
+    public BufferedAction(BufferedActionType actionType, float bufferedTime)
     {
-        this.action = action;
-        this.bufferedTime = bufferedTime;
+        this.actionType = actionType;
+        this.pressedAt = bufferedTime;
+    }
+
+    public bool bufferedTimeConsumed(float bufferDuration)
+    {
+        return Time.time - pressedAt > bufferDuration;
     }
 }
 

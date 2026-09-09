@@ -16,6 +16,7 @@ public class PlayerInputController : MonoBehaviour
     const string PlayerActionMapName = "Player";
     
     BufferedActionController bufferedActionController;
+    public BufferedActionController BufferedActionController =>  bufferedActionController;
     
     //inputs
     PlayerInput playerInput;
@@ -58,14 +59,13 @@ public class PlayerInputController : MonoBehaviour
     void JumpInput() { Jump = true; }
     
     public void ConsumeBufferedJumpRequest() { Jump = false; }
-    public void ConsumeBufferedAttackRequest() { Attack = false; }
     
     #region callbacks
 
     public void OnJump(InputValue value)
     {
         //JumpInput(value.isPressed);
-        bufferedActionController.bufferAction(new BufferedAction(BufferedAction.InputBufferedAction.Jump,Time.time));
+        bufferedActionController.AddBufferedAction(new BufferedAction( BufferedAction.BufferedActionType.Jump , Time.time ));
     }
 
     public void OnFastFall(InputValue value)
@@ -82,7 +82,7 @@ public class PlayerInputController : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         //AttackInput(value.isPressed);
-        bufferedActionController.bufferAction(new BufferedAction(BufferedAction.InputBufferedAction.Attack,Time.time));
+        bufferedActionController.AddBufferedAction(new BufferedAction( BufferedAction.BufferedActionType.Attack , Time.time ));
     }
     
     #endregion
