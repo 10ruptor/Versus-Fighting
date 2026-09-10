@@ -10,15 +10,19 @@ public class Character : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] CharacterAnimatorController characterAnimatorController;
     [SerializeField] VFXManager vfxManager;
+    [SerializeField] private Transform characterBottom;
+    [SerializeField] private Transform characterTop;
+
+    public Transform CharacterBottom => characterBottom;
+    public Transform CharacterTop => characterTop;
     public VFXManager VFXManager => vfxManager;
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
     
-    [Header("Attacks")]
-    //[SerializeField] private List<AttackStatsSO> AttackStatList = new List<AttackStatsSO>();
-    
+    [Header("Combat")]
     [SerializeField] private HurtBoxManager hurtBoxManager;
     [SerializeField] private CharacterAttackLibrary attackLibrary;
-        
+    
+    
     //public Dictionary<AttackTypes, AttackStatsSO> attackLookup = new Dictionary<AttackTypes, AttackStatsSO>();
     public CharacterAttackLibrary AttackLibrary => attackLibrary;
     
