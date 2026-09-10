@@ -30,6 +30,7 @@ public class CharacterCollisionController : MonoBehaviour
         float height = characterTop.position.y - characterBottom.position.y;
         float center = height / 2;
         Vector3 centralPosition = new Vector3(transform.position.x, center, transform.position.z);
+        //add here capsule dimension update logic
     }
 
 
