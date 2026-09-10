@@ -20,6 +20,12 @@ public class PlayerAirAttackState : PlayerAirState
         playerGameplay.AttackController.ResolveAerialAttack();
         playerGameplay.AttackController.StartAttack();
     }
+    
+    public override void Exit()
+    {
+        base.Exit();
+        playerGameplay.AttackController.EndAttack(); // mandatory for case switching to idle ground state while attack is not finished 
+    }
 
     public override void Update()
     {

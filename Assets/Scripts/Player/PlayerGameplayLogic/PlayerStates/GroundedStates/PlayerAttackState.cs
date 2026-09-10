@@ -21,6 +21,7 @@ public class PlayerAttackState : PlayerState
         playerGameplay.AttackController.ResolveGroundAttack();
         playerGameplay.AttackController.StartAttack();
     }
+    
 
     public override void Update()
     {
