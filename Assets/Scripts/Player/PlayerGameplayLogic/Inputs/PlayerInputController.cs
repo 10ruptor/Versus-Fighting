@@ -64,7 +64,7 @@ public class PlayerInputController : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Jump);
+        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Jump,Time.time);
     }
 
     public void OnFastFall(InputValue value)
@@ -80,7 +80,7 @@ public class PlayerInputController : MonoBehaviour
     
     public void OnAttack(InputValue value)
     {
-        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Attack);
+        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Attack,Time.time);
     }
     
     #endregion

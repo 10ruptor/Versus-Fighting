@@ -9,10 +9,10 @@ using UnityEngine;
 /// </summary>
 public class BufferedActionController : MonoBehaviour
 {
-    const float FallbackBufferDuration = 0.1f;
 
     [Header("buffer Settings")]
     [SerializeField] private BufferInputSettingsSO bufferSettings;
+    [SerializeField] private float defaultBufferDuration = 0.1f;
 
     private readonly Dictionary<BufferedAction.BufferedActionType, float> actionsBufferDurations = new Dictionary<BufferedAction.BufferedActionType, float>();
     private readonly List<BufferedAction> bufferedActions = new List<BufferedAction>();
@@ -21,7 +21,7 @@ public class BufferedActionController : MonoBehaviour
     {
         if (bufferSettings == null)
         {
-            Debug.LogError($"BufferedActionController : aucun BufferInputSettingsSO assigne sur {name}, repli sur {FallbackBufferDuration}s.", this);
+            Debug.LogError($"BufferedActionController : aucun BufferInputSettingsSO assigne sur {name}, repli sur {defaultBufferDuration}s.", this);
             return;
         }
 
@@ -33,58 +33,51 @@ public class BufferedActionController : MonoBehaviour
 
         WarnAboutMissingDurations();
     }
-
-    // Un type absent du ScriptableObject est signale au demarrage plutot que de faire
-    // crasher le jeu au premier appui de la touche concernee.
+    
     private void WarnAboutMissingDurations()
     {
         foreach (BufferedAction.BufferedActionType actionType in Enum.GetValues(typeof(BufferedAction.BufferedActionType)))
         {
             if (!actionsBufferDurations.ContainsKey(actionType))
-                Debug.LogWarning($"BufferedActionController : aucune duree definie pour {actionType} dans {bufferSettings.name}, repli sur {FallbackBufferDuration}s.", this);
+                Debug.LogWarning($"BufferedActionController : aucune duree definie pour {actionType} dans {bufferSettings.name}, repli sur {defaultBufferDuration}s.", this);
         }
     }
 
-    private float DurationOf(BufferedAction.BufferedActionType actionType)
+    /// <summary> return buffer duration of the action if defined in buffer settings, if not return FallbackBufferDuration </summary>
+    private float BufferDurationOf(BufferedAction.BufferedActionType actionType)
     {
-        return actionsBufferDurations.TryGetValue(actionType, out float duration) ? duration : FallbackBufferDuration;
+        return actionsBufferDurations.TryGetValue(actionType, out float duration) ? duration : defaultBufferDuration;
     }
+    
+    /// <summary> check if a buffered action is expired </summary>
+    private bool IsAlive(BufferedAction action) => !action.IsExpired(BufferDurationOf(action.ActionType));
 
-    private bool IsAlive(BufferedAction action) => !action.IsExpired(DurationOf(action.ActionType));
-
-    /// <summary>
-    /// Lecture pure, destinee aux conditions de transition : elle ne modifie jamais le buffer.
-    /// La consommation revient au Enter() de l'etat d'arrivee.
-    /// </summary>
+    /// <summary> check if there is not expired buffered input for actionType </summary>
     public bool HasAlive(BufferedAction.BufferedActionType actionType)
     {
         return bufferedActions.Find(action => action.ActionType == actionType && IsAlive(action)) != null;
     }
-
-    public void AddBufferedAction(BufferedAction.BufferedActionType actionType)
+    
+    /// <summary> called in input controller callbacks to register inputs in buffer queue </summary>
+    public void AddBufferedAction(BufferedAction.BufferedActionType actionType, float pressedAt)
     {
-        bufferedActions.Add(new BufferedAction(actionType, Time.time));
+        bufferedActions.Add(new BufferedAction(actionType, pressedAt));
         Purge();
     }
 
-    /// <summary>
-    /// Retire toutes les entrees du type : marteler une touche ne doit pas mettre
-    /// plusieurs actions en file d'attente.
-    /// </summary>
+    /// <summary> to consume all Action of type action type to keep only the intention of the user </summary>
     public void Consume(BufferedAction.BufferedActionType actionType)
     {
         bufferedActions.RemoveAll(action => action.ActionType == actionType);
     }
 
-    /// <summary>Annule toutes les intentions en attente (knockback, respawn, fin de round...).</summary>
+    /// <summary> clear every buffered inputs</summary>
     public void Clear()
     {
         bufferedActions.Clear();
     }
 
-    // La purge n'est qu'une hygiene memoire : HasAlive filtre deja sur la fraicheur.
-    // La declencher a l'ecriture evite un Update par frame et toute dependance
-    // a l'ordre d'execution des scripts.
+    /// <summary> purge is not used to clear the buffered input but only to removed expired inputs frequently</summary>
     public void Purge()
     {
         bufferedActions.RemoveAll(action => !IsAlive(action));

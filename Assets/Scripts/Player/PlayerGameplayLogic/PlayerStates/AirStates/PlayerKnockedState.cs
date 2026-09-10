@@ -45,11 +45,11 @@ public class PlayerKnockedState : PlayerAirState
         
         base.Enter(); // joue l'animation "Knocked"
         
+        // this is to ensure only one hit is taken into account ( to update in the futur if issues for combo )
         playerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
+        // we keep the orientation at the moment of the hit
         playerGameplay.VisualOrientationController.SetOrientationLocked(true);
-
-        // Les intentions posees avant l'impact sont annulees : sans cela, un joueur qui
-        // martele pendant l'ejection sortirait du knocked en sautant ou en attaquant.
+        // buffer is ignored when knocked
         playerGameplay.PlayerInputController.ClearBuffer();
         
         elapsedTime = 0f;

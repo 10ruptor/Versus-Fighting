@@ -20,7 +20,7 @@ public class BufferedAction
         PressedAt = pressedAt;
     }
 
-    /// <summary>Vraie quand l'appui est trop vieux pour la fenetre de buffer de son type.</summary>
+    /// <summary>True if action input is older than buffer window .</summary>
     public bool IsExpired(float bufferDuration) => Time.time - PressedAt > bufferDuration;
 
     public override string ToString() => $"{ActionType}@{PressedAt:F2}";
