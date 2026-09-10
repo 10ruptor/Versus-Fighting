@@ -41,6 +41,7 @@ public class PlayerGameplay : MonoBehaviour
     KnockbackController knockbackController;
     DamageController damageController;
     VisualOrientationController visualOrientationController;
+    BodyColliderAutoFitter bodyColliderAutoFitter;
     GameObject uiParent;
     
     
@@ -52,6 +53,7 @@ public class PlayerGameplay : MonoBehaviour
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
     public VisualOrientationController VisualOrientationController => visualOrientationController;
+    public BodyColliderAutoFitter BodyColliderAutoFitter => bodyColliderAutoFitter;
     
     public bool IsGrounded => collisionController.IsGrounded;
 
@@ -108,6 +110,8 @@ public class PlayerGameplay : MonoBehaviour
         knockbackController = GetComponent<KnockbackController>();
         damageController = GetComponent<DamageController>();
         visualOrientationController = GetComponent<VisualOrientationController>();
+        // Optionnel : un PlayerGameplay sans ce composant garde la capsule reglee a la main.
+        bodyColliderAutoFitter = GetComponent<BodyColliderAutoFitter>();
         
         if (!characterPrefab)
         {
@@ -162,6 +166,11 @@ public class PlayerGameplay : MonoBehaviour
         var characterInstance = Instantiate(characterPrefab, transform);
         character = characterInstance.GetComponent<Character>();
         character.Initialize(this);
+
+        // La capsule physique appartient au PlayerGameplay, mais ses dimensions dependent du
+        // personnage charge : c'est le seul endroit ou les deux sont connus en meme temps.
+        if (bodyColliderAutoFitter != null)
+            bodyColliderAutoFitter.OnCharacterSpawned(character);
     }
 
     void InitializePlayerUI()
