@@ -3,6 +3,7 @@ using System;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(BufferedActionController))]
 public class PlayerInputController : MonoBehaviour
 {
     [Header("Horizontal movement")]
@@ -14,6 +15,9 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] float upMoveInputThreshold = 0.2f;
     const string PlayerActionMapName = "Player";
     
+    BufferedActionController bufferedActionController;
+    public BufferedActionController BufferedActionController =>  bufferedActionController;
+    
     //inputs
     PlayerInput playerInput;
     InputAction moveAction;
@@ -21,12 +25,17 @@ public class PlayerInputController : MonoBehaviour
     InputAction fastFallAction;
     InputAction attackAction; 
     //values
-    public bool Jump;
     public bool FastFall;
-    public bool Attack;
     public float HorizontalMoveInputValue;
     public float VerticalMoveInputValue;
-    
+
+    // Actions bufferisees : la FSM interroge le buffer plutot qu'un flag "presse cette frame".
+    public bool JumpBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Jump);
+    public bool AttackBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Attack);
+    public void ConsumeJumpBuffer() => bufferedActionController.Consume(BufferedAction.BufferedActionType.Jump);
+    public void ConsumeAttackBuffer() => bufferedActionController.Consume(BufferedAction.BufferedActionType.Attack);
+    public void ClearBuffer() => bufferedActionController.Clear();
+
     public bool HasDownMoveInput => VerticalMoveInputValue < downMoveInputThreshold;
     public bool HasUpMoveInput => VerticalMoveInputValue > upMoveInputThreshold;
     public bool HasWalkInput => Mathf.Abs(HorizontalMoveInputValue) > walkThreshold;
@@ -34,6 +43,7 @@ public class PlayerInputController : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        bufferedActionController = GetComponent<BufferedActionController>();
     }
     private void Start()
     {
@@ -48,16 +58,13 @@ public class PlayerInputController : MonoBehaviour
     }
     void HorizontalMoveInput(float newInput) { HorizontalMoveInputValue = newInput; }
     void VerticalMoveInput(float newInput) { VerticalMoveInputValue = newInput; }
-    void AttackInput(bool newInput) { Attack = newInput; }
     void FastFallInput(bool newInput) { FastFall = newInput; }
-    void JumpInput(bool newInput) { Jump = newInput; }
-    public void ConsumeJumpRequest() { Jump = false; }
-    
+
     #region callbacks
 
     public void OnJump(InputValue value)
     {
-        JumpInput(value.isPressed);
+        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Jump,Time.time);
     }
 
     public void OnFastFall(InputValue value)
@@ -73,7 +80,7 @@ public class PlayerInputController : MonoBehaviour
     
     public void OnAttack(InputValue value)
     {
-        AttackInput(value.isPressed);
+        bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Attack,Time.time);
     }
     
     #endregion

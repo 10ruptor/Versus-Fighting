@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerGroundedState
     private bool playerHasWalkInput => playerGameplay.PlayerInputController.HasWalkInput;
     private bool playerHasDashInput => playerGameplay.PlayerInputController.HasDashInput;
     private bool playerHasDownMoveInput => playerGameplay.PlayerInputController.HasDownMoveInput;
-    private bool playerHasAttackInput => playerGameplay.PlayerInputController.Attack;
+    private bool playerHasAttackInput => playerGameplay.PlayerInputController.AttackBuffered;
     
 
     #endregion

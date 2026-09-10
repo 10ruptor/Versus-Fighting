@@ -4,8 +4,7 @@ using System.Collections;
 
 public class PlayerAttackState : PlayerState 
 {
-
-    private const float CancelThreshold = 0.3f; // Temps avant de pouvoir annuler l'attaque
+    
     protected override string StateAnimationName => "Attack";
 
     public PlayerAttackState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
@@ -18,6 +17,7 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        playerGameplay.PlayerInputController.ConsumeAttackBuffer();
         playerGameplay.AttackController.ResolveGroundAttack();
         playerGameplay.AttackController.StartAttack();
     }

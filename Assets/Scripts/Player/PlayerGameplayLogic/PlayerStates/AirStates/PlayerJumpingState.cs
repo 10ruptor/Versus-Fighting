@@ -7,7 +7,7 @@ public class PlayerJumpingState : PlayerAirState
     {
         AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
         AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.Attack,playerGameplay.PlayerAirAttackState);
+        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.AttackBuffered,playerGameplay.PlayerAirAttackState);
         AddTransition(() => IsLanding &&!playerGameplay.IsGrounded ,playerGameplay.PlayerLandingState);
     }
     
@@ -20,7 +20,7 @@ public class PlayerJumpingState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        playerGameplay.PlayerInputController.ConsumeJumpRequest();
+        playerGameplay.PlayerInputController.ConsumeJumpBuffer();
         playerGameplay.JumpController.ConsumeJump();
         playerGameplay.JumpController.PrepareJump();
     }
