@@ -2,9 +2,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerAttackState : PlayerState 
+public class PlayerAttackState : PlayerState
 {
-    
     protected override string StateAnimationName => "Attack";
 
     public PlayerAttackState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }

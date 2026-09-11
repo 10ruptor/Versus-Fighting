@@ -36,7 +36,8 @@ public class HitboxBinding
     public HitboxSlot Slot;
 }
 
-[System.Serializable] public class Attack
+[System.Serializable] 
+public class Attack
 {
     public string AnimationTrigger;
     public List<HitboxBinding> attackHitboxes = new  List<HitboxBinding>();
