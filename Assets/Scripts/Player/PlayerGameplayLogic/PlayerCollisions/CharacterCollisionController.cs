@@ -13,10 +13,7 @@ public class CharacterCollisionController : MonoBehaviour
     public bool IsGrounded => stageContactCount > 0;
     private PlayerGameplay playerGameplay;
 
-    private Transform characterTop => playerGameplay.Character.CharacterTop;
-    private Transform characterBottom => playerGameplay.Character.CharacterBottom;
-
-    private Collider capsule;
+    private CapsuleCollider capsule;
 
     
     private void Awake()
@@ -27,10 +24,14 @@ public class CharacterCollisionController : MonoBehaviour
     
     private void FitColliderWithPlayerMesh()
     {
-        float height = characterTop.position.y - characterBottom.position.y;
-        float center = height / 2;
-        Vector3 centralPosition = new Vector3(transform.position.x, center, transform.position.z);
-        //add here capsule dimension update logic
+        Vector3 newCenterPosition = new Vector3(capsule.center.x, playerGameplay.Character.MeshPositionComputer.CharacterMeshCenter, capsule.center.z);
+        capsule.center = newCenterPosition;
+        capsule.height = playerGameplay.Character.MeshPositionComputer.CharacterMeshHeight;
+    }
+
+    private void LateUpdate()
+    {
+        FitColliderWithPlayerMesh();
     }
 
 

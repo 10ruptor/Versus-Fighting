@@ -1,22 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+
 public class Character : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private CharacterStatData characterStatData;
     public CharacterStatData CharacterStatData => characterStatData;
-    
-    [Header("Visuals")]
+
+    [Header("Visuals")] 
     [SerializeField] CharacterAnimatorController characterAnimatorController;
     [SerializeField] VFXManager vfxManager;
-    [SerializeField] private Transform characterBottom;
-    [SerializeField] private Transform characterTop;
-
-    public Transform CharacterBottom => characterBottom;
-    public Transform CharacterTop => characterTop;
+    [SerializeField] MeshPositionComputer meshPositionComputer;
+    
     public VFXManager VFXManager => vfxManager;
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
+    public MeshPositionComputer MeshPositionComputer => meshPositionComputer;
     
     [Header("Combat")]
     [SerializeField] private HurtBoxManager hurtBoxManager;
@@ -30,6 +30,7 @@ public class Character : MonoBehaviour
     
     private PlayerGameplay owner;
     
+    
     private void Awake()
     {
         //attackLookup = AttackStatList.ToDictionary(x => x.AttackType);
@@ -40,5 +41,6 @@ public class Character : MonoBehaviour
         this.owner = owner;
         attackLibrary.Initialize(owner);
         hurtBoxManager.Initialize(owner);
+        meshPositionComputer.Initialize(owner);
     }
 }
