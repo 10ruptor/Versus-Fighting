@@ -19,6 +19,7 @@ public class PlayerGameplay : MonoBehaviour
 
     [Header("FSM")]
     [SerializeField] string currentStateName;
+    [SerializeField] PlayerStateMachine stateMachine;
 
     [Header("Character")] 
     [SerializeField] private GameObject characterPrefab;
@@ -52,7 +53,7 @@ public class PlayerGameplay : MonoBehaviour
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
     public VisualOrientationController VisualOrientationController => visualOrientationController;
-    
+    public PlayerStateMachine StateMachine => stateMachine;
     public bool IsGrounded => collisionController.IsGrounded;
 
     public void Initialize(int playerIndex, GameObject uiParent)
@@ -60,8 +61,10 @@ public class PlayerGameplay : MonoBehaviour
         this.playerIndex = playerIndex;
         this.uiParent = uiParent;
     }
-
+    
+    
     #region  StateMachine
+    /*
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerDashState PlayerDashState { get; private set; }
     public PlayerIdleState PlayerIdleState { get; private set; }
@@ -97,7 +100,7 @@ public class PlayerGameplay : MonoBehaviour
         PlayerLandingState.RegisterTransition();
         PlayerKnockedState.RegisterTransition();
         
-    }
+    }*/
     #endregion
     void Awake()
     {
@@ -118,24 +121,24 @@ public class PlayerGameplay : MonoBehaviour
             InitializeCharacter();
         }
     
-        InitializeStateMachine();
+        //InitializeStateMachine();
     }  
 
     void Start()
     {
-        StateMachine.Initialize(PlayerIdleState);
+        //StateMachine.Initialize(PlayerIdleState);
         InitializePlayerUI();
     }
     void Update()
     {
-        StateMachine.CurrentState.Update();
+        //StateMachine.CurrentState.Update();
         GroundCheck();
         if(IsGrounded) visualOrientationController.UpdateOrientation();
     }
 
     void FixedUpdate()
     {
-        StateMachine.CurrentState.FixedUpdate();
+        //StateMachine.CurrentState.FixedUpdate();
     }
 
     public void ApplyAirHorizontalMovement()

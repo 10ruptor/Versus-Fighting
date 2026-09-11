@@ -2,8 +2,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerState
+public abstract class PlayerState : MonoBehaviour
 {
+    public enum StateType
+    {
+        Idle,
+        Dash,
+        Move,
+        Attack,
+        Crouch,
+        
+        Jumping,
+        Landing,
+        Knocked,
+        AirAttack,
+    }
+
+    [SerializeField] protected StateType state;
+    public StateType State => state;
+    
     protected readonly PlayerGameplay playerGameplay;
     private List<StateTransition>  transitions = new List<StateTransition>();
     protected virtual string StateAnimationName => null;
@@ -40,13 +57,13 @@ public abstract class PlayerState
 
     public abstract void RegisterTransition();
 
-    public virtual void Enter()
+    public virtual void OnEnable()
     {
         Debug.Log("Enter state : " + this);
         PlayStateAnimation();
     }
     
-    public virtual void Exit() { Debug.Log("Exit state : " + this); }
+    public virtual void OnDisable() { Debug.Log("Exit state : " + this); }
 
     public virtual void Update() { }
     

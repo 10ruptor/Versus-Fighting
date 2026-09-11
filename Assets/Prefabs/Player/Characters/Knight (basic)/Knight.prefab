@@ -80,8 +80,7 @@ MonoBehaviour:
   characterStatData: {fileID: 11400000, guid: 25e9c6d99a7a17a4b85c6b2ac35d3278, type: 2}
   characterAnimatorController: {fileID: 2144599901729245631}
   vfxManager: {fileID: 8736946096439121004}
-  characterBottom: {fileID: 0}
-  characterTop: {fileID: 0}
+  meshPositionComputer: {fileID: 2612699928625808295}
   hurtBoxManager: {fileID: 2709005104519586638}
   attackLibrary: {fileID: 520487905330903143}
 --- !u!1 &4706698692026521072
@@ -6659,6 +6658,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 136d6a79f1fe08e42a4e311a7fd16f89, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7380005547300873542}
+    - targetCorrespondingSourceObject: {fileID: 325024983813966774, guid: 136d6a79f1fe08e42a4e311a7fd16f89, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2612699928625808295}
   m_SourcePrefab: {fileID: 100100000, guid: 136d6a79f1fe08e42a4e311a7fd16f89, type: 3}
 --- !u!4 &109820908890532986 stripped
 Transform:
@@ -6720,6 +6722,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 136d6a79f1fe08e42a4e311a7fd16f89, type: 3}
   m_PrefabInstance: {fileID: 5963772265880712063}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6215297096233171145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 325024983813966774, guid: 136d6a79f1fe08e42a4e311a7fd16f89, type: 3}
+  m_PrefabInstance: {fileID: 5963772265880712063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2612699928625808295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215297096233171145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d25ed3814e42394db975064203ec032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeshPositionComputer
 --- !u!4 &6329661010924348176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 366175167995203695, guid: 136d6a79f1fe08e42a4e311a7fd16f89, type: 3}

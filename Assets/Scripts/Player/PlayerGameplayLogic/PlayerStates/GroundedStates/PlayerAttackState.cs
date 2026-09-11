@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 
@@ -13,9 +12,9 @@ public class PlayerAttackState : PlayerState
         AddTransition(() => !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerIdleState);
     }
 
-    public override void Enter()
+    public override void OnEnable()
     {
-        base.Enter();
+        base.OnEnable();
         playerGameplay.PlayerInputController.ConsumeAttackBuffer();
         playerGameplay.AttackController.ResolveGroundAttack();
         playerGameplay.AttackController.StartAttack();
