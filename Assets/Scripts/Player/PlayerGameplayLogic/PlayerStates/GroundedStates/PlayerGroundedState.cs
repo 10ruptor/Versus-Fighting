@@ -1,11 +1,10 @@
 public abstract class PlayerGroundedState : PlayerState
 {
-    protected PlayerGroundedState(PlayerGameplay playerGameplay) : base(playerGameplay){}
 
     public override void RegisterTransition()
     {
-        AddTransition(() => !playerGameplay.IsGrounded, playerGameplay.PlayerLandingState);
-        AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputController.JumpBuffered && playerGameplay.JumpController.CanJump, playerGameplay.PlayerJumpingState);
+        AddTransition(() => !stateMachine.PlayerGameplay.IsGrounded, stateMachine.stateLibrary[StateType.Landing]);
+        AddTransition(() => stateMachine.PlayerGameplay.IsGrounded && stateMachine.PlayerGameplay.PlayerInputController.JumpBuffered && stateMachine.PlayerGameplay.JumpController.CanJump, stateMachine.stateLibrary[StateType.Jumping]);
     }
     
     public override void Update()

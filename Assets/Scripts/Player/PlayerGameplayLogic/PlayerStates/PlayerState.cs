@@ -21,13 +21,14 @@ public abstract class PlayerState : MonoBehaviour
     [SerializeField] protected StateType state;
     public StateType State => state;
     
-    protected readonly PlayerGameplay playerGameplay;
+    protected PlayerStateMachine stateMachine;
     private List<StateTransition>  transitions = new List<StateTransition>();
     protected virtual string StateAnimationName => null;
 
-    protected PlayerState(PlayerGameplay playerGameplay)
+    protected void Initialize(PlayerStateMachine stateMachine)
     {
-        this.playerGameplay = playerGameplay;
+        this.stateMachine = stateMachine;
+        RegisterTransition();
     }
 
     protected void CheckTransitions()
@@ -36,7 +37,7 @@ public abstract class PlayerState : MonoBehaviour
         {
             if (transition.Condition())
             {
-                playerGameplay.StateMachine.ChangeState(transition.TargetState);
+                stateMachine.ChangeState(transition.TargetState);
                 return;
             }
         }
@@ -51,7 +52,7 @@ public abstract class PlayerState : MonoBehaviour
     {
         if (StateAnimationName != null)
         {
-            playerGameplay.Character.CharacterAnimatorController.AnimationTransition(StateAnimationName);
+            stateMachine.PlayerGameplay.Character.CharacterAnimatorController.AnimationTransition(StateAnimationName);
         }
     }
 
@@ -64,7 +65,7 @@ public abstract class PlayerState : MonoBehaviour
     }
     
     public virtual void OnDisable() { Debug.Log("Exit state : " + this); }
-
+    
     public virtual void Update() { }
     
     public virtual void FixedUpdate() { }

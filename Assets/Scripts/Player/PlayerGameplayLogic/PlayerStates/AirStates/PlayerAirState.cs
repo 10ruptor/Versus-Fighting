@@ -8,7 +8,7 @@ public abstract class PlayerAirState : PlayerState
     protected bool CanAirJump => !playerGameplay.IsGrounded
                                  && playerGameplay.JumpController.CanJump;
     
-    public override void Exit()
+    public override void OnDisable()
     {
         base.Exit();
         playerGameplay.JumpController.End();

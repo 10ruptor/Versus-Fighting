@@ -21,7 +21,7 @@ public class PlayerDashState : PlayerState
         AddTransition(() => DashIsOver && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput, playerGameplay.PlayerIdleState);
     }
 
-    public override void Enter()
+    public override void OnEnable()
     {
         base.Enter();
         dashFrameCounter = 0;

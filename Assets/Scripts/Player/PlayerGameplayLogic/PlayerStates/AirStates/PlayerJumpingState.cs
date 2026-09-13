@@ -17,7 +17,7 @@ public class PlayerJumpingState : PlayerAirState
         CheckTransitions();
     }
     
-    public override void Enter()
+    public override void OnEnable()
     {
         base.Enter();
         playerGameplay.PlayerInputController.ConsumeJumpBuffer();

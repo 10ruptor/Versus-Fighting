@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerStateMachine : MonoBehaviour
 {
     public PlayerState CurrentState { get; private set; }
-    readonly PlayerGameplay _playerGameplay;
+    readonly PlayerGameplay playerGameplay;
+    public PlayerGameplay PlayerGameplay => playerGameplay;
     
     public Dictionary<PlayerState.StateType, PlayerState> stateLibrary = new Dictionary<PlayerState.StateType, PlayerState>();
     public List<PlayerState> states = new List<PlayerState>(); //For debug to be deleted
@@ -24,7 +25,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public PlayerStateMachine(PlayerGameplay playerGameplay)
     {
-        this._playerGameplay = playerGameplay;
+        this.playerGameplay = playerGameplay;
     }
 
     public void Initialize(PlayerState startState)
@@ -38,6 +39,6 @@ public class PlayerStateMachine : MonoBehaviour
         Debug.Log("Changing state : " + newState);
         CurrentState = newState;
         CurrentState.enabled = true;
-        _playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
+        playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
     }
 }

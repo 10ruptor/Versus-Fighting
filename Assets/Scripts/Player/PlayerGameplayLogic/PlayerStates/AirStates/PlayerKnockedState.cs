@@ -40,7 +40,7 @@ public class PlayerKnockedState : PlayerAirState
         AddTransition(() => IsKnockedOver, playerGameplay.PlayerLandingState);
     }
 
-    public override void Enter()
+    public override void OnEnable()
     {
         
         base.Enter(); // joue l'animation "Knocked"
@@ -76,10 +76,10 @@ public class PlayerKnockedState : PlayerAirState
         playerGameplay.JumpController.ApplyVerticalPhysics(false);
     }
 
-    public override void Exit()
+    public override void OnDisable()
     {
         // base.Exit() (PlayerAirState) rend la main au JumpController : useGravity = true.
-        base.Exit();
+        base.OnDisable();
         playerGameplay.Character.HurtBoxManager.EnableAllHurtboxesCollider();
         playerGameplay.VisualOrientationController.SetOrientationLocked(false);
     }

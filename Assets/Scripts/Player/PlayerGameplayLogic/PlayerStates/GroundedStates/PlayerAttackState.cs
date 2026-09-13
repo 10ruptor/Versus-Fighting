@@ -14,7 +14,7 @@ public class PlayerAttackState : PlayerState
 
     public override void OnEnable()
     {
-        base.OnEnable();
+        OnEnable();
         playerGameplay.PlayerInputController.ConsumeAttackBuffer();
         playerGameplay.AttackController.ResolveGroundAttack();
         playerGameplay.AttackController.StartAttack();

@@ -14,16 +14,16 @@ public class PlayerAirAttackState : PlayerAirState
         AddTransition(() => IsLanding && !playerGameplay.IsGrounded && !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerLandingState);
     }
 
-    public override void Enter()
+    public override void OnEnable()
     {
         playerGameplay.PlayerInputController.ConsumeAttackBuffer();
         playerGameplay.AttackController.ResolveAerialAttack();
         playerGameplay.AttackController.StartAttack();
     }
     
-    public override void Exit()
+    public override void OnDisable()
     {
-        base.Exit();
+        base.OnDisable();
         playerGameplay.AttackController.EndAttack(); // mandatory for case switching to idle ground state while attack is not finished 
     }
 
