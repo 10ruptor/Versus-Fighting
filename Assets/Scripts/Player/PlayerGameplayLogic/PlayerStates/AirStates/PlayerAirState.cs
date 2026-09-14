@@ -2,22 +2,21 @@ using UnityEngine;
 
 public abstract class PlayerAirState : PlayerState
 {
-    protected PlayerAirState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
-    protected bool IsLanding => playerGameplay.JumpController.CurrentPhase == JumpController.Phase.Descent;
+    protected bool IsLanding => stateMachine.PlayerGameplay.JumpController.CurrentPhase == JumpController.Phase.Descent;
 
-    protected bool CanAirJump => !playerGameplay.IsGrounded
-                                 && playerGameplay.JumpController.CanJump;
+    protected bool CanAirJump => !stateMachine.PlayerGameplay.IsGrounded
+                                 && stateMachine.PlayerGameplay.JumpController.CanJump;
     
     public override void OnDisable()
     {
-        base.Exit();
-        playerGameplay.JumpController.End();
+        base.OnDisable();
+        stateMachine.PlayerGameplay.JumpController.End();
     }
     
 
     public override void FixedUpdate()
     {
-        playerGameplay.ApplyAirHorizontalMovement();
-        playerGameplay.JumpController.ApplyVerticalPhysics(playerGameplay.PlayerInputController.FastFall);
+        stateMachine.PlayerGameplay.ApplyAirHorizontalMovement();
+        stateMachine.PlayerGameplay.JumpController.ApplyVerticalPhysics(stateMachine.PlayerGameplay.PlayerInputController.FastFall);
     }
 }

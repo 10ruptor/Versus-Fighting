@@ -1,14 +1,13 @@
 public class PlayerJumpingState : PlayerAirState
 {
-    public PlayerJumpingState(PlayerGameplay playerGameplay) : base(playerGameplay){}
     protected override string StateAnimationName => "Jump";
 
     public override void RegisterTransition()
     {
-        AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
-        AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.AttackBuffered,playerGameplay.PlayerAirAttackState);
-        AddTransition(() => IsLanding &&!playerGameplay.IsGrounded ,playerGameplay.PlayerLandingState);
+        AddTransition(() => IsLanding && stateMachine.PlayerGameplay.IsGrounded && stateMachine.PlayerGameplay.PlayerInputController.HasWalkInput,stateMachine.stateLibrary[StateType.Move]);
+        AddTransition(() => IsLanding  && stateMachine.PlayerGameplay.IsGrounded && !stateMachine.PlayerGameplay.PlayerInputController.HasWalkInput,stateMachine.stateLibrary[StateType.Idle]);
+        AddTransition(() => !stateMachine.PlayerGameplay.IsGrounded && stateMachine.PlayerGameplay.PlayerInputController.AttackBuffered,stateMachine.stateLibrary[StateType.AirAttack]);
+        AddTransition(() => IsLanding &&!stateMachine.PlayerGameplay.IsGrounded ,stateMachine.stateLibrary[StateType.Landing]);
     }
     
     public override void Update()
@@ -19,9 +18,9 @@ public class PlayerJumpingState : PlayerAirState
     
     public override void OnEnable()
     {
-        base.Enter();
-        playerGameplay.PlayerInputController.ConsumeJumpBuffer();
-        playerGameplay.JumpController.ConsumeJump();
-        playerGameplay.JumpController.PrepareJump();
+        base.OnEnable();
+        stateMachine.PlayerGameplay.PlayerInputController.ConsumeJumpBuffer();
+        stateMachine.PlayerGameplay.JumpController.ConsumeJump();
+        stateMachine.PlayerGameplay.JumpController.PrepareJump();
     }
 }

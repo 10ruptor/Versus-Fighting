@@ -5,19 +5,17 @@ public class PlayerAttackState : PlayerState
 {
     protected override string StateAnimationName => "Attack";
 
-    public PlayerAttackState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
-
     public override void RegisterTransition()
     {
-        AddTransition(() => !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerIdleState);
+        AddTransition(() => !stateMachine.PlayerGameplay.AttackController.IsAttacking, stateMachine.stateLibrary[StateType.Idle]);
     }
 
     public override void OnEnable()
     {
         OnEnable();
-        playerGameplay.PlayerInputController.ConsumeAttackBuffer();
-        playerGameplay.AttackController.ResolveGroundAttack();
-        playerGameplay.AttackController.StartAttack();
+        stateMachine.PlayerGameplay.PlayerInputController.ConsumeAttackBuffer();
+        stateMachine.PlayerGameplay.AttackController.ResolveGroundAttack();
+        stateMachine.PlayerGameplay.AttackController.StartAttack();
     }
     
 

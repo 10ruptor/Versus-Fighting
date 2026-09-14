@@ -28,11 +28,6 @@ public class PlayerStateMachine : MonoBehaviour
         this.playerGameplay = playerGameplay;
     }
 
-    public void Initialize(PlayerState startState)
-    {
-        ChangeState(startState);
-    }
-
     public void ChangeState(PlayerState newState)
     {
         CurrentState.enabled = false;

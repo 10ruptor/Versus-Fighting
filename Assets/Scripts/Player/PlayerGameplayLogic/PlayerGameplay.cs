@@ -65,16 +65,6 @@ public class PlayerGameplay : MonoBehaviour
     
     #region  StateMachine
     /*
-    public PlayerStateMachine StateMachine { get; private set; }
-    public PlayerDashState PlayerDashState { get; private set; }
-    public PlayerIdleState PlayerIdleState { get; private set; }
-    public PlayerJumpingState PlayerJumpingState { get; private set; }
-    public PlayerMoveState PlayerMoveState { get; private set; }
-    public PlayerCrouchState PlayerCrouchState { get; private set; }
-    public PlayerAttackState PlayerAttackState { get; private set; }
-    public PlayerAirAttackState PlayerAirAttackState { get; private set; }
-    public PlayerLandingState PlayerLandingState { get; private set; }
-    public PlayerKnockedState PlayerKnockedState { get; private set; }
     
     void InitializeStateMachine()
     {
@@ -120,8 +110,6 @@ public class PlayerGameplay : MonoBehaviour
         {
             InitializeCharacter();
         }
-    
-        //InitializeStateMachine();
     }  
 
     void Start()

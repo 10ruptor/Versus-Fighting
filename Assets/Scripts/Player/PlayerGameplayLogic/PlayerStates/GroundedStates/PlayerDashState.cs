@@ -2,33 +2,32 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerState
 {
-    private int dashActiveFrames => playerGameplay.Character.CharacterStatData.dashDurationFrames;
-    private int dashAccelFrames => playerGameplay.Character.CharacterStatData.dashAccelerationFrames;
-    private int dashDecelFrames => playerGameplay.Character.CharacterStatData.dashDecelerationFrames;
-    private float dashSpeed => playerGameplay.Character.CharacterStatData.dashSpeed;
+    private int dashActiveFrames => stateMachine.PlayerGameplay.Character.CharacterStatData.dashDurationFrames;
+    private int dashAccelFrames => stateMachine.PlayerGameplay.Character.CharacterStatData.dashAccelerationFrames;
+    private int dashDecelFrames => stateMachine.PlayerGameplay.Character.CharacterStatData.dashDecelerationFrames;
+    private float dashSpeed => stateMachine.PlayerGameplay.Character.CharacterStatData.dashSpeed;
     private float dashFrameCounter;
     private float dashInputValue;
     private float dashStartSpeed;
     private int dashDirection;
     private bool DashIsOver => dashFrameCounter >= dashActiveFrames + dashDecelFrames;
-    public PlayerDashState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
     protected override string StateAnimationName => "Dash";
 
     public override void RegisterTransition()
     {
-        AddTransition(() => playerGameplay.PlayerInputController.HasDashInput && Mathf.Sign(dashInputValue) != Mathf.Sign(playerGameplay.PlayerInputController.HorizontalMoveInputValue), playerGameplay.PlayerDashState);
-        AddTransition(() => DashIsOver && playerGameplay.PlayerInputController.HasWalkInput, playerGameplay.PlayerMoveState);
-        AddTransition(() => DashIsOver && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput, playerGameplay.PlayerIdleState);
+        AddTransition(() => stateMachine.PlayerGameplay.PlayerInputController.HasDashInput && Mathf.Sign(dashInputValue) != Mathf.Sign(stateMachine.PlayerGameplay.PlayerInputController.HorizontalMoveInputValue), stateMachine.stateLibrary[StateType.Dash]);
+        AddTransition(() => DashIsOver && stateMachine.PlayerGameplay.PlayerInputController.HasWalkInput,stateMachine.stateLibrary[StateType.Move]);
+        AddTransition(() => DashIsOver && stateMachine.PlayerGameplay.IsGrounded && !stateMachine.PlayerGameplay.PlayerInputController.HasWalkInput, stateMachine.stateLibrary[StateType.Idle]);
     }
 
     public override void OnEnable()
     {
-        base.Enter();
+        base.OnEnable();
         dashFrameCounter = 0;
-        dashInputValue = playerGameplay.PlayerInputController.HorizontalMoveInputValue;
+        dashInputValue = stateMachine.PlayerGameplay.PlayerInputController.HorizontalMoveInputValue;
         dashDirection = dashInputValue >= 0f ? 1 : -1;
-        dashStartSpeed = playerGameplay.Rigidbody.linearVelocity.x;
-        playerGameplay.Character.VFXManager.PlayDashParticle();
+        dashStartSpeed = stateMachine.PlayerGameplay.Rigidbody.linearVelocity.x;
+        stateMachine.PlayerGameplay.Character.VFXManager.PlayDashParticle();
         ApplyDashMovement();
     }
 
@@ -42,7 +41,7 @@ public class PlayerDashState : PlayerState
 
     private void ApplyDashMovement()
     {
-        Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
+        Vector3 velocity = stateMachine.PlayerGameplay.Rigidbody.linearVelocity;
         float targetSpeed = dashDirection * dashSpeed;
 
         if (dashFrameCounter < dashAccelFrames)
@@ -61,13 +60,13 @@ public class PlayerDashState : PlayerState
             float t = dashDecelFrames > 0 ? Mathf.Clamp01(slideFrame / dashDecelFrames) : 1f;
             float smoothT = t * t * (3f - 2f * t);
 
-            float slideTargetSpeed = playerGameplay.PlayerInputController.HasWalkInput
-                ? playerGameplay.PlayerInputController.HorizontalMoveInputValue * playerGameplay.Character.CharacterStatData.moveSpeed
+            float slideTargetSpeed = stateMachine.PlayerGameplay.PlayerInputController.HasWalkInput
+                ? stateMachine.PlayerGameplay.PlayerInputController.HorizontalMoveInputValue * stateMachine.PlayerGameplay.Character.CharacterStatData.moveSpeed
                 : 0f;
 
             velocity.x = Mathf.Lerp(targetSpeed, slideTargetSpeed, smoothT);
         }
 
-        playerGameplay.Rigidbody.linearVelocity = velocity;
+        stateMachine.PlayerGameplay.Rigidbody.linearVelocity = velocity;
     }
 }

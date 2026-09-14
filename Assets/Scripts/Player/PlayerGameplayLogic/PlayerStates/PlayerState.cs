@@ -25,10 +25,15 @@ public abstract class PlayerState : MonoBehaviour
     private List<StateTransition>  transitions = new List<StateTransition>();
     protected virtual string StateAnimationName => null;
 
-    protected void Initialize(PlayerStateMachine stateMachine)
+    protected virtual void Initialize(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
         RegisterTransition();
+    }
+
+    public virtual void InitializeHit(HitData hitData, Vector3 launchVelocity, float knockedDuration)
+    {
+        return;
     }
 
     protected void CheckTransitions()

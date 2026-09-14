@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    
     protected override string StateAnimationName => "Idle";
     
     #region InputAccessors
 
-    private bool playerHasWalkInput => playerGameplay.PlayerInputController.HasWalkInput;
-    private bool playerHasDashInput => playerGameplay.PlayerInputController.HasDashInput;
-    private bool playerHasDownMoveInput => playerGameplay.PlayerInputController.HasDownMoveInput;
-    private bool playerHasAttackInput => playerGameplay.PlayerInputController.AttackBuffered;
+    private bool playerHasWalkInput => stateMachine.PlayerGameplay.PlayerInputController.HasWalkInput;
+    private bool playerHasDashInput => stateMachine.PlayerGameplay.PlayerInputController.HasDashInput;
+    private bool playerHasDownMoveInput => stateMachine.PlayerGameplay.PlayerInputController.HasDownMoveInput;
+    private bool playerHasAttackInput => stateMachine.PlayerGameplay.PlayerInputController.AttackBuffered;
     
 
     #endregion
@@ -20,10 +20,10 @@ public class PlayerIdleState : PlayerGroundedState
     public override void RegisterTransition()
     {
         base.RegisterTransition();
-        AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, playerGameplay.PlayerCrouchState);
-        AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, playerGameplay.PlayerAttackState);
-        AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, playerGameplay.PlayerDashState);
-        AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, playerGameplay.PlayerMoveState);
+        AddTransition(() => playerHasDownMoveInput && stateMachine.PlayerGameplay.IsGrounded, stateMachine.stateLibrary[StateType.Crouch]);
+        AddTransition(() => playerHasAttackInput && stateMachine.PlayerGameplay.IsGrounded, stateMachine.stateLibrary[StateType.Attack]);
+        AddTransition(() => playerHasDashInput && stateMachine.PlayerGameplay.IsGrounded,stateMachine.stateLibrary[StateType.Dash] );
+        AddTransition(() => playerHasWalkInput && stateMachine.PlayerGameplay.IsGrounded, stateMachine.stateLibrary[StateType.Move]);
     }
     
     #endregion
@@ -33,8 +33,8 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.FixedUpdate();
         CheckTransitions();
-        Vector3 velocity = playerGameplay.Rigidbody.linearVelocity;
+        Vector3 velocity = stateMachine.PlayerGameplay.Rigidbody.linearVelocity;
         velocity.x = 0f;
-        playerGameplay.Rigidbody.linearVelocity = velocity;
+        stateMachine.PlayerGameplay.Rigidbody.linearVelocity = velocity;
     }
 }

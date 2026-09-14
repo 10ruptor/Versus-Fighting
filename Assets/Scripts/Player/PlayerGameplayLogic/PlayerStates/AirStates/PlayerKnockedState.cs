@@ -10,7 +10,6 @@ using UnityEngine;
 
 public class PlayerKnockedState : PlayerAirState
 {
-    public PlayerKnockedState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
     protected override string StateAnimationName => "Knocked";
 
     HitData hitData;
@@ -21,7 +20,7 @@ public class PlayerKnockedState : PlayerAirState
 
     public HitData HitData => hitData;
 
-    public void Initialize(HitData hitData, Vector3 launchVelocity, float knockedDuration)
+    public void InitializeHit(HitData hitData, Vector3 launchVelocity, float knockedDuration)
     {
         this.hitData = hitData;
         this.launchVelocity = launchVelocity;
@@ -29,36 +28,36 @@ public class PlayerKnockedState : PlayerAirState
     }
 
     // Le check sol ne s'arme qu'une fois la victime reellement decollee, sinon un coup
-    bool HasLanded => hasLeftGround && playerGameplay.IsGrounded;
+    bool HasLanded => hasLeftGround && stateMachine.PlayerGameplay.IsGrounded;
     bool IsKnockedOver => elapsedTime >= knockedDuration;
 
     public override void RegisterTransition()
     {
 
         // TODO: remplacer PlayerIdleState par PlayerKnockedGroundedState des que cet etat existe.
-        AddTransition(() => HasLanded, playerGameplay.PlayerIdleState);
-        AddTransition(() => IsKnockedOver, playerGameplay.PlayerLandingState);
+        AddTransition(() => HasLanded, stateMachine.stateLibrary[StateType.Idle]);
+        AddTransition(() => IsKnockedOver, stateMachine.stateLibrary[StateType.Landing]);
     }
 
     public override void OnEnable()
     {
         
-        base.Enter(); // joue l'animation "Knocked"
+        base.OnEnable(); // joue l'animation "Knocked"
         
         // this is to ensure only one hit is taken into account ( to update in the futur if issues for combo )
-        playerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
+        stateMachine.PlayerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
         // we keep the orientation at the moment of the hit
-        playerGameplay.VisualOrientationController.SetOrientationLocked(true);
+        stateMachine.PlayerGameplay.VisualOrientationController.SetOrientationLocked(true);
         // buffer is ignored when knocked
-        playerGameplay.PlayerInputController.ClearBuffer();
+        stateMachine.PlayerGameplay.PlayerInputController.ClearBuffer();
         
         elapsedTime = 0f;
         hasLeftGround = false;
 
-        playerGameplay.Rigidbody.linearVelocity = launchVelocity;
+        stateMachine.PlayerGameplay.Rigidbody.linearVelocity = launchVelocity;
 
         // Le JumpController porte le domaine "physique verticale" : on l'arme en descente pour que la retombee suive le poids du personnage comme tout autre etat aerien.
-        playerGameplay.JumpController.BeginFall();
+        stateMachine.PlayerGameplay.JumpController.BeginFall();
     }
 
     public override void Update()
@@ -69,18 +68,18 @@ public class PlayerKnockedState : PlayerAirState
 
     public override void FixedUpdate()
     {
-        if (!playerGameplay.IsGrounded)
+        if (!stateMachine.PlayerGameplay.IsGrounded)
             hasLeftGround = true;
 
         // Pas de base.FixedUpdate() : pas de controle horizontal aerien pendant le knocked. Seule la physique verticale continue de tourner.
-        playerGameplay.JumpController.ApplyVerticalPhysics(false);
+        stateMachine.PlayerGameplay.JumpController.ApplyVerticalPhysics(false);
     }
 
     public override void OnDisable()
     {
         // base.Exit() (PlayerAirState) rend la main au JumpController : useGravity = true.
         base.OnDisable();
-        playerGameplay.Character.HurtBoxManager.EnableAllHurtboxesCollider();
-        playerGameplay.VisualOrientationController.SetOrientationLocked(false);
+        stateMachine.PlayerGameplay.Character.HurtBoxManager.EnableAllHurtboxesCollider();
+        stateMachine.PlayerGameplay.VisualOrientationController.SetOrientationLocked(false);
     }
 }
