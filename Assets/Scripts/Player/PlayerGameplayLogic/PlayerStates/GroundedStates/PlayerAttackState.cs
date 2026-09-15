@@ -7,6 +7,7 @@ public class PlayerAttackState : PlayerState
     protected override string StateAnimationName => "Attack";
 
     public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine) {  }
+    public override StateType State => StateType.Attack;
 
     public override void RegisterTransition()
     {

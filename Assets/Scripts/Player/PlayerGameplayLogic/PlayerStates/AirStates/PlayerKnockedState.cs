@@ -11,6 +11,7 @@ using UnityEngine;
 public class PlayerKnockedState : PlayerAirState
 {
     public PlayerKnockedState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override StateType State => StateType.Knocked;
     protected override string StateAnimationName => "Knocked";
 
     HitData hitData;

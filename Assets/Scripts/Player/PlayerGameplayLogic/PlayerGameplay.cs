@@ -85,6 +85,11 @@ public class PlayerGameplay : MonoBehaviour
         }
     
         StateMachine = new PlayerStateMachine(this);
+
+        // Apres la machine ET le Character : les parametres sont une donnee du personnage,
+        // les etats en sont les porteurs. A rappeler si le personnage change en cours de partie.
+        if (character != null)
+            StateMachine.BindStateParameters(character.StateParametersLibrary);
     }  
 
     void Start()

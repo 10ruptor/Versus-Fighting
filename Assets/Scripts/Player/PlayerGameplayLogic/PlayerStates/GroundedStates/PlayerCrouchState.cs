@@ -7,6 +7,8 @@ public class PlayerCrouchState : PlayerGroundedState
     {
     }
 
+    public override StateType State => StateType.Crouch;
+
     protected override string StateAnimationName => "Crouch";
 
     public override void Update()

@@ -22,16 +22,22 @@ public class CharacterCollisionController : MonoBehaviour
         capsule = GetComponent<CapsuleCollider>();
     }
     
-    private void FitColliderWithPlayerMesh()
+    /// <summary>
+    /// Applique la capsule d'un etat. Appelee par PlayerStateMachine aux seuls changements
+    /// d'etat : l'ajustement continu frame par frame a ete retire, il faisait varier le
+    /// collider en permanence et provoquait des pertes de contact avec le sol.
+    /// </summary>
+    public void ApplyColliderSettings(StateParametersSO.ColliderSettings settings)
     {
-        Vector3 newCenterPosition = new Vector3(capsule.center.x, playerGameplay.Character.MeshPositionComputer.CharacterMeshCenter, capsule.center.z);
-        capsule.center = newCenterPosition;
-        capsule.height = playerGameplay.Character.MeshPositionComputer.CharacterMeshHeight;
-    }
+        if (!settings.IsValid)
+        {
+            Debug.LogError($"ColliderSettings invalide (height={settings.height}, radius={settings.radius}) : capsule inchangee.", this);
+            return;
+        }
 
-    private void LateUpdate()
-    {
-        FitColliderWithPlayerMesh();
+        capsule.height = settings.height;
+        capsule.radius = settings.radius;
+        capsule.center = settings.center;
     }
 
 

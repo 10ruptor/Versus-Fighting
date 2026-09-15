@@ -4,6 +4,38 @@ using UnityEngine;
 
 public abstract class PlayerState
 {
+    /// <summary>
+    /// Identifiant serialisable d'un etat. Il n'existe que pour permettre a la donnee cote
+    /// personnage (StateParametersLibrarySO) de designer un etat depuis l'inspecteur : la
+    /// machine, elle, resout ses etats par propriete typee, pas par cet enum.
+    /// </summary>
+    public enum StateType
+    {
+        Idle,
+        Dash,
+        Move,
+        Attack,
+        Crouch,
+
+        Jumping,
+        Landing,
+        Knocked,
+        AirAttack,
+    }
+
+    /// <summary>
+    /// Ecrit en dur dans chaque etat concret, jamais serialise : rien a renseigner dans
+    /// l'inspecteur, donc rien qui puisse se desynchroniser, et le compilateur force chaque
+    /// nouvel etat a se declarer.
+    /// </summary>
+    public abstract StateType State { get; }
+
+    /// <summary>
+    /// Parametres dependants du personnage, injectes par BindParameters au demarrage.
+    /// L'etat les porte mais ne les applique pas : chaque controleur lit ce qui le concerne.
+    /// </summary>
+    public StateParametersSO Parameters { get; private set; }
+
     protected readonly PlayerStateMachine stateMachine;
     protected readonly PlayerGameplay playerGameplay;
     private List<StateTransition>  transitions = new List<StateTransition>();
@@ -41,6 +73,15 @@ public abstract class PlayerState
     }
 
     public abstract void RegisterTransition();
+
+    /// <summary>
+    /// Appelee a chaque changement de personnage, pas seulement au demarrage : les parametres
+    /// appartiennent au Character, pas au joueur.
+    /// </summary>
+    public void BindParameters(StateParametersSO parameters)
+    {
+        Parameters = parameters;
+    }
 
     public virtual void Enter()
     {

@@ -12,6 +12,7 @@ public class PlayerDashState : PlayerState
     private int dashDirection;
     private bool DashIsOver => dashFrameCounter >= dashActiveFrames + dashDecelFrames;
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override StateType State => StateType.Dash;
     protected override string StateAnimationName => "Dash";
 
     public override void RegisterTransition()

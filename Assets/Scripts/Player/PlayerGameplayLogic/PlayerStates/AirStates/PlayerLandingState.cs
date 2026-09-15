@@ -1,6 +1,7 @@
 public class PlayerLandingState : PlayerAirState
 {
     public PlayerLandingState(PlayerStateMachine stateMachine) : base(stateMachine){}
+    public override StateType State => StateType.Landing;
     protected override string StateAnimationName => "Airborned";
 
     public override void RegisterTransition()

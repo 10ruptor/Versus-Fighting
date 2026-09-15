@@ -9,6 +9,10 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterStatData characterStatData;
     public CharacterStatData CharacterStatData => characterStatData;
 
+    [Tooltip("Parametres par etat propres a ce personnage : capsule accroupie, etc. Resolus a l'init et injectes dans les etats.")]
+    [SerializeField] private StateParametersLibrarySO stateParametersLibrary;
+    public StateParametersLibrarySO StateParametersLibrary => stateParametersLibrary;
+
     [Header("Visuals")] 
     [SerializeField] CharacterAnimatorController characterAnimatorController;
     [SerializeField] VFXManager vfxManager;

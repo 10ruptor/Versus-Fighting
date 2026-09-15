@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerIdleState : PlayerGroundedState
 {
     public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override StateType State => StateType.Idle;
     protected override string StateAnimationName => "Idle";
     
     #region InputAccessors

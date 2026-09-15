@@ -41,6 +41,7 @@ public class PlayerStateMachine
         Knocked   = Register(new PlayerKnockedState(this));
 
         RegisterAllStateTransitions();
+        AssertStateTypesAreUnique();
     }
 
     private void RegisterAllStateTransitions()
@@ -51,6 +52,35 @@ public class PlayerStateMachine
         }
     }
 
+    // Les parametres appartiennent au Character : rappelable tel quel si le personnage change.
+    public void BindStateParameters(StateParametersLibrarySO library)
+    {
+        if (library == null)
+        {
+            Debug.LogError($"Aucune StateParametersLibrarySO sur le Character de {playerGameplay.name} : les etats gardent le collider authore sur le prefab.", playerGameplay);
+            return;
+        }
+
+        foreach (PlayerState state in allStates)
+        {
+            state.BindParameters(library.Resolve(state.State));
+        }
+    }
+
+    // Deux etats declarant le meme StateType rendraient la resolution des parametres ambigue.
+    private void AssertStateTypesAreUnique()
+    {
+        HashSet<PlayerState.StateType> declaredTypes = new HashSet<PlayerState.StateType>();
+
+        foreach (PlayerState state in allStates)
+        {
+            if (!declaredTypes.Add(state.State))
+            {
+                Debug.LogError($"{state.GetType().Name} declare le StateType {state.State}, deja declare par un autre etat.");
+            }
+        }
+    }
+
     public void Initialize(PlayerState startState)
     {
         ChangeState(startState);
@@ -58,11 +88,30 @@ public class PlayerStateMachine
 
     public void ChangeState(PlayerState newState)
     {
-        CurrentState?.Exit();
+        PlayerState previousState = CurrentState;
+
+        previousState?.Exit();
         Debug.Log("Changing state : " + newState);
         CurrentState = newState;
+
+        // Avant Enter : l'etat entrant raisonne ainsi sur sa capsule definitive.
+        ApplyStateCollider(previousState, newState);
+
         CurrentState?.Enter();
         playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
+    }
+
+    // Rien n'est ecrit quand l'etat entrant partage l'asset du precedent : assigner le meme
+    // StateParametersSO a Idle, Move et Dash garantit qu'aucun enchainement entre ces trois
+    // etats ne touche au collider, donc aucun risque de perdre le sol.
+    // Ici et non dans Enter, qu'un etat peut oublier de chaîner.
+    private void ApplyStateCollider(PlayerState previousState, PlayerState newState)
+    {
+        if (newState == null || newState.Parameters == null) return;
+
+        if (previousState != null && previousState.Parameters == newState.Parameters) return;
+
+        playerGameplay.CollisionController.ApplyColliderSettings(newState.Parameters.Collider);
     }
     
     //Genericité : allow to use register for any class that inherit from PlayerState

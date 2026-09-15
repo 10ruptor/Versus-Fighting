@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class PlayerAirAttackState : PlayerAirState
 {
     public PlayerAirAttackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override StateType State => StateType.AirAttack;
     protected override string StateAnimationName => "AirAttack";
 
     public override void RegisterTransition()

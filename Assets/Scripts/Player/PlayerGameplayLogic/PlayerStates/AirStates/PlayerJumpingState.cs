@@ -1,6 +1,7 @@
 public class PlayerJumpingState : PlayerAirState
 {
     public PlayerJumpingState(PlayerStateMachine stateMachine) : base(stateMachine){}
+    public override StateType State => StateType.Jumping;
     protected override string StateAnimationName => "Jump";
 
     public override void RegisterTransition()

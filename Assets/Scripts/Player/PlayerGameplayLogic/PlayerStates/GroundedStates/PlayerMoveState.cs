@@ -3,6 +3,7 @@ using UnityEditor.Animations;
 public class PlayerMoveState : PlayerGroundedState
 {
     public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) {  }
+    public override StateType State => StateType.Move;
     protected override string StateAnimationName => "Move"; 
 
     private void ApplyHorizontalMovement()
