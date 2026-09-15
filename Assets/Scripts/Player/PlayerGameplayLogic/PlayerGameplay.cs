@@ -115,7 +115,7 @@ public class PlayerGameplay : MonoBehaviour
     }
     public void SetCurrentStateName(string stateName)
     {
-        currentStateName = stateName;
+        this.currentStateName = stateName;
     }
     
     void GroundCheck()

@@ -27,8 +27,7 @@ public class PlayerStateMachine
 
     public PlayerStateMachine(PlayerGameplay playerGameplay)
     {
-        // Assigne avant toute construction d'etat : chaque PlayerState lit
-        // stateMachine.PlayerGameplay des son constructeur.
+
         this.playerGameplay = playerGameplay;
 
         Idle      = Register(new PlayerIdleState(this));
@@ -41,16 +40,17 @@ public class PlayerStateMachine
         AirAttack = Register(new PlayerAirAttackState(this));
         Knocked   = Register(new PlayerKnockedState(this));
 
-        // En second temps seulement : une transition reference un etat cible, donc
-        // tous les etats doivent exister avant que le premier ne s'enregistre.
-        foreach (PlayerState state in allStates)
-            state.RegisterTransition();
+        RegisterAllStateTransitions();
     }
 
-    /// <summary>
-    /// Entree dans l'etat initial. Volontairement separee du constructeur : elle joue
-    /// une animation, donc elle attend que le Character instancie soit pleinement pret.
-    /// </summary>
+    private void RegisterAllStateTransitions()
+    {
+        foreach (PlayerState state in allStates)
+        {
+            state.RegisterTransition();
+        }
+    }
+
     public void Initialize(PlayerState startState)
     {
         ChangeState(startState);
@@ -64,7 +64,8 @@ public class PlayerStateMachine
         CurrentState?.Enter();
         playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
     }
-
+    
+    //Genericité : allow to use register for any class that inherit from PlayerState
     T Register<T>(T state) where T : PlayerState
     {
         allStates.Add(state);
