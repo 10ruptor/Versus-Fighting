@@ -12,7 +12,9 @@ public class KnockbackController : MonoBehaviour
     const float SideResolutionThreshold = 0.001f;
 
     PlayerGameplay playerGameplay;
-
+    
+    
+        
 
     /// <summary>
     /// Publie le resultat d'un coup encaisse : le HitData d'origine et le vecteur d'ejection effectivement applique. Point de sortie generique qui evite a un
@@ -39,8 +41,12 @@ public class KnockbackController : MonoBehaviour
 
         Vector3 launchVelocity = ComputeLaunchVelocity(hitData);
         float knockedDuration = playerGameplay.Character.CharacterStatData.knockedDuration;
+        PlayerState knocked = playerGameplay.StateMachine.stateLibrary[PlayerState.StateType.Knocked];
+        
 
-        playerGameplay.StateMachine.stateLibrary[PlayerState.StateType.Knocked].InitializeHit(hitData, launchVelocity, knockedDuration);
+        if (knocked is PlayerKnockedState knockedState) knockedState.InitializeHit(hitData, launchVelocity, knockedDuration);
+        else Debug.LogError($"Knocked slot is assigned to {knocked.GetType().Name}, which is not a PlayerKnockedState.", this);
+        
         playerGameplay.StateMachine.ChangeState(playerGameplay.StateMachine.stateLibrary[PlayerState.StateType.Knocked]);
     }
 

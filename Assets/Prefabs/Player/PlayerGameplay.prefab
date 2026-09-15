@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59fe0c11a0324bb8a6cf17451af6de54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackState
-  state: 0
+  state: 3
 --- !u!1 &931775152650574753
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   playerUIPrefab: {fileID: 2840066549668211299, guid: 103ca1b13394e1845b01943ebbec176d, type: 3}
   currentStateName: 
+  stateMachine: {fileID: 2958474380476411549}
   characterPrefab: {fileID: 325868527477161847, guid: d40b52877e9893f4bb80b403c93765ee, type: 3}
   playerInputController: {fileID: 4111429511337012523}
 --- !u!114 &9160438339941519510
@@ -306,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8d4210533847c5889446d9f77dd5f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoveState
-  state: 0
+  state: 2
 --- !u!1 &2765885456424332006
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24b3334bd164e29b6479a2c1b0cfd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAirAttackState
-  state: 0
+  state: 8
 --- !u!1 &2811965172885667458
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821d9a6e62d544298766e3f526a96b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCrouchState
-  state: 0
+  state: 4
 --- !u!1 &6828949588994245877
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ae6a0a075948ceb428e18d09bb62f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDashState
-  state: 0
+  state: 1
 --- !u!1 &6833912065481205125
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df80d5a85f8e412488e7af4d1c72482c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJumpingState
-  state: 0
+  state: 5
 --- !u!1 &6993353954345247290
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28230fb5a9f7d17498aa38e5f6760fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLandingState
-  state: 0
+  state: 6
 --- !u!1 &7598242395497367087
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06b02a5de3754374907ac6eb6c6f6220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateMachine
+  startingState: 0
   states: []
 --- !u!1 &8722926020411270353
 GameObject:
@@ -913,4 +915,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c812ae21887f5e4f8537cfcf9ce1fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerKnockedState
-  state: 0
+  state: 7

@@ -18,7 +18,7 @@ public class PlayerSpawner : MonoBehaviour
     {
         Debug.Log($"Player joined : {player.playerIndex}");
 
-        PlayerGameplay gameplay = player.GetComponent<PlayerGameplay>();
+        PlayerGameplay gameplay = player.GetComponentInParent<PlayerGameplay>();
     
         gameplay.Initialize(player.playerIndex,uiParent);
         mainCamera.AddTrackingTarget(gameplay.transform);

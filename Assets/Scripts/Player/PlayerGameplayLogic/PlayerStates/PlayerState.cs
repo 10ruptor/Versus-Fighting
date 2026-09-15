@@ -31,11 +31,6 @@ public abstract class PlayerState : MonoBehaviour
         RegisterTransition();
     }
 
-    public virtual void InitializeHit(HitData hitData, Vector3 launchVelocity, float knockedDuration)
-    {
-        return;
-    }
-
     protected void CheckTransitions()
     {
         foreach (StateTransition transition in transitions)

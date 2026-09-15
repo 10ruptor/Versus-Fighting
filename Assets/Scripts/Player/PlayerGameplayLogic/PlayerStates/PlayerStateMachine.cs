@@ -6,11 +6,15 @@ using UnityEngine;
 public class PlayerStateMachine : MonoBehaviour
 {
     public PlayerState CurrentState { get; private set; }
-    readonly PlayerGameplay playerGameplay;
+    private PlayerGameplay playerGameplay;
     public PlayerGameplay PlayerGameplay => playerGameplay;
     
     public Dictionary<PlayerState.StateType, PlayerState> stateLibrary = new Dictionary<PlayerState.StateType, PlayerState>();
-    public List<PlayerState> states = new List<PlayerState>(); //For debug to be deleted
+    
+    [SerializeField] private PlayerState.StateType startingState;
+    [SerializeField] private List<PlayerState> states = new List<PlayerState>(); 
+    
+    
     private void Awake()
     {
         foreach (PlayerState state in GetComponentsInChildren<PlayerState>())
@@ -23,6 +27,12 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    public void Initialize(PlayerGameplay playerGameplay)
+    {
+        this.playerGameplay = playerGameplay;
+        ChangeState(stateLibrary[startingState]);
+    }
+
     public PlayerStateMachine(PlayerGameplay playerGameplay)
     {
         this.playerGameplay = playerGameplay;
@@ -30,7 +40,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeState(PlayerState newState)
     {
-        CurrentState.enabled = false;
+        if(CurrentState != null) CurrentState.enabled = false;
         Debug.Log("Changing state : " + newState);
         CurrentState = newState;
         CurrentState.enabled = true;

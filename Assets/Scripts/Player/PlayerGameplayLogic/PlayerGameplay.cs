@@ -63,35 +63,6 @@ public class PlayerGameplay : MonoBehaviour
     }
     
     
-    #region  StateMachine
-    /*
-    
-    void InitializeStateMachine()
-    {
-        StateMachine = new PlayerStateMachine(this);
-        
-        PlayerDashState = new PlayerDashState(this);
-        PlayerIdleState = new PlayerIdleState(this);
-        PlayerJumpingState = new PlayerJumpingState(this);
-        PlayerMoveState = new PlayerMoveState(this);
-        PlayerCrouchState = new PlayerCrouchState(this);
-        PlayerAttackState = new PlayerAttackState(this);
-        PlayerAirAttackState = new PlayerAirAttackState(this);
-        PlayerLandingState = new PlayerLandingState(this);
-        PlayerKnockedState = new PlayerKnockedState(this);
-        
-        PlayerDashState.RegisterTransition();
-        PlayerIdleState.RegisterTransition();
-        PlayerJumpingState.RegisterTransition();
-        PlayerMoveState.RegisterTransition();
-        PlayerCrouchState.RegisterTransition();
-        PlayerAttackState.RegisterTransition();
-        PlayerAirAttackState.RegisterTransition();
-        PlayerLandingState.RegisterTransition();
-        PlayerKnockedState.RegisterTransition();
-        
-    }*/
-    #endregion
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -114,12 +85,11 @@ public class PlayerGameplay : MonoBehaviour
 
     void Start()
     {
-        //StateMachine.Initialize(PlayerIdleState);
         InitializePlayerUI();
+        stateMachine.Initialize(this);
     }
     void Update()
     {
-        //StateMachine.CurrentState.Update();
         GroundCheck();
         if(IsGrounded) visualOrientationController.UpdateOrientation();
     }
