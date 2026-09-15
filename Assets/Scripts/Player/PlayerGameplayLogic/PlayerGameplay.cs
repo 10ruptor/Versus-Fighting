@@ -52,6 +52,10 @@ public class PlayerGameplay : MonoBehaviour
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
     public VisualOrientationController VisualOrientationController => visualOrientationController;
+
+    // PlayerGameplay ne connait plus les etats un par un : la machine en est proprietaire
+    // et les expose par propriete typee. Ajouter un etat ne touche donc que PlayerStateMachine.
+    public PlayerStateMachine StateMachine { get; private set; }
     
     public bool IsGrounded => collisionController.IsGrounded;
 
@@ -61,44 +65,6 @@ public class PlayerGameplay : MonoBehaviour
         this.uiParent = uiParent;
     }
 
-    #region  StateMachine
-    public PlayerStateMachine StateMachine { get; private set; }
-    public PlayerDashState PlayerDashState { get; private set; }
-    public PlayerIdleState PlayerIdleState { get; private set; }
-    public PlayerJumpingState PlayerJumpingState { get; private set; }
-    public PlayerMoveState PlayerMoveState { get; private set; }
-    public PlayerCrouchState PlayerCrouchState { get; private set; }
-    public PlayerAttackState PlayerAttackState { get; private set; }
-    public PlayerAirAttackState PlayerAirAttackState { get; private set; }
-    public PlayerLandingState PlayerLandingState { get; private set; }
-    public PlayerKnockedState PlayerKnockedState { get; private set; }
-    
-    void InitializeStateMachine()
-    {
-        StateMachine = new PlayerStateMachine(this);
-        
-        PlayerDashState = new PlayerDashState(this);
-        PlayerIdleState = new PlayerIdleState(this);
-        PlayerJumpingState = new PlayerJumpingState(this);
-        PlayerMoveState = new PlayerMoveState(this);
-        PlayerCrouchState = new PlayerCrouchState(this);
-        PlayerAttackState = new PlayerAttackState(this);
-        PlayerAirAttackState = new PlayerAirAttackState(this);
-        PlayerLandingState = new PlayerLandingState(this);
-        PlayerKnockedState = new PlayerKnockedState(this);
-        
-        PlayerDashState.RegisterTransition();
-        PlayerIdleState.RegisterTransition();
-        PlayerJumpingState.RegisterTransition();
-        PlayerMoveState.RegisterTransition();
-        PlayerCrouchState.RegisterTransition();
-        PlayerAttackState.RegisterTransition();
-        PlayerAirAttackState.RegisterTransition();
-        PlayerLandingState.RegisterTransition();
-        PlayerKnockedState.RegisterTransition();
-        
-    }
-    #endregion
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -118,12 +84,12 @@ public class PlayerGameplay : MonoBehaviour
             InitializeCharacter();
         }
     
-        InitializeStateMachine();
+        StateMachine = new PlayerStateMachine(this);
     }  
 
     void Start()
     {
-        StateMachine.Initialize(PlayerIdleState);
+        StateMachine.Initialize(StateMachine.Idle);
         InitializePlayerUI();
     }
     void Update()

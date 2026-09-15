@@ -11,14 +11,14 @@ public class PlayerDashState : PlayerState
     private float dashStartSpeed;
     private int dashDirection;
     private bool DashIsOver => dashFrameCounter >= dashActiveFrames + dashDecelFrames;
-    public PlayerDashState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
     protected override string StateAnimationName => "Dash";
 
     public override void RegisterTransition()
     {
-        AddTransition(() => playerGameplay.PlayerInputController.HasDashInput && Mathf.Sign(dashInputValue) != Mathf.Sign(playerGameplay.PlayerInputController.HorizontalMoveInputValue), playerGameplay.PlayerDashState);
-        AddTransition(() => DashIsOver && playerGameplay.PlayerInputController.HasWalkInput, playerGameplay.PlayerMoveState);
-        AddTransition(() => DashIsOver && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput, playerGameplay.PlayerIdleState);
+        AddTransition(() => playerGameplay.PlayerInputController.HasDashInput && Mathf.Sign(dashInputValue) != Mathf.Sign(playerGameplay.PlayerInputController.HorizontalMoveInputValue), stateMachine.Dash);
+        AddTransition(() => DashIsOver && playerGameplay.PlayerInputController.HasWalkInput, stateMachine.Move);
+        AddTransition(() => DashIsOver && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput, stateMachine.Idle);
     }
 
     public override void Enter()

@@ -1,14 +1,14 @@
 public class PlayerLandingState : PlayerAirState
 {
-    public PlayerLandingState(PlayerGameplay playerGameplay) : base(playerGameplay){}
+    public PlayerLandingState(PlayerStateMachine stateMachine) : base(stateMachine){}
     protected override string StateAnimationName => "Airborned";
 
     public override void RegisterTransition()
     {
-        AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
-        AddTransition(() => playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => playerGameplay.PlayerInputController.JumpBuffered && CanAirJump, playerGameplay.PlayerJumpingState);
-        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.AttackBuffered,playerGameplay.PlayerAirAttackState);
+        AddTransition(() => playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,stateMachine.Move);
+        AddTransition(() => playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,stateMachine.Idle);
+        AddTransition(() => playerGameplay.PlayerInputController.JumpBuffered && CanAirJump, stateMachine.Jumping);
+        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.AttackBuffered,stateMachine.AirAttack);
     }
     
     public override void Update()

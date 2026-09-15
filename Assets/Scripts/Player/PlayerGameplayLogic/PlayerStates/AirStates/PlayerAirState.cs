@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class PlayerAirState : PlayerState
 {
-    protected PlayerAirState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    protected PlayerAirState(PlayerStateMachine stateMachine) : base(stateMachine) { }
     protected bool IsLanding => playerGameplay.JumpController.CurrentPhase == JumpController.Phase.Descent;
 
     protected bool CanAirJump => !playerGameplay.IsGrounded

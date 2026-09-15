@@ -4,13 +4,15 @@ using UnityEngine;
 
 public abstract class PlayerState
 {
+    protected readonly PlayerStateMachine stateMachine;
     protected readonly PlayerGameplay playerGameplay;
     private List<StateTransition>  transitions = new List<StateTransition>();
     protected virtual string StateAnimationName => null;
 
-    protected PlayerState(PlayerGameplay playerGameplay)
+    protected PlayerState(PlayerStateMachine stateMachine)
     {
-        this.playerGameplay = playerGameplay;
+        this.stateMachine = stateMachine;
+        this.playerGameplay = stateMachine.PlayerGameplay;
     }
 
     protected void CheckTransitions()
@@ -19,7 +21,7 @@ public abstract class PlayerState
         {
             if (transition.Condition())
             {
-                playerGameplay.StateMachine.ChangeState(transition.TargetState);
+                stateMachine.ChangeState(transition.TargetState);
                 return;
             }
         }

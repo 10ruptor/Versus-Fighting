@@ -40,8 +40,8 @@ public class KnockbackController : MonoBehaviour
         Vector3 launchVelocity = ComputeLaunchVelocity(hitData);
         float knockedDuration = playerGameplay.Character.CharacterStatData.knockedDuration;
 
-        playerGameplay.PlayerKnockedState.Initialize(hitData, launchVelocity, knockedDuration);
-        playerGameplay.StateMachine.ChangeState(playerGameplay.PlayerKnockedState);
+        playerGameplay.StateMachine.Knocked.Initialize(hitData, launchVelocity, knockedDuration);
+        playerGameplay.StateMachine.ChangeState(playerGameplay.StateMachine.Knocked);
     }
 
     /// <summary>

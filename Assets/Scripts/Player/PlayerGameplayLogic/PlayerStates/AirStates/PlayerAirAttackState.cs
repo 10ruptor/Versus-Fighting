@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 public class PlayerAirAttackState : PlayerAirState
 {
-    public PlayerAirAttackState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    public PlayerAirAttackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
     protected override string StateAnimationName => "AirAttack";
 
     public override void RegisterTransition()
     {
-        AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
-        AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => playerGameplay.PlayerInputController.JumpBuffered && playerGameplay.JumpController.CanJump  && !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerJumpingState);
-        AddTransition(() => IsLanding && !playerGameplay.IsGrounded && !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerLandingState);
+        AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,stateMachine.Move);
+        AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,stateMachine.Idle);
+        AddTransition(() => playerGameplay.PlayerInputController.JumpBuffered && playerGameplay.JumpController.CanJump  && !playerGameplay.AttackController.IsAttacking, stateMachine.Jumping);
+        AddTransition(() => IsLanding && !playerGameplay.IsGrounded && !playerGameplay.AttackController.IsAttacking, stateMachine.Landing);
     }
 
     public override void Enter()
