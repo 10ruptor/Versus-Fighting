@@ -60,6 +60,12 @@ public class PlayerStateMachine
     // Les parametres appartiennent au Character : rappelable tel quel si le personnage change.
     public void BindStateParameters(StateParametersLibrarySO library)
     {
+        if(library == null)
+        {
+            Debug.LogError($"No library assigned to {playerGameplay.Character}",context:this.playerGameplay.Character);
+            return;
+        }
+        
         library.Initialize();
 
         foreach (PlayerState state in allStates)
@@ -102,10 +108,7 @@ public class PlayerStateMachine
         playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
     }
 
-    // Rien n'est ecrit quand l'etat entrant partage l'asset du precedent : assigner le meme
-    // StateParametersSO a Idle, Move et Dash garantit qu'aucun enchainement entre ces trois
-    // etats ne touche au collider, donc aucun risque de perdre le sol.
-    // Ici et non dans Enter, qu'un etat peut oublier de chaîner.
+    // Nothing done when previous and next state have same parameter
     private void ApplyStateParameter(PlayerState previousState, PlayerState newState)
     {
         if (newState == null || newState.Parameters == null) return;
@@ -115,5 +118,4 @@ public class PlayerStateMachine
         playerGameplay.CollisionController.ApplyColliderSettings(newState.Parameters.ColliderSetting);
     }
     
-
 }

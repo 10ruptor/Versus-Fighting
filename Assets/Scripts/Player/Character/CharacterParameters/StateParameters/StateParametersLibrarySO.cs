@@ -21,7 +21,7 @@ public class StateParametersLibrarySO : ScriptableObject
     [Tooltip("For debug : display list of parameter in inspector at runtime")]
     [SerializeField] StateParameterEntry[] entries = Array.Empty<StateParameterEntry>();
 
-    Dictionary<PlayerState.StateType, StateParametersSO> lookup;
+    Dictionary<PlayerState.StateType, StateParametersSO> lookup = new Dictionary<PlayerState.StateType, StateParametersSO>();
     
     public void Initialize()
     {
