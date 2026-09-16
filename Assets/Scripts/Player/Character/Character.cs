@@ -1,7 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class Character : MonoBehaviour
 {
@@ -9,7 +6,7 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterStatData characterStatData;
     public CharacterStatData CharacterStatData => characterStatData;
 
-    [Tooltip("Parametres par etat propres a ce personnage : capsule accroupie, etc. Resolus a l'init et injectes dans les etats.")]
+    [Tooltip("Character dependant state parameter library (SO)")]
     [SerializeField] private StateParametersLibrarySO stateParametersLibrary;
     public StateParametersLibrarySO StateParametersLibrary => stateParametersLibrary;
 
@@ -26,20 +23,12 @@ public class Character : MonoBehaviour
     [SerializeField] private HurtBoxManager hurtBoxManager;
     [SerializeField] private CharacterAttackLibrary attackLibrary;
     
-    
     //public Dictionary<AttackTypes, AttackStatsSO> attackLookup = new Dictionary<AttackTypes, AttackStatsSO>();
     public CharacterAttackLibrary AttackLibrary => attackLibrary;
-    
     public HurtBoxManager HurtBoxManager => hurtBoxManager;
-    
     private PlayerGameplay owner;
     
     
-    private void Awake()
-    {
-        //attackLookup = AttackStatList.ToDictionary(x => x.AttackType);
-    }
-
     public void Initialize(PlayerGameplay owner)
     {
         this.owner = owner;

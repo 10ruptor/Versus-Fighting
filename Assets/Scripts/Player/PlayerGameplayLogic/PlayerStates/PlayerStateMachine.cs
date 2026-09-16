@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Proprietaire des etats du joueur. C'est la seule classe qui connait la liste concrete
-/// des etats : ajouter un etat ne touche donc que ce fichier, jamais PlayerGameplay.
-/// Les etats s'y referencent entre eux par propriete typee (stateMachine.Idle), ce qui
-/// laisse le compilateur valider chaque transition.
+/// Onwner of Player states. The only one who knows state
+/// Each state is a typed property (stateMachine.Idle)
 /// </summary>
 public class PlayerStateMachine
 {
@@ -43,6 +41,13 @@ public class PlayerStateMachine
         RegisterAllStateTransitions();
         AssertStateTypesAreUnique();
     }
+    
+    //Genericité : allow to use register for any class that inherit from PlayerState
+    T Register<T>(T state) where T : PlayerState
+    {
+        allStates.Add(state);
+        return state;
+    }
 
     private void RegisterAllStateTransitions()
     {
@@ -55,15 +60,11 @@ public class PlayerStateMachine
     // Les parametres appartiennent au Character : rappelable tel quel si le personnage change.
     public void BindStateParameters(StateParametersLibrarySO library)
     {
-        if (library == null)
-        {
-            Debug.LogError($"Aucune StateParametersLibrarySO sur le Character de {playerGameplay.name} : les etats gardent le collider authore sur le prefab.", playerGameplay);
-            return;
-        }
+        library.Initialize();
 
         foreach (PlayerState state in allStates)
         {
-            state.BindParameters(library.Resolve(state.State));
+            state.BindCharacterParameters(library.Resolve(state.State));
         }
     }
 
@@ -76,7 +77,7 @@ public class PlayerStateMachine
         {
             if (!declaredTypes.Add(state.State))
             {
-                Debug.LogError($"{state.GetType().Name} declare le StateType {state.State}, deja declare par un autre etat.");
+                Debug.LogError($"{state.GetType().Name} declaring {state.State}, which is already declared for an other state");
             }
         }
     }
@@ -94,8 +95,8 @@ public class PlayerStateMachine
         Debug.Log("Changing state : " + newState);
         CurrentState = newState;
 
-        // Avant Enter : l'etat entrant raisonne ainsi sur sa capsule definitive.
-        ApplyStateCollider(previousState, newState);
+        // Before Enter : so the state starts with the right collider directly
+        ApplyStateParameter(previousState, newState);
 
         CurrentState?.Enter();
         playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
@@ -105,19 +106,14 @@ public class PlayerStateMachine
     // StateParametersSO a Idle, Move et Dash garantit qu'aucun enchainement entre ces trois
     // etats ne touche au collider, donc aucun risque de perdre le sol.
     // Ici et non dans Enter, qu'un etat peut oublier de chaîner.
-    private void ApplyStateCollider(PlayerState previousState, PlayerState newState)
+    private void ApplyStateParameter(PlayerState previousState, PlayerState newState)
     {
         if (newState == null || newState.Parameters == null) return;
 
         if (previousState != null && previousState.Parameters == newState.Parameters) return;
 
-        playerGameplay.CollisionController.ApplyColliderSettings(newState.Parameters.Collider);
+        playerGameplay.CollisionController.ApplyColliderSettings(newState.Parameters.ColliderSetting);
     }
     
-    //Genericité : allow to use register for any class that inherit from PlayerState
-    T Register<T>(T state) where T : PlayerState
-    {
-        allStates.Add(state);
-        return state;
-    }
+
 }

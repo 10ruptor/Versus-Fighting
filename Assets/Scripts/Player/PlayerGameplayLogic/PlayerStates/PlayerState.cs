@@ -5,9 +5,7 @@ using UnityEngine;
 public abstract class PlayerState
 {
     /// <summary>
-    /// Identifiant serialisable d'un etat. Il n'existe que pour permettre a la donnee cote
-    /// personnage (StateParametersLibrarySO) de designer un etat depuis l'inspecteur : la
-    /// machine, elle, resout ses etats par propriete typee, pas par cet enum.
+    /// ID of a state. 
     /// </summary>
     public enum StateType
     {
@@ -24,15 +22,12 @@ public abstract class PlayerState
     }
 
     /// <summary>
-    /// Ecrit en dur dans chaque etat concret, jamais serialise : rien a renseigner dans
-    /// l'inspecteur, donc rien qui puisse se desynchroniser, et le compilateur force chaque
-    /// nouvel etat a se declarer.
+    /// Need to be hardcoded for each state
     /// </summary>
     public abstract StateType State { get; }
 
     /// <summary>
-    /// Parametres dependants du personnage, injectes par BindParameters au demarrage.
-    /// L'etat les porte mais ne les applique pas : chaque controleur lit ce qui le concerne.
+    /// Character dependant parameter, binded by StateMachine
     /// </summary>
     public StateParametersSO Parameters { get; private set; }
 
@@ -75,10 +70,9 @@ public abstract class PlayerState
     public abstract void RegisterTransition();
 
     /// <summary>
-    /// Appelee a chaque changement de personnage, pas seulement au demarrage : les parametres
-    /// appartiennent au Character, pas au joueur.
+    ///called on any Character change : parameter belongs to Character
     /// </summary>
-    public void BindParameters(StateParametersSO parameters)
+    public void BindCharacterParameters(StateParametersSO parameters)
     {
         Parameters = parameters;
     }

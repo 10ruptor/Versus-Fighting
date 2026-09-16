@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CharacterCollisionController : MonoBehaviour
@@ -23,9 +22,7 @@ public class CharacterCollisionController : MonoBehaviour
     }
     
     /// <summary>
-    /// Applique la capsule d'un etat. Appelee par PlayerStateMachine aux seuls changements
-    /// d'etat : l'ajustement continu frame par frame a ete retire, il faisait varier le
-    /// collider en permanence et provoquait des pertes de contact avec le sol.
+    /// Apply Character dependant collider setting
     /// </summary>
     public void ApplyColliderSettings(StateParametersSO.ColliderSettings settings)
     {
