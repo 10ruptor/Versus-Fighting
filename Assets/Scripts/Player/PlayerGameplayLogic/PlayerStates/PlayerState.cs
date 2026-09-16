@@ -43,6 +43,7 @@ public abstract class PlayerState
     public virtual void Enter()
     {
         Debug.Log("Enter state : " + this);
+        playerGameplay.CollisionController.FitColliderWithPlayerMesh();
         PlayStateAnimation();
     }
     

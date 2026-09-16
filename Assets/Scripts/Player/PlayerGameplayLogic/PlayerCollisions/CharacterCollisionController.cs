@@ -14,7 +14,10 @@ public class CharacterCollisionController : MonoBehaviour
     private PlayerGameplay playerGameplay;
 
     private CapsuleCollider capsule;
-
+    private float playerCapsuleHeight => capsule.height;
+    private float playerCapsuleCenterY => capsule.center.y;
+    
+    private MeshPositionComputer CharacterMeshComputer =>  playerGameplay.Character.MeshPositionComputer;
     
     private void Awake()
     {
@@ -22,11 +25,17 @@ public class CharacterCollisionController : MonoBehaviour
         capsule = GetComponent<CapsuleCollider>();
     }
     
-    private void FitColliderWithPlayerMesh()
+    public void FitColliderWithPlayerMesh()
     {
-        Vector3 newCenterPosition = new Vector3(capsule.center.x, playerGameplay.Character.MeshPositionComputer.CharacterMeshCenter, capsule.center.z);
-        capsule.center = newCenterPosition;
-        capsule.height = playerGameplay.Character.MeshPositionComputer.CharacterMeshHeight;
+        if (Math.Abs(CharacterMeshComputer.CharacterMeshCenter - playerCapsuleCenterY) > CharacterMeshComputer.CenterOffset)
+        {
+            Vector3 newCenterPosition = new Vector3(capsule.center.x, playerGameplay.Character.MeshPositionComputer.CharacterMeshCenter, capsule.center.z);
+            capsule.center = newCenterPosition;
+        }
+        if(Math.Abs(CharacterMeshComputer.CharacterMeshHeight- playerCapsuleHeight) > CharacterMeshComputer.HeightOffset)
+        {
+            capsule.height = playerGameplay.Character.MeshPositionComputer.CharacterMeshHeight;
+        }
     }
 
     private void LateUpdate()

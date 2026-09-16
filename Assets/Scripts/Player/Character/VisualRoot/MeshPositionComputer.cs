@@ -4,9 +4,17 @@ using UnityEngine;
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class MeshPositionComputer : MonoBehaviour
 {
+    [Header("collider update offset")]
+    [SerializeField] private float centerOffset = 0.5f;
+    [SerializeField] private float heightOffset = 0.5f;
+    public float CenterOffset => centerOffset;
+    public float  HeightOffset => heightOffset;
+    
     private SkinnedMeshRenderer characterMeshRenderer;
     private PlayerGameplay owner;
-
+    
+    
+    
     public void Initialize(PlayerGameplay player)
     {
         this.owner = player;

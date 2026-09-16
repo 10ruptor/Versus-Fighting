@@ -3,11 +3,11 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     public PlayerState CurrentState { get; private set; }
-    readonly PlayerGameplay _playerGameplay;
+    private PlayerGameplay playerGameplay;
 
     public PlayerStateMachine(PlayerGameplay playerGameplay)
     {
-        this._playerGameplay = playerGameplay;
+        this.playerGameplay = playerGameplay;
     }
 
     public void Initialize(PlayerState startState)
@@ -21,6 +21,6 @@ public class PlayerStateMachine
         Debug.Log("Changing state : " + newState);
         CurrentState = newState;
         CurrentState?.Enter();
-        _playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
+        playerGameplay.SetCurrentStateName(CurrentState?.GetType().Name);
     }
 }

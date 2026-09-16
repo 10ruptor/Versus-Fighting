@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   playerUIPrefab: {fileID: 2840066549668211299, guid: 103ca1b13394e1845b01943ebbec176d, type: 3}
   currentStateName: 
-  characterPrefab: {fileID: 3921689859830914138, guid: 0dbb93c1252a5974e8287d9b87f65e13, type: 3}
+  characterPrefab: {fileID: 325868527477161847, guid: d40b52877e9893f4bb80b403c93765ee, type: 3}
   playerInputController: {fileID: 4111429511337012523}
 --- !u!114 &9160438339941519510
 MonoBehaviour:
