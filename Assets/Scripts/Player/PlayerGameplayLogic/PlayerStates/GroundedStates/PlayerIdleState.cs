@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override StateType State => StateType.Idle;
     protected override string StateAnimationName => "Idle";
     
     #region InputAccessors
@@ -20,10 +21,10 @@ public class PlayerIdleState : PlayerGroundedState
     public override void RegisterTransition()
     {
         base.RegisterTransition();
-        AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, playerGameplay.PlayerCrouchState);
-        AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, playerGameplay.PlayerAttackState);
-        AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, playerGameplay.PlayerDashState);
-        AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, playerGameplay.PlayerMoveState);
+        AddTransition(() => playerHasDownMoveInput && playerGameplay.IsGrounded, stateMachine.Crouch);
+        AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, stateMachine.Attack);
+        AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, stateMachine.Dash);
+        AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, stateMachine.Move);
     }
     
     #endregion

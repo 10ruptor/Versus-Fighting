@@ -4,13 +4,42 @@ using UnityEngine;
 
 public abstract class PlayerState
 {
+    /// <summary>
+    /// ID of a state. 
+    /// </summary>
+    public enum StateType
+    {
+        Idle,
+        Dash,
+        Move,
+        Attack,
+        Crouch,
+
+        Jumping,
+        Landing,
+        Knocked,
+        AirAttack,
+    }
+
+    /// <summary>
+    /// Need to be hardcoded for each state
+    /// </summary>
+    public abstract StateType State { get; }
+
+    /// <summary>
+    /// Character dependant parameter, binded by StateMachine
+    /// </summary>
+    public StateParametersSO Parameters { get; private set; }
+
+    protected readonly PlayerStateMachine stateMachine;
     protected readonly PlayerGameplay playerGameplay;
     private List<StateTransition>  transitions = new List<StateTransition>();
     protected virtual string StateAnimationName => null;
 
-    protected PlayerState(PlayerGameplay playerGameplay)
+    protected PlayerState(PlayerStateMachine stateMachine)
     {
-        this.playerGameplay = playerGameplay;
+        this.stateMachine = stateMachine;
+        this.playerGameplay = stateMachine.PlayerGameplay;
     }
 
     protected void CheckTransitions()
@@ -19,7 +48,7 @@ public abstract class PlayerState
         {
             if (transition.Condition())
             {
-                playerGameplay.StateMachine.ChangeState(transition.TargetState);
+                stateMachine.ChangeState(transition.TargetState);
                 return;
             }
         }
@@ -39,6 +68,14 @@ public abstract class PlayerState
     }
 
     public abstract void RegisterTransition();
+
+    /// <summary>
+    ///called on any Character change : parameter belongs to Character
+    /// </summary>
+    public void BindCharacterParameters(StateParametersSO parameters)
+    {
+        Parameters = parameters;
+    }
 
     public virtual void Enter()
     {

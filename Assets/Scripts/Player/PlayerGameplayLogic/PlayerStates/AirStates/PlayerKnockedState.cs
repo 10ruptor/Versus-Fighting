@@ -10,7 +10,8 @@ using UnityEngine;
 
 public class PlayerKnockedState : PlayerAirState
 {
-    public PlayerKnockedState(PlayerGameplay playerGameplay) : base(playerGameplay) { }
+    public PlayerKnockedState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override StateType State => StateType.Knocked;
     protected override string StateAnimationName => "Knocked";
 
     HitData hitData;
@@ -36,8 +37,8 @@ public class PlayerKnockedState : PlayerAirState
     {
 
         // TODO: remplacer PlayerIdleState par PlayerKnockedGroundedState des que cet etat existe.
-        AddTransition(() => HasLanded, playerGameplay.PlayerIdleState);
-        AddTransition(() => IsKnockedOver, playerGameplay.PlayerLandingState);
+        AddTransition(() => HasLanded, stateMachine.Idle);
+        AddTransition(() => IsKnockedOver, stateMachine.Landing);
     }
 
     public override void Enter()

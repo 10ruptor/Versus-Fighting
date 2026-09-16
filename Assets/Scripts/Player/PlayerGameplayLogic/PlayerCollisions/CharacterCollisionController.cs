@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CharacterCollisionController : MonoBehaviour
@@ -7,25 +6,48 @@ public class CharacterCollisionController : MonoBehaviour
     const string PlayerTag = "Player";
     const string HitboxTag = "Hitbox";
     const string DeadzoneTag =  "Deadzone";
+    const string GroundTag = "Ground";
     
     int stageContactCount;
     public bool IsGrounded => stageContactCount > 0;
     private PlayerGameplay playerGameplay;
+
+    private CapsuleCollider capsule;
+
     
     private void Awake()
     {
         playerGameplay = GetComponent<PlayerGameplay>();
+        capsule = GetComponent<CapsuleCollider>();
     }
+    
+    /// <summary>
+    /// Apply Character dependant collider setting
+    /// </summary>
+    public void ApplyColliderSettings(StateParametersSO.ColliderSettings settings)
+    {
+        if (!settings.IsValid)
+        {
+            Debug.LogError($"ColliderSettings invalide (height={settings.height}, radius={settings.radius}) : capsule inchangee.", this);
+            return;
+        }
+
+        capsule.height = settings.height;
+        capsule.radius = settings.radius;
+        capsule.center = settings.center;
+    }
+
 
     static bool IsStageCollision(Collision collision)
     {
         return collision.collider != null && collision.gameObject.CompareTag(StageTag);
     }
     
-    static bool IsHitCollision(Collision collision)
+    static bool IsGroundCollision(Collision collision)
     {
-        return collision.collider != null && collision.gameObject.CompareTag(HitboxTag);
+        return collision.collider != null && collision.gameObject.CompareTag(GroundTag);
     }
+    
 
     static bool IsDeadZoneTrigger(Collider other)
     {
@@ -35,25 +57,15 @@ public class CharacterCollisionController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collision Entered with: " + collision.gameObject.tag);
-        if (IsStageCollision(collision))
+        if (IsGroundCollision(collision))
             SetGrounded(stageContactCount + 1);
-        
-        if (IsHitCollision(collision))
-        {
-            Debug.Log(this.gameObject + " : hit");
-        }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        if (IsStageCollision(collision))
+        if (IsGroundCollision(collision))
         {
             SetGrounded(stageContactCount - 1);
-        }
-        
-        if (IsHitCollision(collision))
-        {
-            Debug.Log(this.gameObject + " : hit");
         }
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharacterStats", menuName = "Versus Fighting/Character Stats")]
+[CreateAssetMenu(fileName = "CharacterStats", menuName = "Versus Fighting/Character/Character Stats")]
 public class CharacterStatData : ScriptableObject
 {
     [Header("Movement")]

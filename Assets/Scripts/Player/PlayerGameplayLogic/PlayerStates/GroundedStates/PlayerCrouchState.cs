@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class PlayerCrouchState : PlayerGroundedState
 {
-    public PlayerCrouchState(PlayerGameplay playerGameplay) : base(playerGameplay)
+    public PlayerCrouchState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
+
+    public override StateType State => StateType.Crouch;
 
     protected override string StateAnimationName => "Crouch";
 
@@ -18,7 +20,7 @@ public class PlayerCrouchState : PlayerGroundedState
     public override void RegisterTransition()
     {
         base.RegisterTransition();
-        AddTransition(() => !playerGameplay.PlayerInputController.HasDownMoveInput, playerGameplay.PlayerIdleState);
+        AddTransition(() => !playerGameplay.PlayerInputController.HasDownMoveInput, stateMachine.Idle);
     }
     
 }

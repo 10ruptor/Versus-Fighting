@@ -1,12 +1,14 @@
+// N'oublie pas d'enregistrer cet etat dans PlayerStateMachine : ajoute une propriete
+// typee et sa ligne Register(...) dans le constructeur, sinon il reste inatteignable.
 public class #SCRIPTNAME# : PlayerState
 {
-    public #SCRIPTNAME#(PlayerGameplay playerGameplay) : base(playerGameplay){}
+    public #SCRIPTNAME#(PlayerStateMachine stateMachine) : base(stateMachine){}
     protected override string StateAnimationName => "#ANIMATIONNAME#";
         
     public override void RegisterTransition()
     {
         // Register your state transitions here
-        // AddTransition(() => condition, targetPlayerState);
+        // AddTransition(() => condition, stateMachine.TargetState);
     }
     
     public override void Update()
@@ -16,11 +18,11 @@ public class #SCRIPTNAME# : PlayerState
     
     public override void Enter()
     {
-
+        base.Enter(); // joue StateAnimationName : sans cet appel, l'animation ne part pas
     }
 
     public override void Exit()
     {
-
+        base.Exit();
     }
 }

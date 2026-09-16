@@ -342,9 +342,7 @@ MonoBehaviour:
   dashThreshold: 0.4
   downMoveInputThreshold: -0.5
   upMoveInputThreshold: 0.5
-  Jump: 0
   FastFall: 0
-  Attack: 0
   HorizontalMoveInputValue: 0
   VerticalMoveInputValue: 0
 --- !u!114 &830286832825760667
@@ -360,6 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BufferedActionController
   bufferSettings: {fileID: 11400000, guid: ff8b1ed51a7cc9c499f2fe2bb612f526, type: 2}
+  defaultBufferDuration: 0.1
 --- !u!1 &4547226484722733049
 GameObject:
   m_ObjectHideFlags: 0

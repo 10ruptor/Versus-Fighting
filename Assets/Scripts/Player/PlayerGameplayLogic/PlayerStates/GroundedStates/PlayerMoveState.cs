@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEditor.Animations;
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
+    public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) {  }
+    public override StateType State => StateType.Move;
     protected override string StateAnimationName => "Move"; 
 
     private void ApplyHorizontalMovement()
@@ -16,8 +17,8 @@ public class PlayerMoveState : PlayerGroundedState
     public override void RegisterTransition()
     {
         base.RegisterTransition();
-        AddTransition(() => playerGameplay.PlayerInputController.AttackBuffered && playerGameplay.IsGrounded, playerGameplay.PlayerAttackState);
-        AddTransition(() => !playerGameplay.PlayerInputController.HasWalkInput && playerGameplay.IsGrounded, playerGameplay.PlayerIdleState);
+        AddTransition(() => playerGameplay.PlayerInputController.AttackBuffered && playerGameplay.IsGrounded, stateMachine.Attack);
+        AddTransition(() => !playerGameplay.PlayerInputController.HasWalkInput && playerGameplay.IsGrounded, stateMachine.Idle);
     }
     
     private void CancelHorizontalMovement()

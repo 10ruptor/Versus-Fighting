@@ -2,16 +2,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerAttackState : PlayerState 
+public class PlayerAttackState : PlayerState
 {
-    
     protected override string StateAnimationName => "Attack";
 
-    public PlayerAttackState(PlayerGameplay playerGameplay) : base(playerGameplay) {  }
+    public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine) {  }
+    public override StateType State => StateType.Attack;
 
     public override void RegisterTransition()
     {
-        AddTransition(() => !playerGameplay.AttackController.IsAttacking, playerGameplay.PlayerIdleState);
+        AddTransition(() => !playerGameplay.AttackController.IsAttacking, stateMachine.Idle);
     }
 
     public override void Enter()

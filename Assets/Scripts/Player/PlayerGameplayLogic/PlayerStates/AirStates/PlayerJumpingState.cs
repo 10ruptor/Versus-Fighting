@@ -1,14 +1,15 @@
 public class PlayerJumpingState : PlayerAirState
 {
-    public PlayerJumpingState(PlayerGameplay playerGameplay) : base(playerGameplay){}
+    public PlayerJumpingState(PlayerStateMachine stateMachine) : base(stateMachine){}
+    public override StateType State => StateType.Jumping;
     protected override string StateAnimationName => "Jump";
 
     public override void RegisterTransition()
     {
-        AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerMoveState);
-        AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,playerGameplay.PlayerIdleState);
-        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.AttackBuffered,playerGameplay.PlayerAirAttackState);
-        AddTransition(() => IsLanding &&!playerGameplay.IsGrounded ,playerGameplay.PlayerLandingState);
+        AddTransition(() => IsLanding && playerGameplay.IsGrounded && playerGameplay.PlayerInputController.HasWalkInput,stateMachine.Move);
+        AddTransition(() => IsLanding  && playerGameplay.IsGrounded && !playerGameplay.PlayerInputController.HasWalkInput,stateMachine.Idle);
+        AddTransition(() => !playerGameplay.IsGrounded && playerGameplay.PlayerInputController.AttackBuffered,stateMachine.AirAttack);
+        AddTransition(() => IsLanding &&!playerGameplay.IsGrounded ,stateMachine.Landing);
     }
     
     public override void Update()
