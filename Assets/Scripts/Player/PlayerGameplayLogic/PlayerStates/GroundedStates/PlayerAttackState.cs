@@ -21,7 +21,12 @@ public class PlayerAttackState : PlayerState
         playerGameplay.AttackController.ResolveGroundAttack();
         playerGameplay.AttackController.StartAttack();
     }
-    
+
+    public override void Exit()
+    {
+        base.Exit();
+        playerGameplay.AttackController.EndAttack();
+    }
 
     public override void Update()
     {
