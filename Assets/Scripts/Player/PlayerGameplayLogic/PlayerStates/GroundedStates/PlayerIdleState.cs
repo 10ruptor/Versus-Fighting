@@ -12,7 +12,7 @@ public class PlayerIdleState : PlayerGroundedState
     private bool playerHasDashInput => playerGameplay.PlayerInputController.HasDashInput;
     private bool playerHasDownMoveInput => playerGameplay.PlayerInputController.HasDownMoveInput;
     private bool playerHasAttackInput => playerGameplay.PlayerInputController.AttackBuffered;
-    
+    private bool shield =>  playerGameplay.PlayerInputController.Shield;
 
     #endregion
     
@@ -25,8 +25,8 @@ public class PlayerIdleState : PlayerGroundedState
         AddTransition(() => playerHasAttackInput && playerGameplay.IsGrounded, stateMachine.Attack);
         AddTransition(() => playerHasDashInput && playerGameplay.IsGrounded, stateMachine.Dash);
         AddTransition(() => playerHasWalkInput && playerGameplay.IsGrounded, stateMachine.Move);
+        
     }
-    
     #endregion
     
     

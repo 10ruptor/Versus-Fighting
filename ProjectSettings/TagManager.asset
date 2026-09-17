@@ -9,6 +9,7 @@ TagManager:
   - Hurtbox
   - Deadzone
   - Ground
+  - Shield
   layers:
   - Default
   - TransparentFX

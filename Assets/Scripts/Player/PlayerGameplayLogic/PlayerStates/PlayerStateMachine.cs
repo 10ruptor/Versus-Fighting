@@ -19,6 +19,7 @@ public class PlayerStateMachine
     public PlayerLandingState   Landing   { get; }
     public PlayerAirAttackState AirAttack { get; }
     public PlayerKnockedState   Knocked   { get; }
+    public PlayerShieldState  Shield  { get; }
 
     public PlayerState CurrentState { get; private set; }
     public PlayerGameplay PlayerGameplay => playerGameplay;
@@ -37,6 +38,7 @@ public class PlayerStateMachine
         Landing   = Register(new PlayerLandingState(this));
         AirAttack = Register(new PlayerAirAttackState(this));
         Knocked   = Register(new PlayerKnockedState(this));
+        Shield = Register(new PlayerShieldState(this));
 
         RegisterAllStateTransitions();
         AssertStateTypesAreUnique();

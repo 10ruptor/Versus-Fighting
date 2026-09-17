@@ -14,6 +14,7 @@ public abstract class PlayerState
         Move,
         Attack,
         Crouch,
+        Shield,
 
         Jumping,
         Landing,

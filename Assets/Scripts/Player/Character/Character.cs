@@ -14,10 +14,12 @@ public class Character : MonoBehaviour
     [SerializeField] CharacterAnimatorController characterAnimatorController;
     [SerializeField] VFXManager vfxManager;
     [SerializeField] MeshPositionComputer meshPositionComputer;
+    [SerializeField] GameObject shield;
     
     public VFXManager VFXManager => vfxManager;
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
     public MeshPositionComputer MeshPositionComputer => meshPositionComputer;
+    public GameObject Shield => shield;
     
     [Header("Combat")]
     [SerializeField] private HurtBoxManager hurtBoxManager;

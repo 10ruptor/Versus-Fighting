@@ -28,7 +28,8 @@ public class PlayerInputController : MonoBehaviour
     public bool FastFall;
     public float HorizontalMoveInputValue;
     public float VerticalMoveInputValue;
-
+    public bool Shield;
+    
     // Actions bufferisees : la FSM interroge le buffer plutot qu'un flag "presse cette frame".
     public bool JumpBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Jump);
     public bool AttackBuffered => bufferedActionController.HasAlive(BufferedAction.BufferedActionType.Attack);
@@ -59,7 +60,7 @@ public class PlayerInputController : MonoBehaviour
     void HorizontalMoveInput(float newInput) { HorizontalMoveInputValue = newInput; }
     void VerticalMoveInput(float newInput) { VerticalMoveInputValue = newInput; }
     void FastFallInput(bool newInput) { FastFall = newInput; }
-
+    void ShieldInput(bool newInput) { Shield = newInput; }
     #region callbacks
 
     public void OnJump(InputValue value)
@@ -82,7 +83,12 @@ public class PlayerInputController : MonoBehaviour
     {
         bufferedActionController.AddBufferedAction(BufferedAction.BufferedActionType.Attack,Time.time);
     }
-    
+
+    public void OnShield(InputValue value)
+    {
+        ShieldInput(value.isPressed);
+    }
+
     #endregion
     
 }
