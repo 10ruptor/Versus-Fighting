@@ -8,9 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerGameplay))]
 public class KnockbackController : MonoBehaviour
 {
-    // En dessous de ce seuil, le contact est considere comme centre sur la victime : le cote d'ejection n'est plus lisible geometriquement.
-    const float SideResolutionThreshold = 0.001f;
-
     PlayerGameplay playerGameplay;
 
 
@@ -55,27 +52,10 @@ public class KnockbackController : MonoBehaviour
         float speed = attack.baseKnockback + attack.knockbackScaling * playerGameplay.DamageController.CurrentPercent;
         speed *= attack.KnockbackMultiplier;
         float angleRadians = attack.launchAngle * Mathf.Deg2Rad;
-        float side = ResolveLaunchSide(hitData);
+        float side = HitDirection.ResolveHorizontalSide(transform.position, hitData);
 
         Vector3 direction = new Vector3(Mathf.Cos(angleRadians) * side, Mathf.Sin(angleRadians), 0f);
         return direction * speed;
     }
 
-    /// <summary>
-    /// Le point de contact ne sert qu'a determiner de quel cote la victime a ete
-    /// touchee : on est ejecte a l'oppose. Aucune normale geometrique n'est derivee
-    /// du contact, l'angle reste entierement pilote par la data de l'attaque.
-    /// </summary>
-    float ResolveLaunchSide(HitData hitData)
-    {
-        float horizontalOffset = transform.position.x - hitData.HitPosition.x;
-
-        if (Mathf.Abs(horizontalOffset) >= SideResolutionThreshold)
-            return Mathf.Sign(horizontalOffset);
-        
-        if (hitData.Attacker == null)
-            return 1f;
-
-        return hitData.Attacker.CurrentOrientation == PlayerGameplay.Orientation.Left ? -1f : 1f;
-    }
 }

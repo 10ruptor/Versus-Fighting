@@ -8,6 +8,8 @@ using Object = UnityEngine.Object;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(VisualOrientationController))]
+[RequireComponent(typeof(ShieldController))]
+[RequireComponent(typeof(HitReceptionController))]
 public class PlayerGameplay : MonoBehaviour
 {
     const float MoveInputThreshold = 0.01f;
@@ -41,6 +43,8 @@ public class PlayerGameplay : MonoBehaviour
     KnockbackController knockbackController;
     DamageController damageController;
     VisualOrientationController visualOrientationController;
+    ShieldController shieldController;
+    HitReceptionController hitReceptionController;
     GameObject uiParent;
     
     
@@ -52,6 +56,8 @@ public class PlayerGameplay : MonoBehaviour
     public KnockbackController KnockbackController => knockbackController;
     public DamageController DamageController => damageController;
     public VisualOrientationController VisualOrientationController => visualOrientationController;
+    public ShieldController ShieldController => shieldController;
+    public HitReceptionController HitReceptionController => hitReceptionController;
 
     // PlayerGameplay ne connait plus les etats un par un : la machine en est proprietaire
     // et les expose par propriete typee. Ajouter un etat ne touche donc que PlayerStateMachine.
@@ -74,6 +80,8 @@ public class PlayerGameplay : MonoBehaviour
         knockbackController = GetComponent<KnockbackController>();
         damageController = GetComponent<DamageController>();
         visualOrientationController = GetComponent<VisualOrientationController>();
+        shieldController = GetComponent<ShieldController>();
+        hitReceptionController = GetComponent<HitReceptionController>();
         
         if (!characterPrefab)
         {

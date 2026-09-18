@@ -46,6 +46,12 @@ public class PlayerKnockedState : PlayerAirState
         
         base.Enter(); // joue l'animation "Knocked"
         
+        // Un coup encaisse interrompt l'attaque en cours : sans cela, les hitbox restees
+        // ouvertes continueraient de toucher pendant l'ejection. Cas rendu courant par le
+        // contre au bouclier, qui ejecte l'attaquant en pleine attaque.
+        if (playerGameplay.AttackController.IsAttacking)
+            playerGameplay.AttackController.EndAttack();
+
         // this is to ensure only one hit is taken into account ( to update in the futur if issues for combo )
         playerGameplay.Character.HurtBoxManager.DisableAllHurtboxesCollider();
         // we keep the orientation at the moment of the hit

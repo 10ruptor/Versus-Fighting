@@ -85,8 +85,11 @@ public class Hurtbox : MonoBehaviour
             if(IsOtherPlayer(other))
             {
                 Hitbox hitbox = other.GetComponent<Hitbox>();
-                HitData hitData = CreateHit(hitbox.CurrentAttack, hitbox, other.ClosestPoint(transform.position));
-                owner.KnockbackController.Knockback(hitData);
+
+                // La hurtbox constate le contact, elle ne decide pas de ses consequences :
+                // bouclier ou ejection, c'est le HitReceptionController qui tranche.
+                if (HitData.TryCreate(hitbox, other.ClosestPoint(transform.position), this, out HitData hitData))
+                    owner.HitReceptionController.ReceiveHit(hitData);
             }
         }
     }
@@ -104,25 +107,6 @@ public class Hurtbox : MonoBehaviour
             default:
                 return false;
         }
-    }
-    
-    private HitData CreateHit(Attack attack, Hitbox hitbox, Vector3 position)
-    {
-        AttackDataSO attackData = attack.attackData;
-
-        if (attackData == null)
-        {
-            Debug.LogError("AttackDataSO not found on hitbox.");
-            return default;
-        }
-
-        return new HitData
-        {
-            Attacker = hitbox.Owner,
-            AttackData = attackData,
-            HitPosition = position,
-            HurtedHurtbox = this
-        };
     }
 
     /// <summary>

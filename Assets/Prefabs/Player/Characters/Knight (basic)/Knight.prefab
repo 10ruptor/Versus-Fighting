@@ -82,7 +82,8 @@ MonoBehaviour:
   characterAnimatorController: {fileID: 2144599901729245631}
   vfxManager: {fileID: 8736946096439121004}
   meshPositionComputer: {fileID: 1973360186636681638}
-  shield: {fileID: 2316587706577946786}
+  shield: {fileID: 2619935710956647337}
+  shieldData: {fileID: 11400000, guid: ed1b12dac94c483db905ec89d94e61d7, type: 2}
   hurtBoxManager: {fileID: 2709005104519586638}
   attackLibrary: {fileID: 520487905330903143}
 --- !u!1 &2316587706577946786
@@ -97,6 +98,7 @@ GameObject:
   - component: {fileID: 568990447605396746}
   - component: {fileID: 3961584168095654212}
   - component: {fileID: 1387223555543116670}
+  - component: {fileID: 2619935710956647337}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Shield
@@ -7713,3 +7715,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8861971385073216724, guid: a965c5b1f8ecd8c4fb035dc22c0d5285, type: 3}
   m_PrefabInstance: {fileID: 9201601949633605645}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2619935710956647337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2316587706577946786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40597fe62d8a42d68f1bc8bd0787bdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

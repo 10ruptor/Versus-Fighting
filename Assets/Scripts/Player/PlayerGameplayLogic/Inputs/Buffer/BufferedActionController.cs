@@ -17,6 +17,18 @@ public class BufferedActionController : MonoBehaviour
     private readonly Dictionary<BufferedAction.BufferedActionType, float> actionsBufferDurations = new Dictionary<BufferedAction.BufferedActionType, float>();
     private readonly List<BufferedAction> bufferedActions = new List<BufferedAction>();
 
+    /// <summary>
+    /// Horodatage du dernier input recu pour chaque type, conserve independamment de la
+    /// fenetre de buffer : ni Purge, ni Consume, ni Clear ne le touchent.
+    ///
+    /// Le buffer repond a "le joueur veut-il encore faire cette action ?", cet historique
+    /// repond a "quand a-t-il appuye ?". Deux questions distinctes : un systeme dont la
+    /// fenetre lui est propre (le contre au bouclier, dont la fenetre vit dans le
+    /// ShieldDataSO) peut ainsi dater un appui sans etre limite par la duree de buffer de
+    /// l'action, ni gene par une consommation du buffer.
+    /// </summary>
+    private readonly Dictionary<BufferedAction.BufferedActionType, float> lastPressTimes = new Dictionary<BufferedAction.BufferedActionType, float>();
+
     private void Awake()
     {
         if (bufferSettings == null)
@@ -62,7 +74,18 @@ public class BufferedActionController : MonoBehaviour
     public void AddBufferedAction(BufferedAction.BufferedActionType actionType, float pressedAt)
     {
         bufferedActions.Add(new BufferedAction(actionType, pressedAt));
+        lastPressTimes[actionType] = pressedAt;
         Purge();
+    }
+
+    /// <summary>
+    /// Date du dernier input de ce type, hors de toute notion de buffer.
+    /// float.NegativeInfinity tant qu'aucun input de ce type n'a ete recu : une fenetre
+    /// calculee a partir de cette valeur est alors naturellement deja fermee.
+    /// </summary>
+    public float LastPressTime(BufferedAction.BufferedActionType actionType)
+    {
+        return lastPressTimes.TryGetValue(actionType, out float pressedAt) ? pressedAt : float.NegativeInfinity;
     }
 
     /// <summary> to consume all Action of type action type to keep only the intention of the user </summary>
@@ -71,7 +94,7 @@ public class BufferedActionController : MonoBehaviour
         bufferedActions.RemoveAll(action => action.ActionType == actionType);
     }
 
-    /// <summary> clear every buffered inputs</summary>
+    /// <summary> clear every buffered inputs. L'historique des horodatages n'est pas efface : ce sont des faits passes, pas des intentions en attente.</summary>
     public void Clear()
     {
         bufferedActions.Clear();

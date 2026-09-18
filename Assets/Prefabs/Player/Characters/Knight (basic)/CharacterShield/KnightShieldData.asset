@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab229a5a7b424de79d992775443c4303, type: 3}
+  m_Name: KnightShieldData
+  m_EditorClassIdentifier: Assembly-CSharp::ShieldDataSO
+  maxDurability: 50
+  durabilityDrainPerSecond: 6
+  durabilityCostPerDamage: 1
+  durabilityRegenPerSecond: 10
+  durabilityRegenDelay: 0.5
+  minSizeRatio: 0.4
+  chipDamageRatio: 0
+  blockPushbackSpeed: 3
+  blockPushbackDuration: 0.12
+  counterParryWindow: 0.12
+  counterAttackData: {fileID: 11400000, guid: 60b778b1188b4e969834eb4892e28c71, type: 2}
+  counterDurabilityCost: 0
+  brokenDuration: 1.5
+  minDurabilityRatioToRaise: 0.2
