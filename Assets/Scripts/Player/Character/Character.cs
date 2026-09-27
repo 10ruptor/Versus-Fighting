@@ -14,12 +14,20 @@ public class Character : MonoBehaviour
     [SerializeField] CharacterAnimatorController characterAnimatorController;
     [SerializeField] VFXManager vfxManager;
     [SerializeField] MeshPositionComputer meshPositionComputer;
-    [SerializeField] GameObject shield;
     
     public VFXManager VFXManager => vfxManager;
     public CharacterAnimatorController CharacterAnimatorController => characterAnimatorController;
     public MeshPositionComputer MeshPositionComputer => meshPositionComputer;
-    public GameObject Shield => shield;
+
+    [Header("Shield")]
+    [Tooltip("Bouclier du personnage : son visuel et son volume. Le composant est porte par le GameObject Shield.")]
+    [SerializeField] CharacterShield shield;
+
+    [Tooltip("Stats du bouclier de ce personnage : durabilite, taille, recul au blocage, fenetre de contre.")]
+    [SerializeField] ShieldDataSO shieldData;
+
+    public CharacterShield Shield => shield;
+    public ShieldDataSO ShieldData => shieldData;
     
     [Header("Combat")]
     [SerializeField] private HurtBoxManager hurtBoxManager;
@@ -37,5 +45,8 @@ public class Character : MonoBehaviour
         attackLibrary.Initialize(owner);
         hurtBoxManager.Initialize(owner);
         meshPositionComputer.Initialize(owner);
+
+        if (shield != null)
+            shield.Initialize(owner);
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StateParametersLibrarySO
   defaultParameters: {fileID: 11400000, guid: ae463895e888e11458cb1ffe569f64ad, type: 2}
   entries:
-  - state: 6
+  - state: 7
     parameters: {fileID: 11400000, guid: 6851a535a74df7442a3a53f0f22c1523, type: 2}
   - state: 4
     parameters: {fileID: 11400000, guid: 1e71905491e329f4eb7bf983d47e5726, type: 2}

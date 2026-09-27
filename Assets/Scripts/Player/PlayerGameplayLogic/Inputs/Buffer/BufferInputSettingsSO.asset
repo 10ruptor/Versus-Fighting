@@ -17,3 +17,7 @@ MonoBehaviour:
     bufferDuration: 0.1
   - actionType: 1
     bufferDuration: 0.1
+  - actionType: 2
+    bufferDuration: 0.1
+  - actionType: 3
+    bufferDuration: 0.1

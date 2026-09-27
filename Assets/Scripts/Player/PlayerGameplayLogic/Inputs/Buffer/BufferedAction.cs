@@ -5,10 +5,14 @@ using UnityEngine;
 /// </summary>
 public class BufferedAction
 {
+    // L'ordre des valeurs est serialise (BufferInputSettingsSO) : toute nouvelle action
+    // se rajoute a la fin pour ne pas decaler les durees deja configurees.
     public enum BufferedActionType
     {
         Jump,
-        Attack
+        Attack,
+        ShieldPressed,
+        ShieldReleased
     }
 
     public BufferedActionType ActionType { get; }
