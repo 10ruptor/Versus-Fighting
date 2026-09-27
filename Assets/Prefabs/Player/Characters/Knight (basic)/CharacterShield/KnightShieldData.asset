@@ -21,7 +21,7 @@ MonoBehaviour:
   chipDamageRatio: 0
   blockPushbackSpeed: 3
   blockPushbackDuration: 0.12
-  counterParryWindow: 0.12
+  counterParryWindow: 1.06
   counterAttackData: {fileID: 11400000, guid: 60b778b1188b4e969834eb4892e28c71, type: 2}
   counterDurabilityCost: 0
   brokenDuration: 1.5
